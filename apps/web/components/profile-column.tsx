@@ -1,10 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { FeaturedProjectCard } from "@/components/featured-project-card";
 import { portfolioContent, type PlaceholderLink } from "@/content/portfolio";
 
 const projectCardSwitchMs = 360;
+const portraitTransitionMs = 320;
 const singleColumnProjectsMedia = "(max-width: 920px)";
 
 function LinkIcon({ icon }: { icon: PlaceholderLink["icon"] }) {
@@ -50,15 +52,170 @@ function LinkIcon({ icon }: { icon: PlaceholderLink["icon"] }) {
 export function ProfileColumn() {
   const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const [outgoingProjectIndex, setOutgoingProjectIndex] = useState<number | null>(null);
+  const [isPortraitMounted, setIsPortraitMounted] = useState(false);
+  const [isPortraitVisible, setIsPortraitVisible] = useState(false);
+  const [portraitOverlayBounds, setPortraitOverlayBounds] = useState<{ left: number; width: number } | null>(null);
   const collapseTimerRef = useRef<number | null>(null);
+  const portraitTransitionTimerRef = useRef<number | null>(null);
+  const portraitFrameRef = useRef<number | null>(null);
+  const portraitLightboxFrameRef = useRef<HTMLDivElement | null>(null);
+  const profileColumnRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     return () => {
       if (collapseTimerRef.current) {
         window.clearTimeout(collapseTimerRef.current);
       }
+
+      if (portraitTransitionTimerRef.current) {
+        window.clearTimeout(portraitTransitionTimerRef.current);
+      }
+
+      if (portraitFrameRef.current) {
+        window.cancelAnimationFrame(portraitFrameRef.current);
+      }
     };
   }, []);
+
+  useEffect(() => {
+    if (!isPortraitMounted) {
+      return;
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        closePortrait();
+      }
+    }
+
+    function handlePointerDown(event: PointerEvent) {
+      const frame = portraitLightboxFrameRef.current;
+      const target = event.target;
+
+      if (!(target instanceof Element) || !frame || frame.contains(target)) {
+        return;
+      }
+
+      if (target.closest(".chat-column") || target.closest(".chat-pill")) {
+        return;
+      }
+
+      closePortrait();
+    }
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("pointerdown", handlePointerDown, true);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("pointerdown", handlePointerDown, true);
+    };
+  }, [isPortraitMounted]);
+
+  useEffect(() => {
+    document.body.classList.toggle("portrait-open", isPortraitVisible);
+
+    return () => {
+      document.body.classList.remove("portrait-open");
+    };
+  }, [isPortraitVisible]);
+
+  function updatePortraitOverlayBounds() {
+    const node = profileColumnRef.current;
+
+    if (!node || typeof window === "undefined" || window.innerWidth <= 920) {
+      setPortraitOverlayBounds((current) => (current === null ? current : null));
+      return;
+    }
+
+    const rect = node.getBoundingClientRect();
+    const nextLeft = Math.round(rect.left);
+    const nextWidth = Math.round(rect.width);
+
+    setPortraitOverlayBounds((current) => {
+      if (current && current.left === nextLeft && current.width === nextWidth) {
+        return current;
+      }
+
+      return {
+        left: nextLeft,
+        width: nextWidth
+      };
+    });
+  }
+
+  useLayoutEffect(() => {
+    if (!isPortraitMounted) {
+      return;
+    }
+
+    updatePortraitOverlayBounds();
+  });
+
+  useEffect(() => {
+    if (!isPortraitMounted) {
+      return;
+    }
+
+    const handleLayoutChange = () => {
+      updatePortraitOverlayBounds();
+    };
+
+    const resizeObserver = new ResizeObserver(handleLayoutChange);
+
+    if (profileColumnRef.current) {
+      resizeObserver.observe(profileColumnRef.current);
+    }
+
+    window.addEventListener("resize", handleLayoutChange);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", handleLayoutChange);
+    };
+  }, [isPortraitMounted]);
+
+  function openPortrait() {
+    if (portraitTransitionTimerRef.current) {
+      window.clearTimeout(portraitTransitionTimerRef.current);
+      portraitTransitionTimerRef.current = null;
+    }
+
+    if (portraitFrameRef.current) {
+      window.cancelAnimationFrame(portraitFrameRef.current);
+    }
+
+    setIsPortraitMounted(true);
+    setIsPortraitVisible(false);
+    portraitFrameRef.current = window.requestAnimationFrame(() => {
+      setIsPortraitVisible(true);
+      portraitFrameRef.current = null;
+    });
+  }
+
+  function closePortrait() {
+    if (!isPortraitMounted) {
+      return;
+    }
+
+    if (portraitTransitionTimerRef.current) {
+      window.clearTimeout(portraitTransitionTimerRef.current);
+    }
+
+    if (portraitFrameRef.current) {
+      window.cancelAnimationFrame(portraitFrameRef.current);
+      portraitFrameRef.current = null;
+    }
+
+    setIsPortraitVisible(false);
+    portraitTransitionTimerRef.current = window.setTimeout(() => {
+      setIsPortraitMounted(false);
+      portraitTransitionTimerRef.current = null;
+    }, portraitTransitionMs);
+  }
 
   function handleProjectActivate(index: number) {
     if (index === activeProjectIndex) {
@@ -90,11 +247,21 @@ export function ProfileColumn() {
   }
 
   return (
-    <section className="profile-column">
+    <>
+      <section ref={profileColumnRef} className="profile-column">
       <div className="surface profile-hero">
         <div className="profile-copy">
           <div className="name-row">
-            <img src="/images/simon-portrait.jpg" alt="Simon Schnetzer" className="profile-portrait" />
+            <button
+              type="button"
+              className="profile-portrait-button"
+              onClick={openPortrait}
+              aria-label="Open portrait"
+              aria-haspopup="dialog"
+              aria-expanded={isPortraitMounted && isPortraitVisible}
+            >
+              <img src="/images/simon-portrait.jpg" alt="Simon Schnetzer" className="profile-portrait" />
+            </button>
             <div className="name-h1-wrap">
               <p className="section-kicker">{portfolioContent.eyebrow}</p>
               <h1>{portfolioContent.name}</h1>
@@ -179,6 +346,38 @@ export function ProfileColumn() {
           ))}
         </div>
       </section>
-    </section>
+
+      </section>
+
+      {isPortraitMounted && typeof document !== "undefined"
+        ? createPortal(
+            <div
+              className={`portrait-lightbox${isPortraitVisible ? " is-visible" : ""}`}
+              style={portraitOverlayBounds ? { left: `${portraitOverlayBounds.left}px`, width: `${portraitOverlayBounds.width}px` } : undefined}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Portrait of Simon Schnetzer"
+              onClick={closePortrait}
+            >
+              <div ref={portraitLightboxFrameRef} className="portrait-lightbox-frame" onClick={(event) => event.stopPropagation()}>
+                <button
+                  type="button"
+                  className="portrait-lightbox-close"
+                  onClick={closePortrait}
+                  aria-label="Close portrait"
+                  autoFocus
+                >
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+                    <line x1="4" y1="4" x2="12" y2="12" />
+                    <line x1="12" y1="4" x2="4" y2="12" />
+                  </svg>
+                </button>
+                <img src="/images/simon-portrait.jpg" alt="Simon Schnetzer" className="portrait-lightbox-image" />
+              </div>
+            </div>,
+            document.body
+          )
+        : null}
+    </>
   );
 }

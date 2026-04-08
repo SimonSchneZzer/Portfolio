@@ -42,6 +42,17 @@ const professionalSignals = [
   "strength",
   "study",
   "studium",
+  "school",
+  "schule",
+  "learn",
+  "learned",
+  "gelernt",
+  "course",
+  "subject",
+  "fach",
+  "htl",
+  "bachelor",
+  "thesis",
   "technical",
   "technology",
   "team",
@@ -59,6 +70,7 @@ const allowPatterns = [
   /\b(projects?|projekte?|internships?|praktika|experience|erfahrung|work experience|berufserfahrung)\b/i,
   /\b(leadership|communication|mediation|sprecher|spokesperson|representative|leadership style)\b/i,
   /\b(languages?|sprachen|english|german|swedish|hungarian)\b/i,
+  /\b(school|schule|university|hochschule|college|class|course|subject|fach|gelernt|learned|learn|studier|taught|unterricht|curriculum|module|modul|bachelor|thesis|htl|fh)\b/i,
   /\b(future direction|where is simon heading|where are you heading|what kind of role fits simon|what kind of role fits you|welche rolle passt|welche rolle passt zu dir|berufliche richtung|professional direction)\b/i
 ];
 

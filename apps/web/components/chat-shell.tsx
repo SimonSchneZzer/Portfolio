@@ -203,7 +203,7 @@ function InputPromptOverlay({
   );
 }
 
-export function ChatShell() {
+export function ChatShell({ onToggleCollapse }: { onToggleCollapse: () => void }) {
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
@@ -483,14 +483,28 @@ export function ChatShell() {
   return (
     <section className="surface chat-panel">
       <header className="chat-panel-header">
-        <div className="chat-heading">
-          <div className="avatar-surface" aria-hidden="true" />
+        <button
+          type="button"
+          className="chat-heading"
+          onClick={onToggleCollapse}
+          aria-label="Collapse chat"
+          aria-expanded="true"
+        >
+          <div className="chat-avatar-button">
+            <div className="avatar-surface" aria-hidden="true" />
+            <span className="avatar-collapse-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="7" y1="4" x2="13" y2="10" />
+                <line x1="13" y1="10" x2="7" y2="16" />
+              </svg>
+            </span>
+          </div>
 
           <div>
             <p className="section-kicker">Ask me directly</p>
             <h2>Ask about my work, projects, strengths, and professional direction.</h2>
           </div>
-        </div>
+        </button>
       </header>
 
       <div ref={messagesRef} className="chat-messages" aria-live="polite">
@@ -504,7 +518,13 @@ export function ChatShell() {
             <div className="starter-stack" aria-label="Starter prompts">
               {starterPrompts.map((starter) => (
                 <button key={starter.label} type="button" className="starter-chip" onClick={() => void runChat(starter.prompt)}>
-                  {starter.label}
+                  <span className="starter-chip-label">{starter.label}</span>
+                  <span className="starter-chip-arrow" aria-hidden="true">
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                      <line x1="3" y1="8" x2="13" y2="8" />
+                      <polyline points="9,4 13,8 9,12" />
+                    </svg>
+                  </span>
                 </button>
               ))}
             </div>
@@ -578,6 +598,11 @@ export function ChatShell() {
         </form>
 
         {error ? <p className="error-banner">{error}</p> : null}
+      </div>
+
+      <div className="chat-panel-pill-preview" aria-hidden="true">
+        <span className="avatar-surface chat-pill-avatar" />
+        <span className="chat-pill-label">Chat with me</span>
       </div>
     </section>
   );
