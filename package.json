@@ -1,0 +1,12 @@
+{
+  "name": "talk-to-simon",
+  "private": true,
+  "scripts": {
+    "kb:build": "node ./scripts/build-kb.mjs",
+    "dev:api": "pnpm -C apps/api dev",
+    "dev:web": "pnpm -C apps/web dev",
+    "build:api": "pnpm -C apps/api build",
+    "build:web": "pnpm -C apps/web build"
+  }
+}
+
