@@ -151,6 +151,10 @@ function createMessage(role: Role, content: string): ChatMessage {
   };
 }
 
+function hasRichMarkdownSyntax(text: string) {
+  return /(^|\n)\s*(?:[-*+]\s+|\d+\.\s+|#{1,6}\s+|>\s+)|\[[^\]]+\]\([^)]+\)|`{1,3}|\*\*|__/m.test(text);
+}
+
 function ThinkingIndicator() {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [outgoingPhrase, setOutgoingPhrase] = useState<string | null>(null);
@@ -190,7 +194,13 @@ function ThinkingIndicator() {
   );
 }
 
-function AnimatedAssistantMarkdown({ text }: { text: string }) {
+function AnimatedAssistantMarkdown({
+  text,
+  isStreaming
+}: {
+  text: string;
+  isStreaming: boolean;
+}) {
   const [visibleCount, setVisibleCount] = useState(0);
 
   useEffect(() => {
@@ -219,7 +229,7 @@ function AnimatedAssistantMarkdown({ text }: { text: string }) {
         }
 
         const remaining = text.length - current;
-        const step = remaining > 24 ? 3 : remaining > 10 ? 2 : 1;
+        const step = remaining > 120 ? 2 : 1;
         return Math.min(current + step, text.length);
       });
     }, assistantRevealTickMs);
@@ -229,8 +239,27 @@ function AnimatedAssistantMarkdown({ text }: { text: string }) {
     };
   }, [text, visibleCount]);
 
+  const visibleText = text.slice(0, visibleCount);
+  const isComplete = visibleCount >= text.length;
+  const showCaret = isStreaming || !isComplete;
+
+  if (!hasRichMarkdownSyntax(text) && !isComplete) {
+    return (
+      <span className="assistant-typing-text">
+        {Array.from(visibleText).map((character, index) => (
+          <span key={`${index}-${character}`} className="assistant-typing-char">
+            {character}
+          </span>
+        ))}
+        {showCaret ? <span className="assistant-typing-caret" aria-hidden="true" /> : null}
+      </span>
+    );
+  }
+
   return (
-    <MarkdownRenderer markdown={text.slice(0, visibleCount)} className="assistant-markdown" />
+    <div className="assistant-markdown-shell">
+      <MarkdownRenderer markdown={visibleText} className="assistant-markdown" />
+    </div>
   );
 }
 
@@ -597,23 +626,27 @@ export function ChatShell({
             </div>
           </div>
         ) : (
-          messages.map((message) => (
-            <article key={message.id} className={`chat-message ${message.role}`}>
-              <div className="message-card">
-                <div className="message-body">
-                  {message.content ? (
-                    message.role === "assistant" ? (
-                      <AnimatedAssistantMarkdown text={message.content} />
-                    ) : (
-                      <>{message.content}</>
-                    )
-                  ) : isStreaming && message.role === "assistant" ? (
-                    <ThinkingIndicator />
-                  ) : null}
+          messages.map((message, index) => {
+            const isStreamingMessage = isStreaming && message.role === "assistant" && index === messages.length - 1;
+
+            return (
+              <article key={message.id} className={`chat-message ${message.role}`}>
+                <div className="message-card">
+                  <div className="message-body">
+                    {message.content ? (
+                      message.role === "assistant" ? (
+                        <AnimatedAssistantMarkdown text={message.content} isStreaming={isStreamingMessage} />
+                      ) : (
+                        <>{message.content}</>
+                      )
+                    ) : isStreamingMessage ? (
+                      <ThinkingIndicator />
+                    ) : null}
+                  </div>
                 </div>
-              </div>
-            </article>
-          ))
+              </article>
+            );
+          })
         )}
       </div>
 

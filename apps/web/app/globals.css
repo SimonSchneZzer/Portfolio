@@ -344,6 +344,21 @@ h3 {
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
 
+.motion-reveal.is-pending {
+  opacity: 0;
+  transform: translateY(18px);
+  transition:
+    opacity 360ms ease,
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--motion-reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.motion-reveal.is-pending.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .section-header {
   display: grid;
   gap: 10px;
@@ -419,6 +434,8 @@ h3 {
   display: grid;
   gap: 6px;
   width: 100%;
+  transform: translateY(0);
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .project-card h3 {
@@ -432,8 +449,11 @@ h3 {
   bottom: 22px;
   left: 22px;
   opacity: 0;
+  transform: translateY(10px);
   pointer-events: none;
-  transition: opacity 220ms ease;
+  transition:
+    opacity 220ms ease,
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .project-card .project-summary {
@@ -447,6 +467,10 @@ h3 {
   padding: 22px 22px 118px;
 }
 
+.project-card.is-expanded .project-card-body {
+  transform: translateY(-4px);
+}
+
 .project-card.is-active {
   background: rgba(255, 255, 255, 0.74);
   border-color: rgba(0, 0, 0, 0.18);
@@ -455,7 +479,8 @@ h3 {
 
 .project-card.is-expanded .project-card-details {
   opacity: 1;
-  transition-delay: 260ms;
+  transform: translateY(0);
+  transition-delay: 180ms;
 }
 
 .project-card:hover {
@@ -900,6 +925,8 @@ h3 {
 
 .message-card {
   max-width: min(88%, 38rem);
+  animation: message-card-in 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  transform-origin: bottom left;
 }
 
 .chat-message.assistant .message-card {
@@ -910,6 +937,7 @@ h3 {
   padding: 12px 16px;
   border-radius: 24px;
   background: rgba(0, 0, 0, 0.06);
+  transform-origin: bottom right;
 }
 
 .message-body {
@@ -918,6 +946,12 @@ h3 {
 
 .chat-message.user .message-body {
   white-space: pre-wrap;
+}
+
+.assistant-markdown-shell {
+  display: grid;
+  gap: 8px;
+  justify-items: start;
 }
 
 .assistant-markdown {
@@ -1010,6 +1044,29 @@ h3 {
   font-style: italic;
 }
 
+.assistant-typing-caret {
+  display: inline-block;
+  width: 0.62ch;
+  height: 1.05em;
+  margin-left: 2px;
+  border-radius: 999px;
+  background: currentColor;
+  vertical-align: -0.14em;
+  opacity: 0.55;
+  animation: assistant-caret-blink 1.05s steps(1, end) infinite;
+}
+
+.assistant-typing-text {
+  display: inline;
+  white-space: pre-wrap;
+  line-height: 1.65;
+}
+
+.assistant-typing-char {
+  display: inline-block;
+  animation: assistant-char-in 160ms ease-out both;
+}
+
 .thinking-indicator {
   display: inline-flex;
   align-items: baseline;
@@ -1084,6 +1141,42 @@ h3 {
   }
 
   to {
+    opacity: 0;
+  }
+}
+
+@keyframes message-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes assistant-char-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.18em);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes assistant-caret-blink {
+  0%,
+  48% {
+    opacity: 0.55;
+  }
+
+  50%,
+  100% {
     opacity: 0;
   }
 }
@@ -1489,6 +1582,14 @@ h3 {
     background: rgba(18, 24, 34, 0.28);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 220ms ease;
+  }
+
+  .chat-modal-backdrop.is-visible {
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .profile-hero,
@@ -1591,5 +1692,30 @@ h3 {
 
   .chat-submit {
     width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .motion-reveal.is-pending,
+  .motion-reveal.is-pending.is-visible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .project-card,
+  .project-card-body,
+  .project-card-details,
+  .message-card,
+  .chat-column.is-mobile-modal,
+  .chat-modal-backdrop,
+  .assistant-typing-char,
+  .assistant-typing-caret {
+    animation: none !important;
+    transition-duration: 0ms !important;
   }
 }

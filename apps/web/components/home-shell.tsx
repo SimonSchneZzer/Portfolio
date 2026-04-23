@@ -286,12 +286,14 @@ export function HomeShell() {
         </aside>
       </div>
 
-      {isMobileViewport && !isCondensed ? (
+      {isMobileViewport ? (
         <button
           type="button"
-          className="chat-modal-backdrop"
+          className={`chat-modal-backdrop${!isCondensed ? " is-visible" : ""}`}
           onClick={handleToggleChat}
           aria-label="Close chat"
+          aria-hidden={isCondensed}
+          tabIndex={!isCondensed ? 0 : -1}
         />
       ) : null}
 

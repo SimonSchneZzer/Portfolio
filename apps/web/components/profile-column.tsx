@@ -123,6 +123,51 @@ export function ProfileColumn() {
     };
   }, [isPortraitVisible]);
 
+  useEffect(() => {
+    const node = profileColumnRef.current;
+
+    if (!node || typeof IntersectionObserver === "undefined") {
+      return;
+    }
+
+    const revealNodes = Array.from(node.querySelectorAll<HTMLElement>(".motion-reveal"));
+
+    if (revealNodes.length === 0) {
+      return;
+    }
+
+    revealNodes.forEach((element, index) => {
+      element.classList.add("is-pending");
+      element.style.setProperty("--motion-reveal-delay", `${index * 70}ms`);
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (!entry.isIntersecting) {
+            continue;
+          }
+
+          const target = entry.target as HTMLElement;
+          target.classList.add("is-visible");
+          observer.unobserve(target);
+        }
+      },
+      {
+        threshold: 0.18,
+        rootMargin: "0px 0px -10% 0px"
+      }
+    );
+
+    revealNodes.forEach((element) => {
+      observer.observe(element);
+    });
+
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
   function updatePortraitOverlayBounds() {
     const node = profileColumnRef.current;
 
@@ -249,103 +294,103 @@ export function ProfileColumn() {
   return (
     <>
       <section ref={profileColumnRef} className="profile-column">
-      <div className="surface profile-hero">
-        <div className="profile-copy">
-          <div className="name-row">
-            <button
-              type="button"
-              className="profile-portrait-button"
-              onClick={openPortrait}
-              aria-label="Open portrait"
-              aria-haspopup="dialog"
-              aria-expanded={isPortraitMounted && isPortraitVisible}
-            >
-              <img src="/images/simon-portrait.jpg" alt="Simon Schnetzer" className="profile-portrait" />
-            </button>
-            <div className="name-h1-wrap">
-              <p className="section-kicker">{portfolioContent.eyebrow}</p>
-              <h1>{portfolioContent.name}</h1>
+        <div className="surface profile-hero">
+          <div className="profile-copy">
+            <div className="name-row">
+              <button
+                type="button"
+                className="profile-portrait-button"
+                onClick={openPortrait}
+                aria-label="Open portrait"
+                aria-haspopup="dialog"
+                aria-expanded={isPortraitMounted && isPortraitVisible}
+              >
+                <img src="/images/simon-portrait.jpg" alt="Simon Schnetzer" className="profile-portrait" />
+              </button>
+              <div className="name-h1-wrap">
+                <p className="section-kicker">{portfolioContent.eyebrow}</p>
+                <h1>{portfolioContent.name}</h1>
+              </div>
+            </div>
+            <p className="profile-headline">{portfolioContent.headline}</p>
+
+            <div className="profile-summary-group">
+              {portfolioContent.summary.map((paragraph) => (
+                <p key={paragraph} className="profile-summary">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+
+            <div className="highlight-row">
+              {portfolioContent.highlightChips.map((chip) => (
+                <span key={chip} className="highlight-chip">
+                  {chip}
+                </span>
+              ))}
             </div>
           </div>
-          <p className="profile-headline">{portfolioContent.headline}</p>
+        </div>
 
-          <div className="profile-summary-group">
-            {portfolioContent.summary.map((paragraph) => (
-              <p key={paragraph} className="profile-summary">
-                {paragraph}
-              </p>
-            ))}
+        <section className="focus-section motion-reveal">
+          <div className="section-header">
+            <p className="section-kicker">What I bring</p>
+            <h2>My profile is grounded in frontend, interfaces, and collaborative product work.</h2>
           </div>
 
-          <div className="highlight-row">
-            {portfolioContent.highlightChips.map((chip) => (
-              <span key={chip} className="highlight-chip">
-                {chip}
-              </span>
+          <div className="focus-grid">
+            {portfolioContent.focusAreas.map((area) => (
+              <article key={area.title} className="focus-card">
+                <h3>{area.title}</h3>
+                <p>{area.description}</p>
+              </article>
             ))}
           </div>
-        </div>
-      </div>
+        </section>
 
-      <section className="focus-section">
-        <div className="section-header">
-          <p className="section-kicker">What I bring</p>
-          <h2>My profile is grounded in frontend, interfaces, and collaborative product work.</h2>
-        </div>
+        <section className="projects-section motion-reveal">
+          <div className="section-header">
+            <p className="section-kicker">Selected work</p>
+            <h2>These projects show how I combine technical execution, interface thinking, and collaborative delivery.</h2>
+          </div>
 
-        <div className="focus-grid">
-          {portfolioContent.focusAreas.map((area) => (
-            <article key={area.title} className="focus-card">
-              <h3>{area.title}</h3>
-              <p>{area.description}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+          <div className="project-grid">
+            {portfolioContent.projects.map((project, index) => (
+              <FeaturedProjectCard
+                key={project.title}
+                project={project}
+                index={index}
+                isExpanded={activeProjectIndex === index || outgoingProjectIndex === index}
+                isActive={activeProjectIndex === index}
+                onActivate={() => handleProjectActivate(index)}
+              />
+            ))}
+          </div>
+        </section>
 
-      <section className="projects-section">
-        <div className="section-header">
-          <p className="section-kicker">Selected work</p>
-          <h2>These projects show how I combine technical execution, interface thinking, and collaborative delivery.</h2>
-        </div>
+        <section className="links-section motion-reveal">
+          <div className="section-header compact">
+            <p className="section-kicker">Next steps</p>
+            <h2>Reach out, browse my work, or download my CV.</h2>
+          </div>
 
-        <div className="project-grid">
-          {portfolioContent.projects.map((project, index) => (
-            <FeaturedProjectCard
-              key={project.title}
-              project={project}
-              index={index}
-              isExpanded={activeProjectIndex === index || outgoingProjectIndex === index}
-              isActive={activeProjectIndex === index}
-              onActivate={() => handleProjectActivate(index)}
-            />
-          ))}
-        </div>
-      </section>
-
-      <section className="links-section">
-        <div className="section-header compact">
-          <p className="section-kicker">Next steps</p>
-          <h2>Reach out, browse my work, or download my CV.</h2>
-        </div>
-
-        <div className="link-grid">
-          {portfolioContent.links.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="link-card"
-              target={link.href.startsWith("http") ? "_blank" : undefined}
-              rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-            >
-              <span className="link-icon-wrap">
-                <LinkIcon icon={link.icon} />
-              </span>
-              <span className="link-label">{link.label}</span>
-            </a>
-          ))}
-        </div>
-      </section>
+          <div className="link-grid">
+            {portfolioContent.links.map((link) => (
+              <a
+                key={link.label}
+                href={link.href}
+                className="link-card"
+                target={link.href.startsWith("http") ? "_blank" : undefined}
+                rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              >
+                <span className="link-icon-wrap">
+                  <LinkIcon icon={link.icon} />
+                </span>
+                <span className="link-label">{link.label}</span>
+              </a>
+            ))}
+          </div>
+        </section>
 
       </section>
 
