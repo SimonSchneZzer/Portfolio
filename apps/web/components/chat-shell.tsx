@@ -135,9 +135,17 @@ function parseStreamEvent(line: string): StreamEvent {
   throw invalidStreamError();
 }
 
+function createMessageId() {
+  if (globalThis.crypto?.randomUUID) {
+    return globalThis.crypto.randomUUID();
+  }
+
+  return `msg-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+}
+
 function createMessage(role: Role, content: string): ChatMessage {
   return {
-    id: crypto.randomUUID(),
+    id: createMessageId(),
     role,
     content
   };
