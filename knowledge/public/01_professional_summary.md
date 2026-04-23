@@ -1,6 +1,6 @@
 # Professional Summary
 
-Simon Schnetzer is a frontend-focused web developer and MultiMediaTechnology student at FH Salzburg with a background in Business Informatics / Industrial Engineering from HTL Hallein.
+Simon Schnetzer is a frontend-focused web developer who is currently finishing his MultiMediaTechnology degree at FH Salzburg and continuing frontend work with neke-neke.
 
 His profile combines frontend implementation, interface thinking, user-centered design, and structured collaboration. He is especially strong in contexts where technical execution, product thinking, and communication meet.
 

@@ -12,6 +12,9 @@ Responsibilities and contributions:
 - worked closely on requirements, feedback loops, and delivery quality
 - contributed to requirement clarification and solution refinement
 
+Current status:
+- Simon states that he is still working with neke-neke in frontend development while finishing his studies
+
 ## Kinderschutzzentrum Salzburg
 **Civilian Service**  
 09/2022 – 06/2023

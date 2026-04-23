@@ -23,7 +23,7 @@ export const portfolioContent = {
   name: "Simon Schnetzer",
   headline: "I build frontend-focused digital products with a strong interest in interfaces, usability, and thoughtful product work.",
   summary: [
-    "I'm a MultiMediaTechnology student at FH Salzburg with a background in Business Informatics / Industrial Engineering from HTL Hallein.",
+    "I'm currently finishing my MultiMediaTechnology degree at FH Salzburg and continuing frontend work with neke-neke.",
     "I'm strongest where frontend implementation, interface quality, user-centered thinking, and structured collaboration meet."
   ],
   highlightChips: ["Frontend & UI", "Design-aware product thinking", "Structured collaboration"],

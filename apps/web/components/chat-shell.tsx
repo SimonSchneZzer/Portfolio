@@ -79,7 +79,61 @@ const thinkingPhrases = [
 const thinkingLabelTransitionMs = 360;
 const assistantRevealTickMs = 18;
 
-const apiUrl = process.env.NEXT_PUBLIC_CHAT_API_URL ?? "http://localhost:4000/api/chat";
+const apiUrl = process.env.NEXT_PUBLIC_CHAT_API_URL ?? "/api/chat";
+
+function invalidStreamError() {
+  return new Error("The chat response stream was not valid NDJSON. Please try again.");
+}
+
+function parseStreamEvent(line: string): StreamEvent {
+  let parsed: unknown;
+
+  try {
+    parsed = JSON.parse(line);
+  } catch {
+    throw invalidStreamError();
+  }
+
+  if (!parsed || typeof parsed !== "object") {
+    throw invalidStreamError();
+  }
+
+  const event = parsed as {
+    type?: unknown;
+    sources?: unknown;
+    token?: unknown;
+    message?: unknown;
+  };
+
+  if (event.type === "sources" && Array.isArray(event.sources)) {
+    return {
+      type: "sources",
+      sources: event.sources as SourceContext[]
+    };
+  }
+
+  if (event.type === "token" && typeof event.token === "string") {
+    return {
+      type: "token",
+      token: event.token
+    };
+  }
+
+  if (event.type === "done") {
+    return {
+      type: "done"
+    };
+  }
+
+  if (event.type === "error" && typeof event.message === "string") {
+    return {
+      type: "error",
+      message: event.message
+    };
+  }
+
+  throw invalidStreamError();
+}
 
 function createMessage(role: Role, content: string): ChatMessage {
   return {
@@ -203,7 +257,13 @@ function InputPromptOverlay({
   );
 }
 
-export function ChatShell({ onToggleCollapse }: { onToggleCollapse: () => void }) {
+export function ChatShell({
+  onToggleCollapse,
+  showCloseButton = false
+}: {
+  onToggleCollapse: () => void;
+  showCloseButton?: boolean;
+}) {
   const [draft, setDraft] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [isStreaming, setIsStreaming] = useState(false);
@@ -344,65 +404,9 @@ export function ChatShell({ onToggleCollapse }: { onToggleCollapse: () => void }
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let buffer = "";
+      let streamCompleted = false;
 
-      while (true) {
-        const { done, value } = await reader.read();
-
-        if (done) {
-          break;
-        }
-
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split("\n");
-        buffer = lines.pop() ?? "";
-
-        for (const line of lines) {
-          const trimmedLine = line.trim();
-
-          if (!trimmedLine) {
-            continue;
-          }
-
-          const event = JSON.parse(trimmedLine) as StreamEvent;
-
-          if (event.type === "sources") {
-            setMessages((current) =>
-              current.map((message) =>
-                message.id === assistantMessage.id
-                  ? {
-                      ...message,
-                      sources: event.sources
-                    }
-                  : message
-              )
-            );
-          }
-
-          if (event.type === "token") {
-            didReceiveToken = true;
-            setMessages((current) =>
-              current.map((message) =>
-                message.id === assistantMessage.id
-                  ? {
-                      ...message,
-                      content: `${message.content}${event.token}`
-                    }
-                  : message
-              )
-            );
-          }
-
-          if (event.type === "error") {
-            throw new Error(event.message);
-          }
-        }
-      }
-
-      const trailingEvent = buffer.trim();
-
-      if (trailingEvent) {
-        const event = JSON.parse(trailingEvent) as StreamEvent;
-
+      const handleEvent = (event: StreamEvent) => {
         if (event.type === "sources") {
           setMessages((current) =>
             current.map((message) =>
@@ -414,6 +418,8 @@ export function ChatShell({ onToggleCollapse }: { onToggleCollapse: () => void }
                 : message
             )
           );
+
+          return false;
         }
 
         if (event.type === "token") {
@@ -428,11 +434,53 @@ export function ChatShell({ onToggleCollapse }: { onToggleCollapse: () => void }
                 : message
             )
           );
+
+          return false;
         }
 
         if (event.type === "error") {
           throw new Error(event.message);
         }
+
+        return event.type === "done";
+      };
+
+      const processLine = (line: string) => {
+        const trimmedLine = line.trim();
+
+        if (!trimmedLine) {
+          return false;
+        }
+
+        return handleEvent(parseStreamEvent(trimmedLine));
+      };
+
+      try {
+        while (!streamCompleted) {
+          const { done, value } = await reader.read();
+
+          if (done) {
+            buffer += decoder.decode();
+            break;
+          }
+
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split(/\r?\n/);
+          buffer = lines.pop() ?? "";
+
+          for (const line of lines) {
+            if (processLine(line)) {
+              streamCompleted = true;
+              break;
+            }
+          }
+        }
+
+        if (!streamCompleted && processLine(buffer)) {
+          streamCompleted = true;
+        }
+      } finally {
+        reader.releaseLock();
       }
     } catch (chatError) {
       if (chatError instanceof DOMException && chatError.name === "AbortError") {
@@ -483,38 +531,49 @@ export function ChatShell({ onToggleCollapse }: { onToggleCollapse: () => void }
   return (
     <section className="surface chat-panel">
       <header className="chat-panel-header">
-        <button
-          type="button"
-          className="chat-heading"
-          onClick={onToggleCollapse}
-          aria-label="Collapse chat"
-          aria-expanded="true"
-        >
-          <div className="chat-avatar-button">
-            <div className="avatar-surface" aria-hidden="true" />
-            <span className="avatar-collapse-icon" aria-hidden="true">
-              <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-                <line x1="7" y1="4" x2="13" y2="10" />
-                <line x1="13" y1="10" x2="7" y2="16" />
-              </svg>
-            </span>
-          </div>
+        <div className="chat-panel-header-top">
+          <button
+            type="button"
+            className="chat-heading"
+            onClick={onToggleCollapse}
+            aria-label="Collapse chat"
+            aria-expanded="true"
+          >
+            <div className="chat-avatar-button">
+              <div className="avatar-surface" aria-hidden="true" />
+              <span className="avatar-collapse-icon" aria-hidden="true">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="7" y1="4" x2="13" y2="10" />
+                  <line x1="13" y1="10" x2="7" y2="16" />
+                </svg>
+              </span>
+            </div>
 
-          <div>
-            <p className="section-kicker">Ask me directly</p>
-            <h2>Ask about my work, projects, strengths, and professional direction.</h2>
-          </div>
-        </button>
+            <div>
+              <p className="section-kicker">Ask me directly</p>
+              <h2>Ask about my work, projects, strengths, and professional direction.</h2>
+            </div>
+          </button>
+
+          {showCloseButton ? (
+            <button
+              type="button"
+              className="chat-modal-close"
+              onClick={onToggleCollapse}
+              aria-label="Close chat"
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true">
+                <line x1="4" y1="4" x2="12" y2="12" />
+                <line x1="12" y1="4" x2="4" y2="12" />
+              </svg>
+            </button>
+          ) : null}
+        </div>
       </header>
 
       <div ref={messagesRef} className="chat-messages" aria-live="polite">
         {messages.length === 0 ? (
           <div className="chat-empty-state">
-            <div className="chat-empty-copy">
-              <p className="chat-empty-kicker">Start here</p>
-              <h3>Ask a direct question and I&apos;ll stay focused on my public professional profile.</h3>
-            </div>
-
             <div className="starter-stack" aria-label="Starter prompts">
               {starterPrompts.map((starter) => (
                 <button key={starter.label} type="button" className="starter-chip" onClick={() => void runChat(starter.prompt)}>

@@ -6,12 +6,14 @@ import { ProfileColumn } from "@/components/profile-column";
 
 const morphDurationMs = 480;
 const morphEasing = "cubic-bezier(0.22, 1, 0.36, 1)";
+const mobileChatDefaultMedia = "(max-width: 640px)";
 
 interface Rect { top: number; left: number; width: number; height: number; }
 
 export function HomeShell() {
   const [isCondensed, setIsCondensed] = useState(false);
   const [pillVisible, setPillVisible] = useState(false);
+  const [isMobileViewport, setIsMobileViewport] = useState(false);
 
   const profileShellRef = useRef<HTMLDivElement | null>(null);
   const prevProfileRectRef = useRef<DOMRect | null>(null);
@@ -21,6 +23,8 @@ export function HomeShell() {
   const contentAnimsRef = useRef<Animation[]>([]);
   const rafRef = useRef<number | null>(null);
   const busyRef = useRef(false);
+  const hasAppliedMobileDefaultRef = useRef(false);
+  const wasMobileViewportRef = useRef(false);
 
   useEffect(() => {
     return () => {
@@ -30,6 +34,56 @@ export function HomeShell() {
       if (rafRef.current) window.cancelAnimationFrame(rafRef.current);
     };
   }, []);
+
+  useLayoutEffect(() => {
+    if (hasAppliedMobileDefaultRef.current || typeof window === "undefined") {
+      return;
+    }
+
+    hasAppliedMobileDefaultRef.current = true;
+
+    const isMobile = window.matchMedia(mobileChatDefaultMedia).matches;
+    setIsMobileViewport(isMobile);
+
+    if (isMobile) {
+      setIsCondensed(true);
+      setPillVisible(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia(mobileChatDefaultMedia);
+    wasMobileViewportRef.current = mediaQuery.matches;
+
+    const handleChange = (event: MediaQueryListEvent) => {
+      const matches = event.matches;
+      setIsMobileViewport(matches);
+
+      if (!matches && wasMobileViewportRef.current && !busyRef.current) {
+        setIsCondensed(false);
+        setPillVisible(false);
+      }
+
+      wasMobileViewportRef.current = matches;
+    };
+    mediaQuery.addEventListener("change", handleChange);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+    };
+  }, []);
+
+  useEffect(() => {
+    document.body.classList.toggle("chat-mobile-open", isMobileViewport && !isCondensed);
+
+    return () => {
+      document.body.classList.remove("chat-mobile-open");
+    };
+  }, [isMobileViewport, isCondensed]);
 
   function cancelContentAnims() {
     contentAnimsRef.current.forEach(a => a.cancel());
@@ -133,6 +187,18 @@ export function HomeShell() {
   }
 
   function handleToggleChat() {
+    if (isMobileViewport) {
+      if (isCondensed) {
+        setPillVisible(false);
+        setIsCondensed(false);
+      } else {
+        setIsCondensed(true);
+        setPillVisible(true);
+      }
+
+      return;
+    }
+
     if (busyRef.current) return;
     busyRef.current = true;
 
@@ -215,10 +281,19 @@ export function HomeShell() {
           <ProfileColumn />
         </div>
 
-        <aside className="chat-column">
-          <ChatShell onToggleCollapse={handleToggleChat} />
+        <aside className={`chat-column${isMobileViewport ? " is-mobile-modal" : ""}${isMobileViewport && !isCondensed ? " is-mobile-modal-active" : ""}`}>
+          <ChatShell onToggleCollapse={handleToggleChat} showCloseButton={isMobileViewport} />
         </aside>
       </div>
+
+      {isMobileViewport && !isCondensed ? (
+        <button
+          type="button"
+          className="chat-modal-backdrop"
+          onClick={handleToggleChat}
+          aria-label="Close chat"
+        />
+      ) : null}
 
       <button
         ref={pillRef}
