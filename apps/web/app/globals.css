@@ -1359,18 +1359,17 @@ h3 {
   }
 
   .name-row {
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     gap: 18px;
   }
 
   .name-h1-wrap {
-    width: 100%;
+    flex: 1;
   }
 
   .profile-portrait {
-    width: 168px;
-    height: 168px;
+    width: clamp(112px, 22vw, 168px);
+    height: clamp(112px, 22vw, 168px);
   }
 
   .profile-headline {
@@ -1507,8 +1506,8 @@ h3 {
   }
 
   .profile-portrait {
-    width: 132px;
-    height: 132px;
+    width: clamp(88px, 28vw, 132px);
+    height: clamp(88px, 28vw, 132px);
   }
 
   .profile-headline {
