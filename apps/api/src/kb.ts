@@ -20,7 +20,8 @@ type RetrievalIntent =
   | "work"
   | "leadership"
   | "languages"
-  | "future_direction";
+  | "future_direction"
+  | "management_direction";
 
 const stopwords = new Set([
   "aber",
@@ -92,8 +93,8 @@ const intentDefinitions = {
     fallback: ["03_technical_background", "06_design_hci_product", "09_professional_positioning"]
   },
   projects: {
-    patterns: [/\b(projects?|projekte?|progressa|seek discomfort|thesis|bachelor)\b/i],
-    phrases: ["selected projects", "progressa", "seek discomfort", "bachelor thesis"],
+    patterns: [/\b(projects?|projekte?|progressa|seek discomfort|thesis|bachelor|lazy loading|lazyloading)\b/i],
+    phrases: ["selected projects", "progressa", "seek discomfort", "bachelor thesis", "lazy loading"],
     fallback: ["05_selected_projects", "06_design_hci_product", "01_professional_summary"]
   },
   work: {
@@ -124,10 +125,19 @@ const intentDefinitions = {
     ],
     phrases: ["future direction", "role fits simon", "role fits you", "professional direction", "role fit"],
     fallback: ["09_professional_positioning", "01_professional_summary", "06_design_hci_product"]
+  },
+  management_direction: {
+    patterns: [
+      /\b(master|multimediaart|producing|management|teamlead|team lead|scrum master|product owner|project manager|product manager|consultant|consulting)\b/i,
+      /\b(projektmanagement|produktmanagement|beratung|teamleitung|fuehrung|führung)\b/i
+    ],
+    phrases: ["management direction", "producing specialisation", "scrum master", "product owner", "project manager", "consulting"],
+    fallback: ["09_professional_positioning", "11_verified_facts", "02_education", "12_verified_academic_details"]
   }
 } satisfies Record<RetrievalIntent, { patterns: RegExp[]; phrases: string[]; fallback: string[] }>;
 
 const intentPriority: RetrievalIntent[] = [
+  "management_direction",
   "projects",
   "work",
   "leadership",

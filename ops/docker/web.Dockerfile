@@ -3,6 +3,7 @@ FROM node:22-alpine
 WORKDIR /app
 
 RUN corepack enable
+RUN corepack prepare pnpm@10.19.0 --activate
 
 ARG NEXT_PUBLIC_CHAT_API_URL=/api/chat
 ENV NEXT_PUBLIC_CHAT_API_URL=${NEXT_PUBLIC_CHAT_API_URL}

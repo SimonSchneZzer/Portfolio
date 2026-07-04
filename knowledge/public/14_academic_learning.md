@@ -1,6 +1,6 @@
 # Academic Learning from FH Salzburg
 
-This section summarizes what Simon can credibly say he learned during the FH Salzburg Bachelor programme in MultiMediaTechnology, based on the provided transcript of record.
+This section summarizes what Simon can credibly say he learned during the completed FH Salzburg Bachelor programme in MultiMediaTechnology, based on the provided transcript of record.
 
 The wording here should stay grounded. Course titles show what Simon studied and worked with, but they should not automatically be turned into exaggerated claims of deep specialization in every area.
 
@@ -103,6 +103,7 @@ Simon can credibly say that he learned:
 - academic research basics and structured inquiry
 - how to frame a topic, narrow a research question, and work methodically
 - how to connect technical work with evidence, evaluation, and written reasoning
+- how to connect lazy loading, usability, and performance questions in a Next.js-based product context
 
 ## Additional Applied Context
 
@@ -123,3 +124,13 @@ When the chatbot answers questions about what Simon learned in school, it should
 - connect coursework to professionally relevant themes such as frontend, UX, product thinking, systems, and collaboration
 - prefer phrasing like "I learned", "I worked with", "I was introduced to", or "my coursework included"
 - avoid overstating mastery when the evidence comes mainly from course titles and academic modules
+
+## Planned Master Direction
+
+Simon is enrolled in the MultiMediaArt Master's at FH Salzburg with a Producing specialisation.
+
+In portfolio and recruiter contexts, this can be connected to:
+- production and project coordination
+- interdisciplinary creative project work
+- management-oriented responsibility
+- Simon's target direction toward product, project, team, Scrum Master, product owner, and consulting roles

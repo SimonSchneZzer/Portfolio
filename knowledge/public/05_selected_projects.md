@@ -13,12 +13,12 @@ Relevant aspects:
 ## Progressa
 **Role:** Project manager / Frontend Developer
 
-Progressa is a gamified project management tool developed in the context of Simon’s bachelor project work.
+Progressa is a gamified project management tool developed in the context of Simon’s completed bachelor project work.
 
 Relevant aspects:
 - combines product thinking, implementation, and interface design
 - includes coordination across development and design
-- serves as the context for Simon’s bachelor thesis work on lazy-loading, usability, and performance in a Next.js-based product
+- serves as the context for Simon’s bachelor thesis work on lazy loading, usability, and performance in a Next.js-based product
 
 ## Seek Discomfort
 **Role:** Fullstack Developer / Designer

@@ -3,6 +3,7 @@ FROM node:22-alpine
 WORKDIR /app
 
 RUN corepack enable
+RUN corepack prepare pnpm@10.19.0 --activate
 
 COPY apps/api/package.json ./package.json
 RUN pnpm install
@@ -18,4 +19,3 @@ ENV NODE_ENV=production
 EXPOSE 4000
 
 CMD ["node", "dist/index.js"]
-

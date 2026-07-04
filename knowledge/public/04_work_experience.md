@@ -13,7 +13,9 @@ Responsibilities and contributions:
 - contributed to requirement clarification and solution refinement
 
 Current status:
-- Simon states that he is still working with neke-neke in frontend development while finishing his studies
+- Simon continues to work part-time with neke-neke as a Frontend Developer
+- approximate scope: around 10 hours per week while studying
+- current contributions include feature implementation, UI design, and occasional system architecture work
 
 ## Kinderschutzzentrum Salzburg
 **Civilian Service**  

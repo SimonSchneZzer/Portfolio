@@ -30,13 +30,20 @@ const professionalSignals = [
   "javascript",
   "leadership",
   "mediation",
+  "management",
+  "master",
+  "multimediaart",
   "next",
   "portfolio",
+  "producing",
   "product",
+  "product owner",
   "project",
   "projekt",
+  "project manager",
   "react",
   "role",
+  "scrum master",
   "skill",
   "stakeholder",
   "strength",
@@ -52,6 +59,7 @@ const professionalSignals = [
   "fach",
   "htl",
   "bachelor",
+  "consulting",
   "thesis",
   "technical",
   "technology",
@@ -70,8 +78,8 @@ const allowPatterns = [
   /\b(projects?|projekte?|internships?|praktika|experience|erfahrung|work experience|berufserfahrung)\b/i,
   /\b(leadership|communication|mediation|sprecher|spokesperson|representative|leadership style)\b/i,
   /\b(languages?|sprachen|english|german|swedish|hungarian)\b/i,
-  /\b(school|schule|university|hochschule|college|class|course|subject|fach|gelernt|learned|learn|studier|taught|unterricht|curriculum|module|modul|bachelor|thesis|htl|fh)\b/i,
-  /\b(future direction|where is simon heading|where are you heading|what kind of role fits simon|what kind of role fits you|welche rolle passt|welche rolle passt zu dir|berufliche richtung|professional direction)\b/i
+  /\b(school|schule|university|hochschule|college|class|course|subject|fach|gelernt|learned|learn|studier|taught|unterricht|curriculum|module|modul|bachelor|master|multimediaart|producing|thesis|htl|fh)\b/i,
+  /\b(future direction|where is simon heading|where are you heading|what kind of role fits simon|what kind of role fits you|welche rolle passt|welche rolle passt zu dir|berufliche richtung|professional direction|management|teamlead|team lead|scrum master|product owner|project manager|product manager|consultant|consulting)\b/i
 ];
 
 const blockedPatterns: Array<{
