@@ -29,14 +29,14 @@ export interface ProfileLink {
 }
 
 export const portfolioContent = {
-  eyebrow: "Frontend developer with product sense",
+  eyebrow: "Developer moving toward product and team leadership",
   name: "Simon Schnetzer",
-  statusLine: "Currently at neke-neke, finishing MultiMediaTechnology at FH Salzburg.",
-  headline: "I build clear digital interfaces with a strong focus on usability, frontend quality, and thoughtful product work.",
+  statusLine: "Frontend Developer at neke-neke. BSc graduate, Producing master's student.",
+  headline: "I build clear digital interfaces and connect frontend execution with product thinking, coordination, and delivery quality.",
   summary: [
-    "I work best where frontend implementation, interface quality, and close collaboration with design or product come together."
+    "I work best where frontend implementation, interface quality, and close collaboration with design, product, and management come together."
   ],
-  highlightChips: ["Frontend & UI", "Design-aware product thinking", "Structured collaboration"],
+  highlightChips: ["Frontend & UI", "Product & team coordination", "Management-oriented direction"],
   primaryActions: [
     {
       label: "Email me",
@@ -54,15 +54,15 @@ export const portfolioContent = {
   focusAreas: [
     {
       title: "Frontend Implementation",
-      description: "I work comfortably in React, Next.js, HTML, CSS, and JavaScript, with a practical focus on clear, reliable interfaces."
+      description: "I work comfortably in React, Next.js, TypeScript, HTML, CSS, and JavaScript, with a practical focus on clear, reliable interfaces."
     },
     {
       title: "UI / Product Thinking",
       description: "I'm especially interested in the connection between interface structure, usability, and the quality of a product experience."
     },
     {
-      title: "Communication & Responsibility",
-      description: "I bring spokesperson, mediation, and team-facing experience that supports alignment, clarity, and dependable delivery."
+      title: "Coordination & Responsibility",
+      description: "I bring spokesperson, mediation, project coordination, and team-facing experience that supports alignment, clarity, and dependable delivery."
     }
   ] satisfies FocusArea[],
   projects: [
@@ -78,7 +78,7 @@ export const portfolioContent = {
       title: "Progressa",
       role: "Project manager / Frontend Developer",
       summary:
-        "A gamified project management tool from my bachelor project, combining product thinking, frontend implementation, interface design, and coordination across design and development.",
+        "A gamified project management tool from my completed bachelor project, combining product thinking, frontend implementation, interface design, coordination across design and development, and thesis work on lazy loading.",
       href: "#progressa-placeholder",
       ctaLabel: "Case study placeholder"
     },
