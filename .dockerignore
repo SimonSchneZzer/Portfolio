@@ -1,0 +1,11 @@
+.git
+.next
+dist
+node_modules
+
+apps/*/.next
+apps/*/dist
+apps/*/node_modules
+
+.DS_Store
+*.log
