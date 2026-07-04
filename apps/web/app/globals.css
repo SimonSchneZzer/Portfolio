@@ -1,6 +1,6 @@
 :root {
   --font-sans: "Avenir Next", "IBM Plex Sans", "Segoe UI", sans-serif;
-  --font-serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", serif;
+  --font-serif: "Avenir Next", "IBM Plex Sans", "Segoe UI", sans-serif;
   --bg: #e4e0d8;
   --surface: rgba(255, 255, 255, 0.68);
   --chat-panel-bg: rgba(255, 254, 251, 0.82);
