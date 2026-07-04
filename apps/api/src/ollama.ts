@@ -7,80 +7,89 @@ interface StreamOptions {
   baseUrl: string;
   model: string;
   messages: OllamaMessage[];
+  timeoutMs: number;
   onToken: (token: string) => void;
 }
 
-export async function streamOllamaChat({ baseUrl, model, messages, onToken }: StreamOptions) {
-  const response = await fetch(`${baseUrl.replace(/\/$/, "")}/api/chat`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({
-      model,
-      stream: true,
-      messages
-    })
-  });
+export async function streamOllamaChat({ baseUrl, model, messages, timeoutMs, onToken }: StreamOptions) {
+  const abortController = new AbortController();
+  const timeout = setTimeout(() => abortController.abort(), timeoutMs);
 
-  if (!response.ok || !response.body) {
-    const errorText = await response.text();
-    throw new Error(`Ollama request failed: ${response.status} ${errorText}`);
-  }
+  try {
+    const response = await fetch(`${baseUrl.replace(/\/$/, "")}/api/chat`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      signal: abortController.signal,
+      body: JSON.stringify({
+        model,
+        stream: true,
+        messages
+      })
+    });
 
-  const reader = response.body.getReader();
-  const decoder = new TextDecoder();
-  let buffer = "";
-
-  while (true) {
-    const { done, value } = await reader.read();
-
-    if (done) {
-      break;
+    if (!response.ok || !response.body) {
+      const errorText = await response.text();
+      throw new Error(`Ollama request failed: ${response.status} ${errorText}`);
     }
 
-    buffer += decoder.decode(value, { stream: true });
-    const lines = buffer.split("\n");
-    buffer = lines.pop() ?? "";
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
 
-    for (const line of lines) {
-      const trimmed = line.trim();
+    while (true) {
+      const { done, value } = await reader.read();
 
-      if (!trimmed) {
-        continue;
+      if (done) {
+        break;
       }
 
-      const chunk = JSON.parse(trimmed) as {
-        done?: boolean;
-        message?: {
-          content?: string;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split("\n");
+      buffer = lines.pop() ?? "";
+
+      for (const line of lines) {
+        const trimmed = line.trim();
+
+        if (!trimmed) {
+          continue;
+        }
+
+        const chunk = JSON.parse(trimmed) as {
+          done?: boolean;
+          message?: {
+            content?: string;
+          };
         };
-      };
 
-      if (chunk.message?.content) {
-        onToken(chunk.message.content);
-      }
+        if (chunk.message?.content) {
+          onToken(chunk.message.content);
+        }
 
-      if (chunk.done) {
-        return;
+        if (chunk.done) {
+          return;
+        }
       }
     }
-  }
 
-  const trailingChunk = buffer.trim();
+    const trailingChunk = buffer.trim();
 
-  if (!trailingChunk) {
-    return;
-  }
+    if (!trailingChunk) {
+      return;
+    }
 
-  const finalChunk = JSON.parse(trailingChunk) as {
-    done?: boolean;
-    message?: {
-      content?: string;
+    const finalChunk = JSON.parse(trailingChunk) as {
+      done?: boolean;
+      message?: {
+        content?: string;
+      };
     };
-  };
 
-  if (finalChunk.message?.content) {
-    onToken(finalChunk.message.content);
+    if (finalChunk.message?.content) {
+      onToken(finalChunk.message.content);
+    }
+  } finally {
+    clearTimeout(timeout);
   }
 }

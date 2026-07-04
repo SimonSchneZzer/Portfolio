@@ -134,6 +134,7 @@ export async function buildServer() {
           baseUrl: config.ollamaBaseUrl,
           model: config.ollamaModel,
           messages: ollamaMessages,
+          timeoutMs: config.ollamaRequestTimeoutMs,
           onToken: (token) => {
             writeEvent({
               type: "token",

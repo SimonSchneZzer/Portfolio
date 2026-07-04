@@ -18,6 +18,7 @@ export const config = {
   apiPort: readNumber(process.env.API_PORT, 4000),
   ollamaBaseUrl: process.env.OLLAMA_BASE_URL ?? "http://192.168.8.50:11434",
   ollamaModel: process.env.OLLAMA_MODEL ?? "qwen2.5:3b",
+  ollamaRequestTimeoutMs: readNumber(process.env.OLLAMA_REQUEST_TIMEOUT_MS, 120000),
   allowedOrigins: (process.env.ALLOWED_ORIGINS ?? "http://localhost:3000,http://127.0.0.1:3000")
     .split(",")
     .map((origin) => origin.trim())
@@ -27,4 +28,3 @@ export const config = {
   maxContextChunks: readNumber(process.env.MAX_CONTEXT_CHUNKS, 4),
   maxHistoryMessages: readNumber(process.env.MAX_HISTORY_MESSAGES, 6)
 };
-
