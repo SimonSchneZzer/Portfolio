@@ -587,8 +587,8 @@ export function ChatShell({
             </div>
 
             <div>
-              <p className="section-kicker">Ask me directly</p>
-              <h2>Ask about my work, projects, strengths, and professional direction.</h2>
+              <p className="section-kicker">Prefer exploring first?</p>
+              <h2>Ask follow-up questions about my work, projects, and experience.</h2>
             </div>
           </button>
 

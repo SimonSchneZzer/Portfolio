@@ -3,13 +3,13 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { FeaturedProjectCard } from "@/components/featured-project-card";
-import { portfolioContent, type PlaceholderLink } from "@/content/portfolio";
+import { portfolioContent, type HeroAction, type LinkIconName } from "@/content/portfolio";
 
 const projectCardSwitchMs = 360;
 const portraitTransitionMs = 320;
 const singleColumnProjectsMedia = "(max-width: 920px)";
 
-function LinkIcon({ icon }: { icon: PlaceholderLink["icon"] }) {
+function LinkIcon({ icon }: { icon: LinkIconName }) {
   if (icon === "cv") {
     return (
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -42,6 +42,14 @@ function LinkIcon({ icon }: { icon: PlaceholderLink["icon"] }) {
       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
         <rect x="2" y="5" width="16" height="11" rx="2" />
         <polyline points="2,5 10,12 18,5" />
+      </svg>
+    );
+  }
+
+  if (icon === "phone") {
+    return (
+      <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M6.3 3.7h2.1l1 3.1-1.4 1.4a12.3 12.3 0 0 0 3.8 3.8l1.4-1.4 3.1 1v2.1a1.6 1.6 0 0 1-1.8 1.6A13.8 13.8 0 0 1 4.7 5.5 1.6 1.6 0 0 1 6.3 3.7Z" />
       </svg>
     );
   }
@@ -308,25 +316,41 @@ export function ProfileColumn() {
                 <img src="/images/simon-portrait.jpg" alt="Simon Schnetzer" className="profile-portrait" />
               </button>
               <div className="name-h1-wrap">
-                <p className="section-kicker">{portfolioContent.eyebrow}</p>
                 <h1>{portfolioContent.name}</h1>
+                <p className="profile-subtitle">{portfolioContent.eyebrow}</p>
               </div>
+            </div>
+            <div className="profile-status" aria-label="Current status">
+              <span className="profile-status-dot" aria-hidden="true" />
+              <span className="profile-status-text">{portfolioContent.statusLine}</span>
             </div>
             <p className="profile-headline">{portfolioContent.headline}</p>
 
-            <div className="profile-summary-group">
-              {portfolioContent.summary.map((paragraph) => (
-                <p key={paragraph} className="profile-summary">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
+            {portfolioContent.summary.length > 0 ? (
+              <div className="profile-summary-group">
+                {portfolioContent.summary.map((paragraph) => (
+                  <p key={paragraph} className="profile-summary">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            ) : null}
 
-            <div className="highlight-row">
-              {portfolioContent.highlightChips.map((chip) => (
-                <span key={chip} className="highlight-chip">
-                  {chip}
-                </span>
+            <div className="hero-actions" aria-label="Primary contact actions">
+              {portfolioContent.primaryActions.map((action: HeroAction) => (
+                <a
+                  key={action.label}
+                  href={action.href}
+                  className={`hero-action hero-action-${action.emphasis}`}
+                >
+                  <span className="hero-action-icon" aria-hidden="true">
+                    <LinkIcon icon={action.icon} />
+                  </span>
+                  <span className="hero-action-copy">
+                    <span className="hero-action-label">{action.label}</span>
+                    {action.detail ? <span className="hero-action-detail">{action.detail}</span> : null}
+                  </span>
+                </a>
               ))}
             </div>
           </div>
@@ -370,8 +394,8 @@ export function ProfileColumn() {
 
         <section className="links-section motion-reveal">
           <div className="section-header compact">
-            <p className="section-kicker">Next steps</p>
-            <h2>Reach out, browse my work, or download my CV.</h2>
+            <p className="section-kicker">Elsewhere</p>
+            <h2>LinkedIn and GitHub if you want a little more context before reaching out.</h2>
           </div>
 
           <div className="link-grid">
@@ -386,7 +410,10 @@ export function ProfileColumn() {
                 <span className="link-icon-wrap">
                   <LinkIcon icon={link.icon} />
                 </span>
-                <span className="link-label">{link.label}</span>
+                <span className="link-card-copy">
+                  <span className="link-label">{link.label}</span>
+                  <span className="link-detail">{link.detail}</span>
+                </span>
               </a>
             ))}
           </div>

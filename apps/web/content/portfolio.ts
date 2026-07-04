@@ -3,6 +3,8 @@ export interface FocusArea {
   description: string;
 }
 
+export type LinkIconName = "cv" | "linkedin" | "github" | "email" | "phone";
+
 export interface FeaturedProject {
   title: string;
   role: string;
@@ -11,22 +13,44 @@ export interface FeaturedProject {
   ctaLabel: string;
 }
 
-export interface PlaceholderLink {
+export interface HeroAction {
+  label: string;
+  detail?: string;
+  href: string;
+  icon: LinkIconName;
+  emphasis: "primary" | "secondary";
+}
+
+export interface ProfileLink {
   label: string;
   detail: string;
   href: string;
-  icon: "cv" | "linkedin" | "github" | "email";
+  icon: LinkIconName;
 }
 
 export const portfolioContent = {
-  eyebrow: "About me",
+  eyebrow: "Frontend developer with product sense",
   name: "Simon Schnetzer",
-  headline: "I build frontend-focused digital products with a strong interest in interfaces, usability, and thoughtful product work.",
+  statusLine: "Currently at neke-neke, finishing MultiMediaTechnology at FH Salzburg.",
+  headline: "I build clear digital interfaces with a strong focus on usability, frontend quality, and thoughtful product work.",
   summary: [
-    "I'm currently finishing my MultiMediaTechnology degree at FH Salzburg and continuing frontend work with neke-neke.",
-    "I'm strongest where frontend implementation, interface quality, user-centered thinking, and structured collaboration meet."
+    "I work best where frontend implementation, interface quality, and close collaboration with design or product come together."
   ],
   highlightChips: ["Frontend & UI", "Design-aware product thinking", "Structured collaboration"],
+  primaryActions: [
+    {
+      label: "Email me",
+      href: "mailto:simon@schnetzer.at",
+      icon: "email",
+      emphasis: "primary"
+    },
+    {
+      label: "View CV",
+      href: "/simon-schnetzer-cv.pdf",
+      icon: "cv",
+      emphasis: "secondary"
+    }
+  ] satisfies HeroAction[],
   focusAreas: [
     {
       title: "Frontend Implementation",
@@ -77,12 +101,6 @@ export const portfolioContent = {
   ] satisfies FeaturedProject[],
   links: [
     {
-      label: "CV",
-      detail: "Download my resume PDF",
-      href: "/simon-schnetzer-cv.pdf",
-      icon: "cv"
-    },
-    {
       label: "LinkedIn",
       detail: "linkedin.com/in/simonschnetzerat",
       href: "https://www.linkedin.com/in/simonschnetzerat/",
@@ -93,12 +111,6 @@ export const portfolioContent = {
       detail: "github.com/SimonSchneZzer",
       href: "https://github.com/SimonSchneZzer",
       icon: "github"
-    },
-    {
-      label: "Email me",
-      detail: "simon@schnetzer.at",
-      href: "mailto:simon@schnetzer.at",
-      icon: "email"
     }
-  ] satisfies PlaceholderLink[]
+  ] satisfies ProfileLink[]
 };
