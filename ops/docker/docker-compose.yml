@@ -8,7 +8,7 @@ services:
       API_PORT: 4000
       OLLAMA_BASE_URL: http://192.168.8.50:11434
       OLLAMA_MODEL: qwen2.5:3b
-      ALLOWED_ORIGINS: https://ai.schnetzer.at
+      ALLOWED_ORIGINS: https://simon.schnetzer.at
       KB_INDEX_PATH: /app/data/kb-index.json
       SYSTEM_PROMPT_PATH: /app/knowledge/system-prompt.md
     restart: unless-stopped

@@ -1,4 +1,4 @@
-ai.schnetzer.at {
+simon.schnetzer.at {
   encode zstd gzip
 
   handle /api/* {
