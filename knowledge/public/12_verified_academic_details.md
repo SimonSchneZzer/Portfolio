@@ -25,7 +25,7 @@ Bachelor thesis focus:
 - lazy loading, usability, and performance in a Next.js-based product context
 
 ## FH Salzburg – MultiMediaArt Master
-Enrolled.
+Enrolled since 10/2026, currently in the 1st semester.
 
 Specialisation:
 - Producing

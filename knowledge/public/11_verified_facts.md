@@ -6,52 +6,48 @@ It intentionally excludes private or out-of-scope material such as politics, rel
 
 ## Identity
 - Name: Simon Schnetzer
-- Location: Salzburg region, Austria
-- Professional framing: Frontend-focused developer moving toward product, team, and project responsibility
-- Current public status: BSc MultiMediaTechnology completed; enrolled in the MultiMediaArt Master's at FH Salzburg with a Producing specialisation
-- Current user-confirmed professional status: working part-time with neke-neke as a Frontend Developer, around 10 hours per week while studying
-- Most recent documented CV role at neke-neke: Intern, Frontend Developer (09/2025 - 12/2025)
+- Location: Salzburg, Austria
+- Professional framing: Frontend-focused developer working on AI-supported applications, moving toward product, team, and project responsibility
+- Current status: BSc MultiMediaTechnology completed; since 10/2026 in the MultiMediaArt Master's at FH Salzburg with a Producing specialisation (1st semester)
+- Current role: Frontend Developer at neke-neke, part-time alongside his studies since 02/2026 (around 10 hours per week), after an internship there from 09/2025 to 12/2025
+- Certification: Professional Scrum Product Owner I (PSPO I), Scrum.org, 2026
 
 ## Education
 - FH Salzburg - University of Applied Sciences: BSc MultiMediaTechnology, 09/2023 - 06/2026
 - Bachelor exam passed: 15 June 2026
 - Official graduation ceremony: 6 July 2026
-- Bachelor thesis focus: lazy loading, usability, and performance in a Next.js-based product context
-- FH Salzburg - University of Applied Sciences: MA MultiMediaArt, Producing specialisation, enrolled
+- Bachelor thesis: optimising lazy loading, balancing performance and a pleasant user experience in a Next.js-based product context
+- FH Salzburg - University of Applied Sciences: MA MultiMediaArt, Producing specialisation, since 10/2026
 - HTL Hallein: Business Informatics / Industrial Engineering, 09/2017 - 06/2022
 - HTL Hallein: Austrian Reife- und Diplompruefung completed
 - HTL Hallein diploma thesis: Market research on the use of sustainable packaging material in retail
 - Gymnasium Hallein: STEM-focused (Realgymnasium), 09/2013 - 07/2017
 
 ## Work Experience
-- neke-neke: Intern, Frontend Developer, 09/2025 - 12/2025
-- neke-neke contributions: created wireframes, shaped interface decisions, worked in fast iteration cycles, collaborated on requirements, feedback loops, and delivery quality
-- neke-neke current role: part-time Frontend Developer, around 10 hours per week while studying
-- neke-neke current contributions: feature implementation, UI design, occasional system architecture work
-- Kinderschutzzentrum Salzburg: Civilian service, 09/2022 - 06/2023
-- Kinderschutzzentrum Salzburg responsibilities: responsible work in a sensitive environment, discretion, structured collaboration, clear communication
-- SPAR ICS: IT Internship, E-Commerce / Frontend Development, 07/2021 - 08/2021
-- SPAR ICS: IT Internship, Store Retail / Hardware Testing, 07/2019 - 08/2019
-- Schischule Lech: Children's Ski Instructor, 2018 - 2021
+- neke-neke: Frontend Developer, part-time alongside studies, since 02/2026
+- neke-neke: Intern, Frontend Development, 09/2025 - 12/2025, then taken on part-time
+- neke-neke client projects (no client names due to a confidentiality agreement): practice management system with AI phone assistance for a network of medical practices; web interface for drone control and video monitoring; chat frontends for AI applications. Simon's role in these: UX design and frontend development
+- neke-neke contributions: connecting the frontend to Python backends and AI interfaces, wireframes and interface decisions in fast iteration cycles, requirements and feedback loops with stakeholders, communication between neke-neke and a client, occasional system architecture contributions
+- neke-neke client acquisition: Simon brought in a new client who is still an active client
+- neke-neke tech stack: React, TypeScript, Tailwind CSS, Python, Figma
+- Kinderschutzzentrum Salzburg: Civilian service, 09/2022 - 06/2023; responsible work in a sensitive environment, discretion, structured collaboration
+- SPAR ICS: IT Internship, E-Commerce / Frontend Development, 07/2021 - 08/2021 (smaller frontend tasks such as UI components)
+- SPAR ICS: IT Internship, Store Retail / Hardware Testing, 07/2019 - 08/2019 (testing self-checkout systems)
+- Schischule Lech: Children's Ski Instructor (seasonal job), 2018 - 2021, Lech am Arlberg; Landesskilehrer-Anwärter, then Landesskilehrer 1
 - Schischule Lech responsibilities: group leadership, safety, instruction, motivation, learning progress, coordination with colleagues, communication with parents
 
 ## Selected Projects
-- Progressa: Project Manager / Frontend Developer
-- Progressa context: gamified project management tool developed in Simon's completed bachelor project context
-- Progressa focus: product thinking, coordination, interface design, implementation, Next.js-based thesis work on lazy-loading, usability, and performance
-- Seek Discomfort: Fullstack Developer / Designer
-- Seek Discomfort context: high-fidelity prototype combining concept work, UI work, and technical implementation
-- Drone Hub: Frontend Developer / Designer
-- Drone Hub context: internship project at neke-neke with frontend, wireframing, and interface-related contributions
-- Chatbot: Prompt Engineer / Fullstack Developer
-- Chatbot context: portfolio chatbot focused on Simon's professional profile, using curated knowledge, retrieval, guardrails, and a self-hosted model setup
+- Vorleser: solo-developed open-source desktop app (macOS and Windows) that reads any text aloud, with optional AI voice cloning, word-by-word follow-along, dictation, and audiobook export; since 11/2026, version 3; Python backend, vanilla JavaScript frontend, CI/CD with GitHub Actions; https://simonschnezzer.github.io/vorleser-download/
+- Progressa: real-time Kanban app with an AI coach, FH Salzburg 2026, team of 5; Simon was project lead / Scrum Master and frontend developer; React and Supabase; the team used Progressa to manage its own development; https://app.progressa.team/
+- LSD (Lazy Student Dashboard): web app for tracking attendance and study progress, FH Salzburg 2025, team of 2; Simon did frontend development and UX design; Next.js and React
+- Seek Discomfort: Fullstack Developer / Designer; high-fidelity prototype combining concept work, UI work, and technical implementation
+- Portfolio chatbot: Prompt Engineer / Fullstack Developer; Next.js and Fastify, curated knowledge base with guardrails, Gemma 4 on Cloudflare Workers AI with a self-hosted Ollama fallback on his home server
 
 ## Technical Skills
-- Frontend, solid: HTML, CSS, JavaScript, TypeScript, React, Next.js, Tailwind CSS
-- Frontend, basic: Vue.js
-- Backend, solid: C#
-- Backend, basic: Python, Prisma, PostgreSQL
-- Documented additional programming background: Ruby, PHP (basic)
+- Solid: HTML, CSS, JavaScript, TypeScript, React, Next.js, Tailwind CSS, Git, Linux, Docker, Supabase, GitHub Actions, pytest, API integration, building AI applications, frontend performance optimisation
+- Good: C#
+- Basic: Python (currently deepening), speech AI libraries (edge-tts, piper-tts, chatterbox-tts, faster-whisper), pywebview, PyInstaller, Ruby, PHP
+- Design tools: Figma (solid), Adobe Illustrator (good), other Adobe tools (basic)
 
 ## Design and Product Methods
 - Interface / UI design experience across concept-to-implementation workflows
@@ -66,14 +62,15 @@ It intentionally excludes private or out-of-scope material such as politics, rel
 - Git
 - Linux
 - Docker
-- PostgreSQL
+- Supabase
+- GitHub Actions
 - Figma
-- Jira
-- Confluence
+- Adobe Illustrator
+- Jira and Confluence (used intensively in the past, less recently)
 
 ## Leadership and Communication
-- Spokesperson, FH Salzburg (MultiMediaTechnology)
-- Department representative (STV and Kollegium)
+- Year spokesperson, FH Salzburg (MultiMediaTechnology)
+- Student representation (STV) and Kollegium, FH Salzburg; member of the committee that developed the new bachelor programme "Code and Interactive Systems"; organised the "Lunch Hour" meet and greet for developers and artists
 - Class spokesperson, HTL Hallein
 - Trained school mediator, active for 3 years at HTL Hallein
 - Teaching and group responsibility as a children's ski instructor
@@ -87,3 +84,4 @@ It intentionally excludes private or out-of-scope material such as politics, rel
 - German - Native
 - English - C1
 - Swedish - B1
+- Hungarian - Learning

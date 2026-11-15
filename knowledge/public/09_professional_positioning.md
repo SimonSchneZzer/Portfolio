@@ -4,6 +4,7 @@ Simon is best positioned in roles and contexts that combine:
 
 - frontend development
 - web technologies
+- AI-supported applications and chat interfaces
 - interface thinking
 - UI / UX awareness
 - structured collaboration

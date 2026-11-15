@@ -21,11 +21,13 @@ The study background includes subjects and project work in areas such as:
 - content management systems
 
 Bachelor thesis:
-- Lazy loading, usability, and performance in a Next.js-based product context
+- Optimising lazy loading: balancing performance and a pleasant user experience in a Next.js-based product context
+
+Interdisciplinary project work together with MultiMediaArt students, for example Progressa.
 
 ## FH Salzburg – University of Applied Sciences
 **MA MultiMediaArt, Producing specialisation**  
-Enrolled
+since 10/2026 (currently 1st semester)
 
 Simon is enrolled in the MultiMediaArt Master's programme at FH Salzburg. His specialisation is Producing, which is relevant to his professional direction because it connects creative project work with production, coordination, and project management.
 

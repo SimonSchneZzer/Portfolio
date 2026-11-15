@@ -3,7 +3,7 @@
 ## Languages
 - German — Native
 - English — C1
-- Swedish — B1
+- Swedish — B1 (conservative estimate)
 - Hungarian — Learning
 
 ## Relevant Interests
@@ -20,3 +20,6 @@ The following interests can be relevant in a portfolio context because they supp
 ### Culture
 - Traveling
 - History
+
+### Other
+- Cooking
