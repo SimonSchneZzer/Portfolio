@@ -25,7 +25,7 @@
 - Other Adobe tools (basic)
 
 ## Methods and Tools
-- Scrum and product ownership (Professional Scrum Product Owner I, Scrum.org)
+- Scrum and product ownership (preparing for PSPO I, not yet certified)
 - Software project management
 - Interface design
 - Jira and Confluence (used intensively in the past, less recently)

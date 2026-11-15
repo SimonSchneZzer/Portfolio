@@ -8,25 +8,24 @@ It intentionally excludes private or out-of-scope material such as politics, rel
 - Name: Simon Schnetzer
 - Location: Salzburg, Austria
 - Professional framing: Frontend-focused developer working on AI-supported applications, moving toward product, team, and project responsibility
-- Current status: BSc MultiMediaTechnology completed; since 10/2026 in the MultiMediaArt Master's at FH Salzburg with a Producing specialisation (1st semester)
+- Current status: BSc MultiMediaTechnology completed; since autumn 2026 in the MultiMediaArt Master's at FH Salzburg with a Producing specialisation (1st semester)
 - Current role: Frontend Developer at neke-neke, part-time alongside his studies since 02/2026 (around 10 hours per week), after an internship there from 09/2025 to 12/2025
-- Certification: Professional Scrum Product Owner I (PSPO I), Scrum.org, 2026
+- Scrum: preparing for the Professional Scrum Product Owner I (PSPO I) certification; not yet certified
 
 ## Education
 - FH Salzburg - University of Applied Sciences: BSc MultiMediaTechnology, 09/2023 - 06/2026
-- Bachelor exam passed: 15 June 2026
-- Official graduation ceremony: 6 July 2026
-- Bachelor thesis: optimising lazy loading, balancing performance and a pleasant user experience in a Next.js-based product context
-- FH Salzburg - University of Applied Sciences: MA MultiMediaArt, Producing specialisation, since 10/2026
+- Bachelor completed in June 2026 (Bachelor of Science in Engineering); Simon gave a speech at the graduation ceremony (Sponsion)
+- Bachelor thesis: Lazy-loading strategies in a Next.js application: impact on performance and perceived usability (comparing implementation strategies, analysing technical performance metrics, and connecting objective measurements with how users perceive usability)
+- FH Salzburg - University of Applied Sciences: Master's MultiMediaArt, Producing specialisation, since autumn 2026, expected completion 2028
 - HTL Hallein: Business Informatics / Industrial Engineering, 09/2017 - 06/2022
 - HTL Hallein: Austrian Reife- und Diplompruefung completed
 - HTL Hallein diploma thesis: Market research on the use of sustainable packaging material in retail
 - Gymnasium Hallein: STEM-focused (Realgymnasium), 09/2013 - 07/2017
 
 ## Work Experience
-- neke-neke: Frontend Developer, part-time alongside studies, since 02/2026
+- neke-neke GmbH: Frontend Developer, part-time alongside studies, since 02/2026, Puch bei Hallein (Salzburg), hybrid
 - neke-neke: Intern, Frontend Development, 09/2025 - 12/2025, then taken on part-time
-- neke-neke client projects (no client names due to a confidentiality agreement): practice management system with AI phone assistance for a network of medical practices; web interface for drone control and video monitoring; chat frontends for AI applications. Simon's role in these: UX design and frontend development
+- neke-neke client projects (no client names due to a confidentiality agreement): end-to-end practice management system with AI phone assistance in healthcare; interfaces for technical monitoring systems; chat frontends for AI applications. Simon's role in these: UX design and frontend development
 - neke-neke contributions: connecting the frontend to Python backends and AI interfaces, wireframes and interface decisions in fast iteration cycles, requirements and feedback loops with stakeholders, communication between neke-neke and a client, occasional system architecture contributions
 - neke-neke client acquisition: Simon brought in a new client who is still an active client
 - neke-neke tech stack: React, TypeScript, Tailwind CSS, Python, Figma

@@ -1,14 +1,14 @@
 # Work Experience
 
-## neke-neke
+## neke-neke GmbH
 **Frontend Developer (part-time, alongside studies)**  
-since 02/2026, Salzburg
+since 02/2026, Puch bei Hallein (Salzburg), hybrid
 
 Before that: **Intern, Frontend Development**, 09/2025 – 12/2025. Simon was taken on from the internship into a part-time position.
 
-Client projects (described without client names because of a confidentiality agreement):
-- practice management system with AI phone assistance for a network of medical practices (healthcare): UX design and frontend development
-- web interface for drone control and video monitoring: UX design and frontend development
+Client projects in sensitive industries such as healthcare and technical monitoring systems (described only at a general level because of a confidentiality agreement):
+- end-to-end practice management system with AI phone assistance in healthcare (healthcare): UX design and frontend development
+- interfaces for technical monitoring systems: UX design and frontend development
 - chat frontends for AI applications, comparable to ChatGPT- or Claude-style interfaces
 
 Responsibilities and contributions:

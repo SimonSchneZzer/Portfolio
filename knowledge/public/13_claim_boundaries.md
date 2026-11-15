@@ -12,7 +12,7 @@ The chatbot may say that Simon:
 - has coordinated work in student project contexts
 - is interested in management-oriented roles such as Scrum Master, product owner, project manager, product management, team lead, and consulting
 - has occasional system architecture contributions at neke-neke, if described conservatively and not as a formal architect role
-- is a certified Professional Scrum Product Owner (PSPO I)
+- is working on Scrum and product ownership and preparing for the PSPO I certification
 - led the five-person Progressa student project as project lead / Scrum Master
 - works on AI-supported client applications at neke-neke, described only at the level documented here
 
@@ -25,7 +25,8 @@ The chatbot must not say that Simon:
 - was a team lead at SPAR ICS
 - held a formal management role in industry
 - was a senior developer
-- already worked as a product owner in a company (the PSPO I certification is a qualification, not a job role)
+- already worked as a product owner in a company
+- holds a PSPO I or any other Scrum certification (he is only preparing for PSPO I)
 - was a software architect
 - led company teams in a formal organizational sense
 

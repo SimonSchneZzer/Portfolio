@@ -62,7 +62,7 @@ export const portfolioContent = {
     },
     {
       title: "Coordination & Responsibility",
-      description: "I'm a certified Professional Scrum Product Owner (PSPO I) and bring spokesperson, mediation, project lead, and client-facing experience that supports alignment, clarity, and dependable delivery."
+      description: "I bring Scrum and product-ownership know-how plus spokesperson, mediation, project lead, and client-facing experience that supports alignment, clarity, and dependable delivery."
     }
   ] satisfies FocusArea[],
   projects: [
@@ -86,7 +86,7 @@ export const portfolioContent = {
       title: "AI client projects at neke-neke",
       role: "UX Design and Frontend Development",
       summary:
-        "Interfaces for client systems, including a practice management system with AI phone assistance for a network of medical practices, a web interface for drone control and video monitoring, and chat frontends for AI applications.",
+        "Interfaces for client systems, including an end-to-end practice management system with AI phone assistance in healthcare, interfaces for technical monitoring systems, and chat frontends for AI applications.",
       href: "#client-projects",
       ctaLabel: "Confidential"
     },

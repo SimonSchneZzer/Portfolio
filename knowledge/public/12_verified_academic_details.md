@@ -3,9 +3,7 @@
 ## FH Salzburg – MultiMediaTechnology
 Completed BSc MultiMediaTechnology, 09/2023 - 06/2026.
 
-Bachelor exam passed: 15 June 2026.
-
-Official graduation ceremony: 6 July 2026.
+Completed in June 2026. Simon gave a speech at the graduation ceremony (Sponsion).
 
 Documented study areas include:
 - frontend development
@@ -25,7 +23,7 @@ Bachelor thesis focus:
 - lazy loading, usability, and performance in a Next.js-based product context
 
 ## FH Salzburg – MultiMediaArt Master
-Enrolled since 10/2026, currently in the 1st semester.
+Enrolled since autumn 2026, currently in the 1st semester, expected completion 2028.
 
 Specialisation:
 - Producing

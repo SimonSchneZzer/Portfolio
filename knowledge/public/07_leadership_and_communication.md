@@ -8,6 +8,7 @@ Simon brings leadership and communication experience across academic, educationa
   - member of the committee that developed the new bachelor programme "Code and Interactive Systems", which replaces MultiMediaTechnology from the 2026/27 winter semester
   - organised the "Lunch Hour", a meet and greet for developers and artists to connect across disciplines
 - Class spokesperson, HTL Hallein
+- gave a speech at his bachelor graduation ceremony (Sponsion) at FH Salzburg
 - Project lead / Scrum Master of the five-person Progressa team
 
 ## Mediation and Communication
@@ -22,10 +23,10 @@ Simon brings leadership and communication experience across academic, educationa
 - clear instruction and communication in high-responsibility settings
 - civilian service at Kinderschutzzentrum Salzburg, which required discretion and responsibility
 
-## Certifications
-- Professional Scrum Product Owner I (PSPO I), Scrum.org, 2026
+## Qualifications and Training
 - school mediator training
 - Landesskilehrer 1 (including the Anwärter level)
+- currently preparing for the Professional Scrum Product Owner I (PSPO I) certification; not yet certified
 
 ## Collaboration Profile
 These experiences suggest that Simon is comfortable in roles that require:

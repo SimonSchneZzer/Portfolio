@@ -57,8 +57,8 @@ Link: https://portfolio.fh-salzburg.ac.at/projects/2025-lsd-lazy-student-dashboa
 **Role:** UX Design and Frontend Development
 
 Because of a confidentiality agreement, these are described without client names or internal details:
-- practice management system with AI phone assistance for a network of medical practices
-- web interface for drone control and video monitoring
+- end-to-end practice management system with AI phone assistance in healthcare
+- interfaces for technical monitoring systems
 - chat frontends for AI applications
 
 ## Seek Discomfort
