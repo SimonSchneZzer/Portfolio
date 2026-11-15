@@ -3,7 +3,8 @@ import Fastify from "fastify";
 import cors from "@fastify/cors";
 import { z } from "zod";
 import { config } from "./config.js";
-import { assessConversationScope } from "./guardrails.js";
+import { streamCloudflareChat } from "./cloudflare.js";
+import { assessConversationScope, detectLanguage } from "./guardrails.js";
 import { loadKnowledgeBase, retrieveRelevantContext } from "./kb.js";
 import { streamOllamaChat } from "./ollama.js";
 import { buildOllamaMessages } from "./prompt.js";
@@ -32,6 +33,38 @@ function streamText(text: string, writeEvent: (payload: unknown) => void) {
   }
 }
 
+const rateLimitWindowMs = 60 * 60 * 1000;
+const requestLog = new Map<string, number[]>();
+
+/** Simple in-memory sliding-window limit per client IP, so one visitor cannot drain the free daily quota. */
+function isRateLimited(ip: string) {
+  const now = Date.now();
+  const recent = (requestLog.get(ip) ?? []).filter((timestamp) => now - timestamp < rateLimitWindowMs);
+
+  if (recent.length >= config.rateLimitPerHour) {
+    requestLog.set(ip, recent);
+    return true;
+  }
+
+  recent.push(now);
+  requestLog.set(ip, recent);
+
+  if (requestLog.size > 10000) {
+    for (const [key, timestamps] of requestLog) {
+      if (timestamps.every((timestamp) => now - timestamp >= rateLimitWindowMs)) {
+        requestLog.delete(key);
+      }
+    }
+  }
+
+  return false;
+}
+
+const rateLimitReply = {
+  de: "Du hast in kurzer Zeit sehr viele Fragen gestellt. Bitte versuch es in einer Stunde wieder oder kontaktiere mich direkt.",
+  en: "You have asked a lot of questions in a short time. Please try again in an hour or contact me directly."
+};
+
 function getStreamingCorsHeaders(origin: string | undefined) {
   if (!origin || !config.allowedOrigins.includes(origin)) {
     return {};
@@ -45,7 +78,9 @@ function getStreamingCorsHeaders(origin: string | undefined) {
 
 export async function buildServer() {
   const app = Fastify({
-    logger: true
+    logger: true,
+    // Requests arrive through Caddy, so the client IP is in X-Forwarded-For.
+    trustProxy: true
   });
 
   const knowledgeBase = await loadKnowledgeBase(config.kbIndexPath);
@@ -64,7 +99,9 @@ export async function buildServer() {
 
   app.get("/api/health", async () => ({
     ok: true,
-    model: config.ollamaModel,
+    provider: config.llmProvider,
+    model: config.llmProvider === "cloudflare" ? config.cloudflareModel : config.ollamaModel,
+    fallbackModel: config.llmProvider === "cloudflare" ? config.ollamaModel : null,
     ollamaBaseUrl: config.ollamaBaseUrl,
     kbGeneratedAt: knowledgeBase.generatedAt,
     kbChunks: knowledgeBase.totalChunks
@@ -99,7 +136,13 @@ export async function buildServer() {
       });
     }
 
-    const scopeAssessment = assessConversationScope(conversation);
+    const rateLimited = isRateLimited(request.ip);
+    const scopeAssessment = rateLimited
+      ? {
+          blocked: true,
+          reply: rateLimitReply[detectLanguage(latestUserMessage.content)]
+        }
+      : assessConversationScope(conversation, { strict: config.llmProvider !== "cloudflare" });
     const retrieval = scopeAssessment.blocked
       ? {
           chunks: [],
@@ -128,20 +171,59 @@ export async function buildServer() {
       if (scopeAssessment.blocked) {
         streamText(scopeAssessment.reply ?? "This chat is limited to my professional profile.", writeEvent);
       } else {
-        const ollamaMessages = buildOllamaMessages(systemPrompt, conversation, retrieval.chunks);
+        const writeToken = (token: string) => {
+          writeEvent({
+            type: "token",
+            token
+          });
+        };
+        let answeredByCloud = false;
 
-        await streamOllamaChat({
-          baseUrl: config.ollamaBaseUrl,
-          model: config.ollamaModel,
-          messages: ollamaMessages,
-          timeoutMs: config.ollamaRequestTimeoutMs,
-          onToken: (token) => {
-            writeEvent({
-              type: "token",
-              token
+        if (config.llmProvider === "cloudflare") {
+          // The whole knowledge base is small (~6k tokens), so the cloud model gets all of it instead of a keyword subset.
+          const cloudMessages = buildOllamaMessages(systemPrompt, conversation, knowledgeBase.chunks);
+          let streamedTokens = 0;
+
+          try {
+            const startedAt = Date.now();
+            const usage = await streamCloudflareChat({
+              accountId: config.cloudflareAccountId,
+              apiToken: config.cloudflareApiToken,
+              model: config.cloudflareModel,
+              messages: cloudMessages,
+              maxTokens: config.cloudflareMaxOutputTokens,
+              timeoutMs: config.cloudflareRequestTimeoutMs,
+              onToken: (token) => {
+                streamedTokens += 1;
+                writeToken(token);
+              }
             });
+
+            if (streamedTokens === 0) {
+              throw new Error("Cloudflare Workers AI returned an empty answer.");
+            }
+
+            answeredByCloud = true;
+            request.log.info({ provider: "cloudflare", ms: Date.now() - startedAt, ...usage }, "llm answer");
+          } catch (error) {
+            // Fall back to Ollama only if nothing was streamed yet; otherwise the answer would be mixed.
+            if (streamedTokens > 0) {
+              throw error;
+            }
+
+            request.log.warn(error, "Cloudflare Workers AI failed, falling back to Ollama");
           }
-        });
+        }
+
+        if (!answeredByCloud) {
+          await streamOllamaChat({
+            baseUrl: config.ollamaBaseUrl,
+            model: config.ollamaModel,
+            messages: buildOllamaMessages(systemPrompt, conversation, retrieval.chunks),
+            timeoutMs: config.ollamaRequestTimeoutMs,
+            onToken: writeToken
+          });
+        }
       }
 
       writeEvent({

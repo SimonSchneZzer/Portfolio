@@ -11,7 +11,9 @@ RUN pnpm install
 COPY apps/api/tsconfig.json ./tsconfig.json
 COPY apps/api/src ./src
 COPY knowledge /app/knowledge
-COPY data /app/data
+COPY scripts /app/scripts
+# data/kb-index.json is not in git, so build it from the current knowledge base on every image build.
+RUN node /app/scripts/build-kb.mjs
 
 RUN pnpm build
 

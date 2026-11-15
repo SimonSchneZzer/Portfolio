@@ -99,7 +99,7 @@ RUNTIME RULES
     },
     {
       role: "user" as const,
-      content: `Relevant knowledge base context:
+      content: `Knowledge base context:
 ${formatContext(chunks)}
 
 Recent conversation:

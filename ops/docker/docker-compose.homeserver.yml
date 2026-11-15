@@ -8,7 +8,13 @@ services:
       context: ../..
       dockerfile: ops/docker/api.Dockerfile
     container_name: portfolio-api
+    # Secrets (CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_API_TOKEN) live only on the server, see homeserver.env.example.
+    env_file:
+      - homeserver.env
     environment:
+      LLM_PROVIDER: cloudflare
+      CLOUDFLARE_MODEL: "@cf/google/gemma-4-26b-a4b-it"
+      RATE_LIMIT_PER_HOUR: 30
       API_HOST: 0.0.0.0
       API_PORT: 4000
       OLLAMA_BASE_URL: http://192.168.8.50:11434

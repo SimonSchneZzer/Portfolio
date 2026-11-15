@@ -78,7 +78,7 @@ const allowPatterns = [
   /\b(projects?|projekte?|internships?|praktika|experience|erfahrung|work experience|berufserfahrung)\b/i,
   /\b(leadership|communication|mediation|sprecher|spokesperson|representative|leadership style)\b/i,
   /\b(languages?|sprachen|english|german|swedish|hungarian)\b/i,
-  /\b(school|schule|university|hochschule|college|class|course|subject|fach|gelernt|learned|learn|studier|taught|unterricht|curriculum|module|modul|bachelor|master|multimediaart|producing|thesis|htl|fh)\b/i,
+  /\b(school|schule|university|hochschule|college|class|course|subject|fach|gelernt|learned|learn|studier\w*|studied|studying|studies|taught|unterricht|curriculum|module|modul|bachelor|master|multimediaart|producing|thesis|htl|fh)\b/i,
   /\b(future direction|where is simon heading|where are you heading|what kind of role fits simon|what kind of role fits you|welche rolle passt|welche rolle passt zu dir|berufliche richtung|professional direction|management|teamlead|team lead|scrum master|product owner|project manager|product manager|consultant|consulting)\b/i
 ];
 
@@ -160,7 +160,7 @@ function normalize(text: string) {
     .trim();
 }
 
-function detectLanguage(text: string): SupportedLanguage {
+export function detectLanguage(text: string): SupportedLanguage {
   const normalized = normalize(text);
   const germanSignals =
     /\b(wer|wie|was|welche|welcher|wieso|warum|beruflich|projekt|projekte|ausbildung|erfahrung|praktika|arbeitsweise|zusammenarbeit|starken|staerken|sprachen|gehalt|verfugbarkeit|verfuegbarkeit|hallo|servus)\b/i;
@@ -176,7 +176,12 @@ function looksLikeGreeting(text: string) {
   return /^(hi|hello|hey|servus|hallo|guten tag|good morning|good afternoon|good evening)\b/i.test(text.trim());
 }
 
-export function assessConversationScope(messages: ChatMessage[]) {
+/**
+ * Topic-based blocks (political, medical, private details, ...) always apply.
+ * `strict` additionally blocks every question without a known professional keyword; that is only
+ * needed for the small local fallback model, a capable cloud model follows the system prompt itself.
+ */
+export function assessConversationScope(messages: ChatMessage[], { strict = true }: { strict?: boolean } = {}) {
   const latestUserMessage = [...messages].reverse().find((message) => message.role === "user")?.content ?? "";
   const normalized = normalize(latestUserMessage);
   const language = detectLanguage(latestUserMessage);
@@ -197,6 +202,12 @@ export function assessConversationScope(messages: ChatMessage[]) {
   }
 
   if (allowPatterns.some((pattern) => pattern.test(normalized))) {
+    return {
+      blocked: false
+    };
+  }
+
+  if (!strict) {
     return {
       blocked: false
     };
