@@ -1,0 +1,39 @@
+# Homeserver deployment (ssh homeserver, ~/Portfolio/ops/docker).
+# Uses the shared Caddy from ~/ai-server (external network ai-net) instead of its own,
+# and the Ollama model that is actually installed there.
+# Deploy: git pull && docker compose -f docker-compose.homeserver.yml up -d --build
+services:
+  api:
+    build:
+      context: ../..
+      dockerfile: ops/docker/api.Dockerfile
+    container_name: portfolio-api
+    environment:
+      API_HOST: 0.0.0.0
+      API_PORT: 4000
+      OLLAMA_BASE_URL: http://192.168.8.50:11434
+      OLLAMA_MODEL: qwen2.5:3b
+      OLLAMA_REQUEST_TIMEOUT_MS: 120000
+      ALLOWED_ORIGINS: https://simon.schnetzer.at,http://simon.schnetzer.at,http://192.168.8.50
+      KB_INDEX_PATH: /app/data/kb-index.json
+      SYSTEM_PROMPT_PATH: /app/knowledge/system-prompt.md
+    restart: unless-stopped
+    networks:
+      - ai-net
+
+  web:
+    build:
+      context: ../..
+      dockerfile: ops/docker/web.Dockerfile
+      args:
+        NEXT_PUBLIC_CHAT_API_URL: /api/chat
+    container_name: portfolio-web
+    depends_on:
+      - api
+    restart: unless-stopped
+    networks:
+      - ai-net
+
+networks:
+  ai-net:
+    external: true

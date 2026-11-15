@@ -50,3 +50,4 @@ Portfolio chatbot for Simon Schnetzer. The stack is intentionally lean:
 - Default chat model is `qwen2.5:3b`.
 - The copied public KB and the generated index both exclude the `Date of birth` line to keep the chatbot aligned with the agreed scope.
 - For production, see `ops/docker/`.
+- Homeserver deploy: `cd ~/Portfolio && git pull && cd ops/docker && docker compose -f docker-compose.homeserver.yml up -d --build` (uses the shared Caddy in `~/ai-server`).
