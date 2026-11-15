@@ -1318,17 +1318,22 @@ h3 {
   animation: assistant-char-in 160ms ease-out both;
 }
 
-/* each newly revealed word drifts up softly and comes into focus */
+/* words stay unbroken; each newly revealed letter drifts up softly and comes into focus */
 .md-word {
   display: inline-block;
-  animation: md-word-float-in 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
 }
 
-@keyframes md-word-float-in {
+.md-char {
+  display: inline-block;
+  white-space: pre;
+  animation: md-char-float-in 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes md-char-float-in {
   from {
     opacity: 0;
-    transform: translateY(0.45em);
-    filter: blur(3px);
+    transform: translateY(0.4em);
+    filter: blur(2px);
   }
 
   to {
@@ -2079,7 +2084,7 @@ h3 {
   .chat-modal-backdrop,
   .assistant-typing-char,
   .assistant-typing-caret,
-  .md-word,
+  .md-char,
   .project-card-body,
   .project-card-details,
   .project-logo {

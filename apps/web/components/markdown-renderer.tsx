@@ -166,18 +166,25 @@ function renderPlainText(text: string, keyPrefix: string): ReactNode[] {
 
   parts.forEach((part, index) => {
     if (part) {
-      // Each word gets its own span so newly revealed words can float in; keys stay stable as text grows.
+      // Words stay together (no line break inside a word), and every letter gets its own span so newly
+      // revealed letters can float in. Keys are positional, so they stay stable while the text grows.
       part.split(/(\s+)/).forEach((piece, pieceIndex) => {
         if (!piece) {
           return;
         }
 
+        const key = `${keyPrefix}-text-${index}-${pieceIndex}`;
+
         nodes.push(
           /^\s+$/.test(piece) ? (
-            <Fragment key={`${keyPrefix}-text-${index}-${pieceIndex}`}>{piece}</Fragment>
+            <Fragment key={key}>{piece}</Fragment>
           ) : (
-            <span key={`${keyPrefix}-text-${index}-${pieceIndex}`} className="md-word">
-              {piece}
+            <span key={key} className="md-word">
+              {Array.from(piece).map((character, characterIndex) => (
+                <span key={characterIndex} className="md-char">
+                  {character}
+                </span>
+              ))}
             </span>
           )
         );

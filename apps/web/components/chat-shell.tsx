@@ -86,7 +86,7 @@ const thinkingPhrases = [
   { label: "Drafting the reply", durationMs: 1900 }
 ];
 const thinkingLabelTransitionMs = 360;
-const assistantRevealTickMs = 55;
+const assistantRevealTickMs = 16;
 
 const apiUrl = process.env.NEXT_PUBLIC_CHAT_API_URL ?? "/api/chat";
 
@@ -206,33 +206,37 @@ function AnimatedAssistantMarkdown({
   text: string;
   isStreaming: boolean;
 }) {
-  // Reveal word by word; every new word floats in via the .md-word animation.
-  const words = text.match(/\S+\s*/g) ?? [];
-  const [visibleWords, setVisibleWords] = useState(0);
+  // Reveal letter by letter; every new letter floats in via the .md-char animation.
+  const [visibleCount, setVisibleCount] = useState(0);
 
   useEffect(() => {
-    if (words.length === 0) {
-      setVisibleWords(0);
+    if (!text) {
+      setVisibleCount(0);
       return;
     }
 
-    if (visibleWords >= words.length) {
+    if (visibleCount >= text.length) {
       return;
     }
 
     const timeoutId = window.setTimeout(() => {
       // Catch up faster when the stream is far ahead, so the reveal never lags behind noticeably.
-      const remaining = words.length - visibleWords;
-      setVisibleWords((current) => Math.min(current + (remaining > 40 ? 3 : remaining > 15 ? 2 : 1), words.length));
+      const remaining = text.length - visibleCount;
+      setVisibleCount((current) => Math.min(current + (remaining > 400 ? 4 : remaining > 120 ? 2 : 1), text.length));
     }, assistantRevealTickMs);
 
     return () => window.clearTimeout(timeoutId);
-  }, [words.length, visibleWords]);
+  }, [text, visibleCount]);
 
-  let visibleText = words.slice(0, visibleWords).join("");
+  let visibleText = text.slice(0, visibleCount);
+
+  // A half-revealed "**" would show a stray asterisk for a moment.
+  if (visibleCount < text.length) {
+    visibleText = visibleText.replace(/\*+$/, "");
+  }
 
   // Hide an opening ** until its closing pair has arrived, so raw asterisks never flash up.
-  if (isStreaming || visibleWords < words.length) {
+  if (isStreaming || visibleCount < text.length) {
     const boldMarkers = visibleText.match(/\*\*/g)?.length ?? 0;
 
     if (boldMarkers % 2 === 1) {
