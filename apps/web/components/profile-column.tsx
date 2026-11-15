@@ -331,6 +331,8 @@ export function ProfileColumn() {
                 <a
                   key={action.label}
                   href={action.href}
+                  target={action.newTab ? "_blank" : undefined}
+                  rel={action.newTab ? "noopener noreferrer" : undefined}
                   className={`hero-action hero-action-${action.emphasis}`}
                 >
                   <span className="hero-action-icon" aria-hidden="true">

@@ -15,7 +15,8 @@ export interface FeaturedProject {
   role: string;
   summary: string;
   logo: ProjectLogoName;
-  href: string;
+  /** Opened in a new tab when the title or logo is clicked; leave out for projects without a public page */
+  href?: string;
   ctaLabel: string;
 }
 
@@ -23,6 +24,7 @@ export interface HeroAction {
   label: string;
   detail?: string;
   href: string;
+  newTab?: boolean;
   icon: LinkIconName;
   emphasis: "primary" | "secondary";
 }
@@ -49,6 +51,7 @@ export const portfolioContent = {
     {
       label: "View CV",
       href: "/simon-schnetzer-cv.pdf",
+      newTab: true,
       icon: "cv",
       emphasis: "secondary"
     }
@@ -95,7 +98,6 @@ export const portfolioContent = {
       role: "UX Design and Frontend Development",
       summary:
         "Interfaces for client systems, from an AI-supported practice management system in healthcare to technical monitoring and chat frontends for AI.",
-      href: "#client-projects",
       ctaLabel: "Confidential"
     },
     {
@@ -104,8 +106,8 @@ export const portfolioContent = {
       role: "Prompt Engineer / Fullstack Developer",
       summary:
         "The chat on this page: Next.js and Fastify, a curated knowledge base with guardrails, and Gemma 4 on Cloudflare with my home server as fallback.",
-      href: "#chatbot",
-      ctaLabel: "You are using it"
+      href: "https://github.com/SimonSchneZzer/Portfolio",
+      ctaLabel: "Source code"
     }
   ] satisfies FeaturedProject[],
   links: [
