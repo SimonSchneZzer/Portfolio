@@ -1,0 +1,18 @@
+# Notes for AI assistants
+
+Portfolio of Simon Schnetzer with an AI chat: https://simon.schnetzer.at. The owner writes in German; answer in German.
+
+## Remind the owner about SEO
+
+Whenever a change touches content (a new or changed project, a new page, a new role or employer, a new CV, a change to the knowledge base), finish by reminding the owner of the matching steps in `docs/SEO.md`, especially "Indexierung beantragen" for new URLs in Google Search Console. If the last monthly check in `docs/SEO.md` looks overdue, mention it once.
+
+## Rules
+
+- This repo is **public**. Never commit secrets, private contact details (address, phone, date of birth) or confidential client details. neke-neke client work is under NDA: describe it only at the level in `knowledge/public/13_claim_boundaries.md`.
+- PSPO I is **in preparation, not earned**. Never claim the certification.
+- Keep `knowledge/public`, `apps/web/content/*.ts` and the CV consistent. The owner's master CV (outside this repo) is the source of truth.
+- Do not remove the Google verification tag in `apps/web/app/layout.tsx`.
+
+## Deploy (home server)
+
+`ssh homeserver`, then `cd ~/Portfolio && git pull && cd ops/docker && docker compose -f docker-compose.homeserver.yml up -d --build`. Secrets live only in `ops/docker/homeserver.env` on the server. PDFs are gitignored; the CV is copied to `~/Portfolio/apps/web/public/simon-schnetzer-cv.pdf` with `scp`.
