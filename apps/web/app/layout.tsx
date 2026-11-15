@@ -36,7 +36,9 @@ export const metadata: Metadata = {
     title: site.title,
     description: site.description
   },
-  robots: { index: true, follow: true }
+  robots: { index: true, follow: true },
+  // Google Search Console ownership check for https://simon.schnetzer.at (public value, not a secret)
+  verification: { google: "APZWnjxC1jbVlvXb3nSYu2Qzx8F1FQ7Z9tfeUwzWGKE" }
 };
 
 // Structured data so search engines understand who this page is about (and can tell him apart from namesakes).
