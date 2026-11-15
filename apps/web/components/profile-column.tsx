@@ -355,10 +355,12 @@ export function ProfileColumn() {
           <div className="focus-grid">
             {portfolioContent.focusAreas.map((area) => (
               <article key={area.title} className="focus-card">
-                <span className="focus-icon">
-                  <FocusIcon name={area.icon} />
-                </span>
-                <h3>{area.title}</h3>
+                <div className="focus-title-row">
+                  <span className="focus-icon">
+                    <FocusIcon name={area.icon} />
+                  </span>
+                  <h3>{area.title}</h3>
+                </div>
                 <p>{area.description}</p>
               </article>
             ))}
