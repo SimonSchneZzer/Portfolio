@@ -15,7 +15,6 @@ export interface FeaturedProject {
   role: string;
   summary: string;
   logo: ProjectLogoName;
-  tags: string[];
   href: string;
   ctaLabel: string;
 }
@@ -75,40 +74,36 @@ export const portfolioContent = {
     {
       title: "Vorleser",
       logo: "vorleser",
-      tags: ["Python", "Vanilla JS", "Speech AI", "CI/CD"],
       role: "Solo developer, own project",
       summary:
-        "An open-source desktop app for macOS and Windows that turns any text into an audiobook, with natural voices, optional AI voice cloning, word-by-word follow-along, and its own CI/CD release pipeline. I built and published it on my own.",
+        "An open-source desktop app for macOS and Windows that turns any text into an audiobook, with natural voices and optional AI voice cloning. Built and published on my own.",
       href: "https://simonschnezzer.github.io/vorleser-download/",
       ctaLabel: "Download page"
     },
     {
       title: "Progressa",
       logo: "progressa",
-      tags: ["React", "Supabase", "Scrum", "Team of 5"],
       role: "Project lead / Scrum Master and Frontend Developer",
       summary:
-        "A real-time Kanban app with an AI coach, planning poker, and gamification, built in a five-person interdisciplinary team at FH Salzburg. I led the project and worked on the frontend, and we used Progressa to manage our own development.",
+        "A real-time Kanban app with an AI coach, built by a five-person team at FH Salzburg. I led the project, worked on the frontend, and we managed our own work with it.",
       href: "https://app.progressa.team/",
       ctaLabel: "Open app"
     },
     {
-      title: "AI client projects at neke-neke",
+      title: "AI client projects at neke‑neke",
       logo: "ai-client",
-      tags: ["React", "TypeScript", "Tailwind", "Python APIs"],
       role: "UX Design and Frontend Development",
       summary:
-        "Interfaces for client systems, including an end-to-end practice management system with AI phone assistance in healthcare, interfaces for technical monitoring systems, and chat frontends for AI applications.",
+        "Interfaces for client systems, from an AI-supported practice management system in healthcare to technical monitoring and chat frontends for AI.",
       href: "#client-projects",
       ctaLabel: "Confidential"
     },
     {
       title: "Portfolio Chatbot",
       logo: "chatbot",
-      tags: ["Next.js", "Fastify", "Cloudflare AI", "Docker"],
       role: "Prompt Engineer / Fullstack Developer",
       summary:
-        "The chat on this page: a Next.js and Fastify app that answers from a curated knowledge base with guardrails, using Gemma 4 on Cloudflare Workers AI and a self-hosted model on my home server as fallback.",
+        "The chat on this page: Next.js and Fastify, a curated knowledge base with guardrails, and Gemma 4 on Cloudflare with my home server as fallback.",
       href: "#chatbot",
       ctaLabel: "You are using it"
     }

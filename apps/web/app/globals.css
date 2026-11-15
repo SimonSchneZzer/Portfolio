@@ -533,43 +533,33 @@ h3 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
   margin-top: 22px;
+  align-items: start;
 }
 
 .project-card {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: 20px 22px 22px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  height: clamp(150px, 13vw, 168px);
+  padding: 16px 18px;
   border: 1px solid var(--line);
   border-radius: 26px;
   background: rgba(255, 255, 255, 0.48);
-  outline: none;
-  transition:
-    background 260ms ease,
-    border-color 260ms ease,
-    box-shadow 260ms ease,
-    transform 260ms ease;
-}
-
-.project-card-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.project-logo {
-  display: inline-flex;
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+  text-align: left;
+  cursor: pointer;
   overflow: hidden;
-  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
-  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.project-logo svg {
-  width: 100%;
-  height: 100%;
+  transition:
+    height 360ms ease,
+    background 220ms ease,
+    border-color 220ms ease,
+    transform 220ms ease,
+    padding 360ms ease,
+    box-shadow 220ms ease;
+  appearance: none;
 }
 
 .project-number {
@@ -583,35 +573,42 @@ h3 {
 .project-card-body {
   display: grid;
   gap: 6px;
+  width: 100%;
+  transform: translateY(0);
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .project-card h3 {
   font-size: clamp(1.2rem, 1.5vw, 1.45rem);
-  line-height: 1.08;
+  line-height: 1.02;
 }
 
-.project-card-reveal {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+.project-card-details {
+  position: absolute;
+  right: 22px;
+  bottom: 22px;
+  left: 22px;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition:
+    opacity 220ms ease,
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.project-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 0;
-  padding: 0;
-  list-style: none;
+.project-card .project-summary {
+  opacity: 1;
+  transform: none;
+  transition: none;
 }
 
-.project-tags li {
-  padding: 4px 10px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  color: var(--muted);
-  font-size: 0.78rem;
-  letter-spacing: 0.02em;
+.project-card.is-expanded {
+  height: clamp(292px, 25vw, 320px);
+  padding: 22px 22px 118px;
+}
+
+.project-card.is-expanded .project-card-body {
+  transform: translateY(-4px);
 }
 
 .project-card.is-active {
@@ -620,54 +617,66 @@ h3 {
   box-shadow: 0 18px 36px rgba(15, 28, 39, 0.08);
 }
 
+.project-card.is-expanded .project-card-details {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 180ms;
+}
+
+.project-card:hover {
+  transform: translateY(-1px);
+}
+
 .project-card:focus-visible {
   outline: 2px solid rgba(180, 123, 82, 0.26);
   outline-offset: 2px;
 }
 
-/*
- * Hover devices with the two-column grid: summary and tags share one grid cell. The cell is as tall as the
- * longer of the two, so cards never change height; only opacity and position animate.
- */
-@media (hover: hover) and (min-width: 921px) {
-  .project-card-reveal {
-    display: grid;
-    margin-top: auto;
+@media (hover: hover) {
+  .project-card:hover {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(0, 0, 0, 0.16);
+  }
+}
+
+.project-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.project-logo {
+  display: inline-flex;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-logo svg {
+  width: 100%;
+  height: 100%;
+}
+
+.project-card.is-active .project-logo {
+  transform: scale(1.06) rotate(-3deg);
+}
+
+/* Touch devices and the single-column layout: no hover, so every card simply shows its summary. */
+@media (hover: none), (max-width: 920px) {
+  .project-card,
+  .project-card.is-expanded {
+    height: auto;
+    padding: 20px 22px 22px;
   }
 
-  .project-card-reveal > * {
-    grid-area: 1 / 1;
-  }
-
-  .project-card .project-summary {
-    opacity: 0;
-    transform: translateY(12px);
-    transition:
-      opacity 260ms ease,
-      transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .project-card .project-tags {
-    align-self: end;
-    transition:
-      opacity 260ms ease 120ms,
-      transform 420ms cubic-bezier(0.22, 1, 0.36, 1) 120ms;
-  }
-
-  .project-card.is-active .project-summary {
+  .project-card-details {
+    position: static;
     opacity: 1;
     transform: none;
-    transition-delay: 120ms;
-  }
-
-  .project-card.is-active .project-tags {
-    opacity: 0;
-    transform: translateY(-8px);
-    transition-delay: 0ms;
-  }
-
-  .project-card.is-active .project-logo {
-    transform: scale(1.06) rotate(-3deg);
   }
 }
 
@@ -2014,8 +2023,8 @@ h3 {
   .assistant-typing-char,
   .assistant-typing-caret,
   .md-word,
-  .project-summary,
-  .project-tags,
+  .project-card-body,
+  .project-card-details,
   .project-logo {
     animation: none !important;
     transition-duration: 0ms !important;

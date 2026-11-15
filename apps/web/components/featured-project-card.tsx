@@ -4,40 +4,41 @@ import type { FeaturedProject } from "@/content/portfolio";
 interface FeaturedProjectCardProps {
   project: FeaturedProject;
   index: number;
+  isExpanded: boolean;
   isActive: boolean;
   onActivate: () => void;
 }
 
-/**
- * On hover devices the active card shows its summary and the others show tech tags. Summary and tags share
- * one grid cell, so switching never changes the card height (no layout jumps). On touch devices both are shown.
- */
-export function FeaturedProjectCard({ project, index, isActive, onActivate }: FeaturedProjectCardProps) {
+export function FeaturedProjectCard({
+  project,
+  index,
+  isExpanded,
+  isActive,
+  onActivate
+}: FeaturedProjectCardProps) {
   return (
-    <article
-      className={`project-card${isActive ? " is-active" : ""}`}
-      tabIndex={0}
+    <button
+      type="button"
+      className={`project-card${isExpanded ? " is-expanded" : ""}${isActive ? " is-active" : ""}`}
       onMouseEnter={onActivate}
       onFocus={onActivate}
+      onClick={onActivate}
+      aria-expanded={isExpanded}
     >
-      <div className="project-card-head">
-        <span className="project-logo">
-          <ProjectLogo name={project.logo} />
-        </span>
-        <span className="project-number">{String(index + 1).padStart(2, "0")}</span>
-      </div>
+      <span className="project-number">0{index + 1}</span>
       <div className="project-card-body">
-        <h3>{project.title}</h3>
+        <div className="project-title-row">
+          <span className="project-logo">
+            <ProjectLogo name={project.logo} />
+          </span>
+          <h3>{project.title}</h3>
+        </div>
         <p className="project-role">{project.role}</p>
       </div>
-      <div className="project-card-reveal">
+
+      <div className="project-card-details" aria-hidden={!isExpanded}>
         <p className="project-summary">{project.summary}</p>
-        <ul className="project-tags" aria-label="Technologies">
-          {project.tags.map((tag) => (
-            <li key={tag}>{tag}</li>
-          ))}
-        </ul>
       </div>
-    </article>
+    </button>
   );
 }
