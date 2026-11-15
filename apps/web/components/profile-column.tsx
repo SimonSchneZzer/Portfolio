@@ -5,9 +5,7 @@ import { createPortal } from "react-dom";
 import { FeaturedProjectCard } from "@/components/featured-project-card";
 import { portfolioContent, type HeroAction, type LinkIconName } from "@/content/portfolio";
 
-const projectCardSwitchMs = 360;
 const portraitTransitionMs = 320;
-const singleColumnProjectsMedia = "(max-width: 920px)";
 
 function LinkIcon({ icon }: { icon: LinkIconName }) {
   if (icon === "cv") {
@@ -58,12 +56,9 @@ function LinkIcon({ icon }: { icon: LinkIconName }) {
 }
 
 export function ProfileColumn() {
-  const [activeProjectIndex, setActiveProjectIndex] = useState(0);
-  const [outgoingProjectIndex, setOutgoingProjectIndex] = useState<number | null>(null);
   const [isPortraitMounted, setIsPortraitMounted] = useState(false);
   const [isPortraitVisible, setIsPortraitVisible] = useState(false);
   const [portraitOverlayBounds, setPortraitOverlayBounds] = useState<{ left: number; width: number } | null>(null);
-  const collapseTimerRef = useRef<number | null>(null);
   const portraitTransitionTimerRef = useRef<number | null>(null);
   const portraitFrameRef = useRef<number | null>(null);
   const portraitLightboxFrameRef = useRef<HTMLDivElement | null>(null);
@@ -71,10 +66,6 @@ export function ProfileColumn() {
 
   useEffect(() => {
     return () => {
-      if (collapseTimerRef.current) {
-        window.clearTimeout(collapseTimerRef.current);
-      }
-
       if (portraitTransitionTimerRef.current) {
         window.clearTimeout(portraitTransitionTimerRef.current);
       }
@@ -270,35 +261,6 @@ export function ProfileColumn() {
     }, portraitTransitionMs);
   }
 
-  function handleProjectActivate(index: number) {
-    if (index === activeProjectIndex) {
-      return;
-    }
-
-    if (collapseTimerRef.current) {
-      window.clearTimeout(collapseTimerRef.current);
-      collapseTimerRef.current = null;
-    }
-
-    const previousIndex = activeProjectIndex;
-    const projectGridColumns = window.matchMedia(singleColumnProjectsMedia).matches ? 1 : 2;
-    const isCrossRowSwitch = Math.floor(previousIndex / projectGridColumns) !== Math.floor(index / projectGridColumns);
-
-    if (isCrossRowSwitch) {
-      setOutgoingProjectIndex(null);
-      setActiveProjectIndex(index);
-      return;
-    }
-
-    setOutgoingProjectIndex(previousIndex);
-    setActiveProjectIndex(index);
-
-    collapseTimerRef.current = window.setTimeout(() => {
-      setOutgoingProjectIndex((current) => (current === previousIndex ? null : current));
-      collapseTimerRef.current = null;
-    }, projectCardSwitchMs);
-  }
-
   return (
     <>
       <section ref={profileColumnRef} className="profile-column">
@@ -317,24 +279,13 @@ export function ProfileColumn() {
               </button>
               <div className="name-h1-wrap">
                 <h1>{portfolioContent.name}</h1>
-                <p className="profile-subtitle">{portfolioContent.eyebrow}</p>
+                <div className="profile-status" aria-label="Current status">
+                  <span className="profile-status-dot" aria-hidden="true" />
+                  <span className="profile-status-text">{portfolioContent.statusLine}</span>
+                </div>
               </div>
-            </div>
-            <div className="profile-status" aria-label="Current status">
-              <span className="profile-status-dot" aria-hidden="true" />
-              <span className="profile-status-text">{portfolioContent.statusLine}</span>
             </div>
             <p className="profile-headline">{portfolioContent.headline}</p>
-
-            {portfolioContent.summary.length > 0 ? (
-              <div className="profile-summary-group">
-                {portfolioContent.summary.map((paragraph) => (
-                  <p key={paragraph} className="profile-summary">
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
-            ) : null}
 
             <div className="hero-actions" aria-label="Primary contact actions">
               {portfolioContent.primaryActions.map((action: HeroAction) => (
@@ -384,9 +335,6 @@ export function ProfileColumn() {
                 key={project.title}
                 project={project}
                 index={index}
-                isExpanded={activeProjectIndex === index || outgoingProjectIndex === index}
-                isActive={activeProjectIndex === index}
-                onActivate={() => handleProjectActivate(index)}
               />
             ))}
           </div>

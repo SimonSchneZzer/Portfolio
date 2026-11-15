@@ -29,13 +29,9 @@ export interface ProfileLink {
 }
 
 export const portfolioContent = {
-  eyebrow: "Developer moving toward product and team leadership",
   name: "Simon Schnetzer",
-  statusLine: "Frontend Developer at neke-neke. BSc graduate, Producing master's student.",
-  headline: "I build clear digital interfaces and connect frontend execution with product thinking, coordination, and delivery quality.",
-  summary: [
-    "I work best where frontend implementation, interface quality, and close collaboration with design, product, and management come together."
-  ],
+  statusLine: "Frontend Developer at neke-neke · Producing master's student",
+  headline: "I build clear interfaces for AI-supported products, with an eye for product, coordination, and delivery.",
   highlightChips: ["Frontend & UI", "Product & team coordination", "Management-oriented direction"],
   primaryActions: [
     {
@@ -89,14 +85,6 @@ export const portfolioContent = {
         "Interfaces for client systems, including an end-to-end practice management system with AI phone assistance in healthcare, interfaces for technical monitoring systems, and chat frontends for AI applications.",
       href: "#client-projects",
       ctaLabel: "Confidential"
-    },
-    {
-      title: "Lazy Student Dashboard",
-      role: "Frontend Developer and UX Designer",
-      summary:
-        "A Next.js web app that helps students track attendance and study progress, with timetable import from .ics files, ECTS and teaching-unit progress, and a course configurator.",
-      href: "https://portfolio.fh-salzburg.ac.at/projects/2025-lsd-lazy-student-dashboard",
-      ctaLabel: "Project page"
     },
     {
       title: "Portfolio Chatbot",
