@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowIcon, ProjectLogo } from "@/components/brand-icons";
+import { ActionIcon, ArrowIcon, ProjectLogo } from "@/components/brand-icons";
 import { caseStudies, getCaseStudy } from "@/content/case-studies";
 import { site } from "@/content/site";
 import "./project-page.css";
@@ -104,11 +104,13 @@ export default async function ProjectPage({ params }: { params: Params }) {
               <a
                 key={link.href}
                 href={link.href}
-                className="hero-action hero-action-secondary"
+                className="hero-action hero-action-secondary project-page-action"
                 target={external ? "_blank" : undefined}
                 rel={external ? "noopener noreferrer" : undefined}
               >
-                {link.label} <ArrowIcon direction={external ? "up-right" : "right"} />
+                <ActionIcon kind={link.icon} />
+                {link.label}
+                {external && link.icon !== "app" ? <ArrowIcon direction="up-right" size={12} /> : null}
               </a>
             );
           })}

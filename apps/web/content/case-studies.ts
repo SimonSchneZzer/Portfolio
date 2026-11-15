@@ -1,5 +1,7 @@
 import type { ProjectLogoName } from "@/content/portfolio";
 
+export type LinkIconKind = "download" | "github" | "chat" | "app" | "school";
+
 /** Long-form project pages (/projects/[slug]). Public facts only, taken from the knowledge base. */
 export interface CaseStudy {
   slug: string;
@@ -12,7 +14,7 @@ export interface CaseStudy {
   period: string;
   tagline: string;
   image: { src: string; alt: string };
-  links: { label: string; href: string }[];
+  links: { label: string; href: string; icon: LinkIconKind }[];
   intro: string[];
   sections: { heading: string; items: string[] }[];
   stack: string[];
@@ -33,8 +35,8 @@ export const caseStudies: CaseStudy[] = [
     tagline: "Turns any text into an audiobook – free, without an account.",
     image: { src: "/images/projects/vorleser.jpg", alt: "Download page of the Vorleser app with the app icon and download buttons for macOS and Windows" },
     links: [
-      { label: "Download page", href: "https://simonschnezzer.github.io/vorleser-download/" },
-      { label: "Source code on GitHub", href: "https://github.com/SimonSchneZzer/vorleser" }
+      { label: "Download page", href: "https://simonschnezzer.github.io/vorleser-download/", icon: "download" },
+      { label: "Source code on GitHub", href: "https://github.com/SimonSchneZzer/vorleser", icon: "github" }
     ],
     intro: [
       "Vorleser reads EPUB, PDF, plain text, Markdown, HTML and pasted text aloud in natural German and English voices. It also works offline, and if you want, it reads with your own voice as a local AI model that runs on your computer.",
@@ -79,8 +81,8 @@ export const caseStudies: CaseStudy[] = [
     tagline: "Real-time Kanban boards, planning poker, an AI coach and XP rewards.",
     image: { src: "/images/projects/progressa.jpg", alt: "Landing page of Progressa with the headline and a preview of the Kanban board" },
     links: [
-      { label: "Progressa", href: "https://app.progressa.team/" },
-      { label: "FH Salzburg project page", href: "https://portfolio.fh-salzburg.ac.at/projects/2026-progressa" }
+      { label: "Open Progressa", href: "https://app.progressa.team/", icon: "app" },
+      { label: "FH Salzburg project page", href: "https://portfolio.fh-salzburg.ac.at/projects/2026-progressa", icon: "school" }
     ],
     intro: [
       "Progressa is a project management app for small teams, built in an interdisciplinary team of MultiMediaTechnology and MultiMediaArt students at FH Salzburg.",
@@ -120,8 +122,8 @@ export const caseStudies: CaseStudy[] = [
     tagline: "A portfolio you can talk to – grounded in a curated knowledge base.",
     image: { src: "/images/projects/chatbot.jpg", alt: "The portfolio page of Simon Schnetzer with the chat panel answering a question" },
     links: [
-      { label: "Try the chat", href: "/#chat" },
-      { label: "Source code on GitHub", href: "https://github.com/SimonSchneZzer/Portfolio" }
+      { label: "Try the chat", href: "/#chat", icon: "chat" },
+      { label: "Source code on GitHub", href: "https://github.com/SimonSchneZzer/Portfolio", icon: "github" }
     ],
     intro: [
       "Instead of a static CV page, visitors can ask the portfolio questions and get answers in my voice – in English or German.",

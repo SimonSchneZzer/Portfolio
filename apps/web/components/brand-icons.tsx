@@ -136,3 +136,61 @@ export function ArrowIcon({ direction = "right", size = 14 }: { direction?: "rig
     </svg>
   );
 }
+
+/** Leading icons for action links; each part has a class so CSS can animate it on hover. */
+export function ActionIcon({ kind }: { kind: "download" | "github" | "chat" | "app" | "school" }) {
+  const stroke = {
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.9,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const
+  };
+
+  return (
+    <svg className={`action-icon action-icon-${kind}`} width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">
+      {kind === "download" ? (
+        <>
+          <g className="ai-arrow" {...stroke}>
+            <line x1="12" y1="3.5" x2="12" y2="14.5" />
+            <polyline points="7.5,10.5 12,15 16.5,10.5" />
+          </g>
+          <path className="ai-tray" {...stroke} d="M4 15.5v2.5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2.5" />
+        </>
+      ) : null}
+      {kind === "github" ? (
+        <path
+          className="ai-octo"
+          fill="currentColor"
+          d="M12 .5a11.5 11.5 0 0 0-3.64 22.41c.58.1.79-.25.79-.56v-2c-3.2.7-3.87-1.37-3.87-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.15.08 1.76 1.19 1.76 1.19 1.03 1.76 2.69 1.25 3.35.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.25.45-2.28 1.19-3.08-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a11 11 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.8 1.19 1.83 1.19 3.08 0 4.41-2.69 5.39-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 12 .5z"
+        />
+      ) : null}
+      {kind === "chat" ? (
+        <>
+          <path className="ai-bubble" {...stroke} d="M21 11.5a8 8 0 0 1-11.6 7.1L4 20l1.1-4.6A8 8 0 1 1 21 11.5z" />
+          <g className="ai-dots" fill="currentColor">
+            <circle cx="9" cy="11.5" r="1.1" />
+            <circle cx="12.5" cy="11.5" r="1.1" />
+            <circle cx="16" cy="11.5" r="1.1" />
+          </g>
+        </>
+      ) : null}
+      {kind === "app" ? (
+        <>
+          <path className="ai-window" {...stroke} d="M10 4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4" />
+          <g className="ai-launch" {...stroke}>
+            <line x1="11" y1="13" x2="20" y2="4" />
+            <polyline points="14,4 20,4 20,10" />
+          </g>
+        </>
+      ) : null}
+      {kind === "school" ? (
+        <g className="ai-cap" {...stroke}>
+          <path d="M2.5 9.5 12 5l9.5 4.5L12 14z" />
+          <path d="M6.5 11.5v4c0 1.4 2.5 2.8 5.5 2.8s5.5-1.4 5.5-2.8v-4" />
+          <line x1="21.5" y1="9.5" x2="21.5" y2="14.5" />
+        </g>
+      ) : null}
+    </svg>
+  );
+}
