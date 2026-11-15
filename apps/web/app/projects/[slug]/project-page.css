@@ -184,11 +184,37 @@
 }
 
 .project-page-home {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
   margin-top: 20px;
+  padding: 0 22px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.project-page-home .arrow-icon {
+  margin-left: 0;
+}
+
+.project-page-home-icon {
+  flex-shrink: 0;
 }
 
 @media (max-width: 640px) {
   .project-page-more-grid {
     grid-template-columns: 1fr;
+  }
+
+  .project-page-home {
+    display: flex;
+    width: 100%;
+  }
+
+  .project-page-links .hero-action {
+    flex: 1 1 auto;
+    justify-content: center;
   }
 }

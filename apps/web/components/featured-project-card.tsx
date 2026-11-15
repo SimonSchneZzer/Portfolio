@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ProjectLogo } from "@/components/brand-icons";
+import { ArrowIcon, ProjectLogo } from "@/components/brand-icons";
 import type { FeaturedProject } from "@/content/portfolio";
 
 interface FeaturedProjectCardProps {
@@ -63,7 +63,7 @@ export function FeaturedProjectCard({
         <p className="project-summary">{project.summary}</p>
         {project.caseStudy ? (
           <Link href={`/projects/${project.caseStudy}`} className="project-more-link" tabIndex={isExpanded ? 0 : -1}>
-            Read the case study →
+            Read the case study <ArrowIcon size={13} />
           </Link>
         ) : null}
       </div>

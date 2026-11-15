@@ -106,3 +106,33 @@ export function ProjectLogo({ name }: { name: ProjectLogoName }) {
       );
   }
 }
+
+/** Inline arrow icons. Text arrows like "↗" turn into emoji on iOS, so links use these instead. */
+export function ArrowIcon({ direction = "right", size = 14 }: { direction?: "right" | "up-right"; size?: number }) {
+  return (
+    <svg
+      className="arrow-icon"
+      width={size}
+      height={size}
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      {direction === "right" ? (
+        <>
+          <line x1="3" y1="8" x2="13" y2="8" />
+          <polyline points="9,4 13,8 9,12" />
+        </>
+      ) : (
+        <>
+          <line x1="4.5" y1="11.5" x2="11.5" y2="4.5" />
+          <polyline points="5.5,4.5 11.5,4.5 11.5,10.5" />
+        </>
+      )}
+    </svg>
+  );
+}

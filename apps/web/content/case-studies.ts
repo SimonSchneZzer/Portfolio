@@ -120,7 +120,7 @@ export const caseStudies: CaseStudy[] = [
     tagline: "A portfolio you can talk to – grounded in a curated knowledge base.",
     image: { src: "/images/projects/chatbot.jpg", alt: "The portfolio page of Simon Schnetzer with the chat panel answering a question" },
     links: [
-      { label: "Try the chat", href: "/" },
+      { label: "Try the chat", href: "/#chat" },
       { label: "Source code on GitHub", href: "https://github.com/SimonSchneZzer/Portfolio" }
     ],
     intro: [

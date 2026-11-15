@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ProjectLogo } from "@/components/brand-icons";
+import { ArrowIcon, ProjectLogo } from "@/components/brand-icons";
 import { caseStudies, getCaseStudy } from "@/content/case-studies";
 import { site } from "@/content/site";
 import "./project-page.css";
@@ -108,7 +108,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
                 target={external ? "_blank" : undefined}
                 rel={external ? "noopener noreferrer" : undefined}
               >
-                {link.label} {external ? "↗" : "→"}
+                {link.label} <ArrowIcon direction={external ? "up-right" : "right"} />
               </a>
             );
           })}
@@ -161,8 +161,12 @@ export default async function ProjectPage({ params }: { params: Params }) {
             </Link>
           ))}
         </div>
-        <Link href="/" className="hero-action hero-action-primary project-page-home">
-          Ask me about my work in the chat →
+        <Link href="/#chat" className="hero-action hero-action-primary project-page-home">
+          <svg className="project-page-home-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1.1-4.6A8 8 0 1 1 21 12z" />
+          </svg>
+          Ask me about my work in the chat
+          <ArrowIcon />
         </Link>
       </nav>
     </main>

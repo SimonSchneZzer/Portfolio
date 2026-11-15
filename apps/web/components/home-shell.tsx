@@ -3,6 +3,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { ChatShell } from "@/components/chat-shell";
 import { ProfileColumn } from "@/components/profile-column";
+import { VorleserToast } from "@/components/vorleser-toast";
 
 const morphDurationMs = 480;
 const morphEasing = "cubic-bezier(0.22, 1, 0.36, 1)";
@@ -75,6 +76,32 @@ export function HomeShell() {
     return () => {
       mediaQuery.removeEventListener("change", handleChange);
     };
+  }, []);
+
+  // Links like "/#chat" (from the project pages) open the chat and put the cursor in the input.
+  useEffect(() => {
+    const openChatFromHash = () => {
+      if (window.location.hash !== "#chat") {
+        return;
+      }
+
+      window.history.replaceState(null, "", window.location.pathname + window.location.search);
+
+      if (window.matchMedia(mobileChatDefaultMedia).matches) {
+        setPillVisible(false);
+        setIsCondensed(false);
+      } else {
+        document.querySelector(".chat-column")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      window.setTimeout(() => {
+        document.querySelector<HTMLTextAreaElement>(".chat-panel textarea")?.focus({ preventScroll: true });
+      }, 450);
+    };
+
+    openChatFromHash();
+    window.addEventListener("hashchange", openChatFromHash);
+    return () => window.removeEventListener("hashchange", openChatFromHash);
   }, []);
 
   useEffect(() => {
@@ -309,6 +336,8 @@ export function HomeShell() {
         <span className="avatar-surface chat-pill-avatar" aria-hidden="true" />
         <span className="chat-pill-label">Chat with me</span>
       </button>
+
+      <VorleserToast />
     </main>
   );
 }

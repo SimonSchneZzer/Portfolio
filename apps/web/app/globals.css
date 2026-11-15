@@ -2109,3 +2109,20 @@ h3 {
     transition-duration: 0ms !important;
   }
 }
+
+/* SVG arrows inside text links and buttons */
+.arrow-icon {
+  display: inline-block;
+  flex-shrink: 0;
+  margin-left: 6px;
+  vertical-align: -0.1em;
+  transition: transform 200ms ease;
+}
+
+a:hover > .arrow-icon {
+  transform: translateX(2px);
+}
+
+.hero-action .arrow-icon {
+  margin-left: 0;
+}
