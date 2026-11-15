@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ProjectLogo } from "@/components/brand-icons";
 import type { FeaturedProject } from "@/content/portfolio";
 
@@ -60,6 +61,11 @@ export function FeaturedProjectCard({
 
       <div className="project-card-details" aria-hidden={!isExpanded}>
         <p className="project-summary">{project.summary}</p>
+        {project.caseStudy ? (
+          <Link href={`/projects/${project.caseStudy}`} className="project-more-link" tabIndex={isExpanded ? 0 : -1}>
+            Read the case study →
+          </Link>
+        ) : null}
       </div>
     </div>
   );

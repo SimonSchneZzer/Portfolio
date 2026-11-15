@@ -17,6 +17,8 @@ export interface FeaturedProject {
   logo: ProjectLogoName;
   /** Opened in a new tab when the title or logo is clicked; leave out for projects without a public page */
   href?: string;
+  /** Slug of the project page under /projects (case study) */
+  caseStudy?: string;
   ctaLabel: string;
 }
 
@@ -76,6 +78,7 @@ export const portfolioContent = {
   projects: [
     {
       title: "Vorleser",
+      caseStudy: "vorleser",
       logo: "vorleser",
       role: "Solo developer, own project",
       summary:
@@ -85,6 +88,7 @@ export const portfolioContent = {
     },
     {
       title: "Progressa",
+      caseStudy: "progressa",
       logo: "progressa",
       role: "Project lead / Scrum Master and Frontend Developer",
       summary:
@@ -102,6 +106,7 @@ export const portfolioContent = {
     },
     {
       title: "Portfolio Chatbot",
+      caseStudy: "portfolio-chatbot",
       logo: "chatbot",
       role: "Prompt Engineer / Fullstack Developer",
       summary:

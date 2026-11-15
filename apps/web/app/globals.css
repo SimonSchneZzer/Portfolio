@@ -609,8 +609,8 @@ h3 {
 }
 
 .project-card.is-expanded {
-  height: clamp(292px, 25vw, 320px);
-  padding: 22px 22px 118px;
+  height: clamp(318px, 27vw, 346px);
+  padding: 22px 22px 142px;
 }
 
 .project-card.is-expanded .project-card-body {
@@ -624,6 +624,7 @@ h3 {
 }
 
 .project-card.is-expanded .project-card-details {
+  pointer-events: auto;
   opacity: 1;
   transform: translateY(0);
   transition-delay: 180ms;
@@ -649,6 +650,21 @@ h3 {
   display: flex;
   align-items: center;
   gap: 12px;
+}
+
+.project-more-link {
+  display: inline-block;
+  margin-top: 10px;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 4px;
+}
+
+.project-more-link:hover {
+  text-decoration-color: currentColor;
 }
 
 .project-link {
@@ -734,6 +750,7 @@ h3 {
     position: static;
     opacity: 1;
     transform: none;
+    pointer-events: auto;
   }
 }
 
