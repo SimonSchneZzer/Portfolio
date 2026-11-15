@@ -507,6 +507,19 @@ h3 {
   border-top: 1px solid var(--line);
 }
 
+.focus-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  margin-bottom: 14px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--surface);
+  color: var(--text);
+}
+
 .focus-card h3 {
   font-size: 1.25rem;
 }
@@ -525,15 +538,38 @@ h3 {
 .project-card {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 14px;
   padding: 20px 22px 22px;
   border: 1px solid var(--line);
   border-radius: 26px;
   background: rgba(255, 255, 255, 0.48);
+  outline: none;
   transition:
-    background 220ms ease,
-    border-color 220ms ease,
-    transform 220ms ease;
+    background 260ms ease,
+    border-color 260ms ease,
+    box-shadow 260ms ease,
+    transform 260ms ease;
+}
+
+.project-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.project-logo {
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-logo svg {
+  width: 100%;
+  height: 100%;
 }
 
 .project-number {
@@ -554,15 +590,84 @@ h3 {
   line-height: 1.08;
 }
 
-.project-card .project-summary {
-  margin-top: 4px;
+.project-card-reveal {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
 }
 
-@media (hover: hover) {
-  .project-card:hover {
-    transform: translateY(-1px);
-    background: rgba(255, 255, 255, 0.7);
-    border-color: rgba(0, 0, 0, 0.16);
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.project-tags li {
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+
+.project-card.is-active {
+  background: rgba(255, 255, 255, 0.74);
+  border-color: rgba(0, 0, 0, 0.18);
+  box-shadow: 0 18px 36px rgba(15, 28, 39, 0.08);
+}
+
+.project-card:focus-visible {
+  outline: 2px solid rgba(180, 123, 82, 0.26);
+  outline-offset: 2px;
+}
+
+/*
+ * Hover devices with the two-column grid: summary and tags share one grid cell. The cell is as tall as the
+ * longer of the two, so cards never change height; only opacity and position animate.
+ */
+@media (hover: hover) and (min-width: 921px) {
+  .project-card-reveal {
+    display: grid;
+    margin-top: auto;
+  }
+
+  .project-card-reveal > * {
+    grid-area: 1 / 1;
+  }
+
+  .project-card .project-summary {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 260ms ease,
+      transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .project-card .project-tags {
+    align-self: end;
+    transition:
+      opacity 260ms ease 120ms,
+      transform 420ms cubic-bezier(0.22, 1, 0.36, 1) 120ms;
+  }
+
+  .project-card.is-active .project-summary {
+    opacity: 1;
+    transform: none;
+    transition-delay: 120ms;
+  }
+
+  .project-card.is-active .project-tags {
+    opacity: 0;
+    transform: translateY(-8px);
+    transition-delay: 0ms;
+  }
+
+  .project-card.is-active .project-logo {
+    transform: scale(1.06) rotate(-3deg);
   }
 }
 
@@ -922,6 +1027,10 @@ h3 {
     background 140ms ease;
 }
 
+.starter-chip-label-short {
+  display: none;
+}
+
 .starter-chip-label {
   min-width: 0;
   overflow: hidden;
@@ -1141,6 +1250,26 @@ h3 {
 .assistant-typing-char {
   display: inline-block;
   animation: assistant-char-in 160ms ease-out both;
+}
+
+/* each newly revealed word drifts up softly and comes into focus */
+.md-word {
+  display: inline-block;
+  animation: md-word-float-in 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes md-word-float-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.45em);
+    filter: blur(3px);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
 }
 
 .thinking-indicator {
@@ -1426,6 +1555,12 @@ h3 {
 
   .project-card {
     background: rgba(255, 255, 255, 0.04);
+  }
+
+  .project-card.is-active {
+    background: rgba(255, 255, 255, 0.075);
+    border-color: rgba(255, 255, 255, 0.14);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.3);
   }
 
   @media (hover: hover) {
@@ -1831,6 +1966,23 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .hero-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero-action {
+    justify-content: center;
+  }
+
+  .starter-chip-label-full {
+    display: none;
+  }
+
+  .starter-chip-label-short {
+    display: block;
+  }
+
   /* answers may use the full width on phones */
   .chat-message.assistant .message-card {
     max-width: 100%;
@@ -1860,7 +2012,11 @@ h3 {
   .chat-column.is-mobile-modal,
   .chat-modal-backdrop,
   .assistant-typing-char,
-  .assistant-typing-caret {
+  .assistant-typing-caret,
+  .md-word,
+  .project-summary,
+  .project-tags,
+  .project-logo {
     animation: none !important;
     transition-duration: 0ms !important;
   }

@@ -2,6 +2,7 @@
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { FocusIcon } from "@/components/brand-icons";
 import { FeaturedProjectCard } from "@/components/featured-project-card";
 import { portfolioContent, type HeroAction, type LinkIconName } from "@/content/portfolio";
 
@@ -56,6 +57,7 @@ function LinkIcon({ icon }: { icon: LinkIconName }) {
 }
 
 export function ProfileColumn() {
+  const [activeProjectIndex, setActiveProjectIndex] = useState(0);
   const [isPortraitMounted, setIsPortraitMounted] = useState(false);
   const [isPortraitVisible, setIsPortraitVisible] = useState(false);
   const [portraitOverlayBounds, setPortraitOverlayBounds] = useState<{ left: number; width: number } | null>(null);
@@ -316,6 +318,9 @@ export function ProfileColumn() {
           <div className="focus-grid">
             {portfolioContent.focusAreas.map((area) => (
               <article key={area.title} className="focus-card">
+                <span className="focus-icon">
+                  <FocusIcon name={area.icon} />
+                </span>
                 <h3>{area.title}</h3>
                 <p>{area.description}</p>
               </article>
@@ -335,6 +340,8 @@ export function ProfileColumn() {
                 key={project.title}
                 project={project}
                 index={index}
+                isActive={activeProjectIndex === index}
+                onActivate={() => setActiveProjectIndex(index)}
               />
             ))}
           </div>

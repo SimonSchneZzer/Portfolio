@@ -21,6 +21,8 @@ interface ChatMessage {
 
 interface StarterPrompt {
   label: string;
+  /** Shorter label for phones, where the long one would be cut off */
+  shortLabel: string;
   prompt: string;
 }
 
@@ -44,28 +46,35 @@ type StreamEvent =
 const starterPrompts: StarterPrompt[] = [
   {
     label: "What strengths do you bring to a product team?",
+    shortLabel: "Your strengths in a team?",
     prompt: "What strengths do you bring to a product team?"
   },
   {
     label: "Which projects best show your business impact?",
+    shortLabel: "Projects with real impact?",
     prompt: "Which projects best show your business impact?"
   },
   {
     label: "How do you work with designers, PMs, and stakeholders?",
+    shortLabel: "Working with designers?",
     prompt: "How do you work with designers, PMs, and stakeholders?"
   },
   {
     label: "What level of ownership do you take in a team?",
+    shortLabel: "How much ownership?",
     prompt: "What level of ownership do you take in a team?"
   }
 ];
 
-const defaultPlaceholder = "Ask what I could bring to your team.";
+const defaultPlaceholder = "Ask me about my work.";
 const animatedPlaceholderPrompts = [
   "What strengths do you bring to our team?",
   "Which projects best show your impact?",
   "How do you work with designers and PMs?"
 ];
+// Short enough to fit the input field on phones
+const compactPlaceholderPrompts = ["Your key strengths?", "Your best projects?", "How do you work in teams?"];
+const compactPromptsMedia = "(max-width: 640px)";
 const thinkingPhrases = [
   { label: "Thinking", durationMs: 1700 },
   { label: "Reviewing context", durationMs: 2300 },
@@ -77,7 +86,7 @@ const thinkingPhrases = [
   { label: "Drafting the reply", durationMs: 1900 }
 ];
 const thinkingLabelTransitionMs = 360;
-const assistantRevealTickMs = 18;
+const assistantRevealTickMs = 55;
 
 const apiUrl = process.env.NEXT_PUBLIC_CHAT_API_URL ?? "/api/chat";
 
@@ -151,10 +160,6 @@ function createMessage(role: Role, content: string): ChatMessage {
   };
 }
 
-function hasRichMarkdownSyntax(text: string) {
-  return /(^|\n)\s*(?:[-*+]\s+|\d+\.\s+|#{1,6}\s+|>\s+)|\[[^\]]+\]\([^)]+\)|`{1,3}|\*\*|__/m.test(text);
-}
-
 function ThinkingIndicator() {
   const [phraseIndex, setPhraseIndex] = useState(0);
   const [outgoingPhrase, setOutgoingPhrase] = useState<string | null>(null);
@@ -201,59 +206,38 @@ function AnimatedAssistantMarkdown({
   text: string;
   isStreaming: boolean;
 }) {
-  const [visibleCount, setVisibleCount] = useState(0);
+  // Reveal word by word; every new word floats in via the .md-word animation.
+  const words = text.match(/\S+\s*/g) ?? [];
+  const [visibleWords, setVisibleWords] = useState(0);
 
   useEffect(() => {
-    if (!text) {
-      setVisibleCount(0);
+    if (words.length === 0) {
+      setVisibleWords(0);
       return;
     }
 
-    setVisibleCount((current) => {
-      if (text.length < current) {
-        return text.length;
-      }
-
-      return current;
-    });
-
-    if (visibleCount >= text.length) {
+    if (visibleWords >= words.length) {
       return;
     }
 
-    const intervalId = window.setInterval(() => {
-      setVisibleCount((current) => {
-        if (current >= text.length) {
-          window.clearInterval(intervalId);
-          return current;
-        }
-
-        const remaining = text.length - current;
-        const step = remaining > 120 ? 2 : 1;
-        return Math.min(current + step, text.length);
-      });
+    const timeoutId = window.setTimeout(() => {
+      // Catch up faster when the stream is far ahead, so the reveal never lags behind noticeably.
+      const remaining = words.length - visibleWords;
+      setVisibleWords((current) => Math.min(current + (remaining > 40 ? 3 : remaining > 15 ? 2 : 1), words.length));
     }, assistantRevealTickMs);
 
-    return () => {
-      window.clearInterval(intervalId);
-    };
-  }, [text, visibleCount]);
+    return () => window.clearTimeout(timeoutId);
+  }, [words.length, visibleWords]);
 
-  const visibleText = text.slice(0, visibleCount);
-  const isComplete = visibleCount >= text.length;
-  const showCaret = isStreaming || !isComplete;
+  let visibleText = words.slice(0, visibleWords).join("");
 
-  if (!hasRichMarkdownSyntax(text) && !isComplete) {
-    return (
-      <span className="assistant-typing-text">
-        {Array.from(visibleText).map((character, index) => (
-          <span key={`${index}-${character}`} className="assistant-typing-char">
-            {character}
-          </span>
-        ))}
-        {showCaret ? <span className="assistant-typing-caret" aria-hidden="true" /> : null}
-      </span>
-    );
+  // Hide an opening ** until its closing pair has arrived, so raw asterisks never flash up.
+  if (isStreaming || visibleWords < words.length) {
+    const boldMarkers = visibleText.match(/\*\*/g)?.length ?? 0;
+
+    if (boldMarkers % 2 === 1) {
+      visibleText = visibleText.slice(0, visibleText.lastIndexOf("**"));
+    }
   }
 
   return (
@@ -342,11 +326,12 @@ export function ChatShell({
     let isDeleting = false;
     let timeoutId: number | undefined;
 
-    setAnimatedPlaceholder(animatedPlaceholderPrompts[promptIndex]);
+    const prompts = window.matchMedia(compactPromptsMedia).matches ? compactPlaceholderPrompts : animatedPlaceholderPrompts;
+    setAnimatedPlaceholder(prompts[promptIndex]);
     setAnimatedPlaceholderVisibleCount(0);
 
     const tick = () => {
-      const prompt = animatedPlaceholderPrompts[promptIndex];
+      const prompt = prompts[promptIndex];
       setAnimatedPlaceholder(prompt);
 
       if (!isDeleting) {
@@ -370,7 +355,7 @@ export function ChatShell({
       setAnimatedPlaceholderVisibleCount(Math.max(characterCount, 0));
 
       if (characterCount === 0) {
-        promptIndex = (promptIndex + 1) % animatedPlaceholderPrompts.length;
+        promptIndex = (promptIndex + 1) % prompts.length;
         isDeleting = false;
         timeoutId = window.setTimeout(tick, 340);
         return;
@@ -614,7 +599,8 @@ export function ChatShell({
             <div className="starter-stack" aria-label="Starter prompts">
               {starterPrompts.map((starter) => (
                 <button key={starter.label} type="button" className="starter-chip" onClick={() => void runChat(starter.prompt)}>
-                  <span className="starter-chip-label">{starter.label}</span>
+                  <span className="starter-chip-label starter-chip-label-full">{starter.label}</span>
+                  <span className="starter-chip-label starter-chip-label-short">{starter.shortLabel}</span>
                   <span className="starter-chip-arrow" aria-hidden="true">
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="3" y1="8" x2="13" y2="8" />

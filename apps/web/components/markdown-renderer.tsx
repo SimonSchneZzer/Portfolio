@@ -166,7 +166,22 @@ function renderPlainText(text: string, keyPrefix: string): ReactNode[] {
 
   parts.forEach((part, index) => {
     if (part) {
-      nodes.push(<Fragment key={`${keyPrefix}-text-${index}`}>{part}</Fragment>);
+      // Each word gets its own span so newly revealed words can float in; keys stay stable as text grows.
+      part.split(/(\s+)/).forEach((piece, pieceIndex) => {
+        if (!piece) {
+          return;
+        }
+
+        nodes.push(
+          /^\s+$/.test(piece) ? (
+            <Fragment key={`${keyPrefix}-text-${index}-${pieceIndex}`}>{piece}</Fragment>
+          ) : (
+            <span key={`${keyPrefix}-text-${index}-${pieceIndex}`} className="md-word">
+              {piece}
+            </span>
+          )
+        );
+      });
     }
 
     if (index < parts.length - 1) {
