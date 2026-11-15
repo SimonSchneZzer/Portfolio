@@ -1,0 +1,97 @@
+.error-screen {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px 16px;
+}
+
+.error-card {
+  position: relative;
+  width: min(640px, 100%);
+  padding: clamp(28px, 6vw, 48px);
+  overflow: hidden;
+}
+
+.error-code {
+  font-size: clamp(5rem, 22vw, 9rem);
+  font-weight: 600;
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  color: var(--text);
+  opacity: 0.1;
+  user-select: none;
+  animation: error-code-in 700ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.error-title {
+  margin-top: 8px;
+  font-size: clamp(2rem, 6vw, 3rem);
+  line-height: 1.05;
+}
+
+.error-copy {
+  margin-top: 16px;
+  max-width: 46ch;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
+.error-copy p + p {
+  margin-top: 10px;
+}
+
+.error-copy code {
+  padding: 1px 6px;
+  border-radius: 6px;
+  background: var(--navy-soft);
+  color: var(--text);
+  font-size: 0.92em;
+  word-break: break-all;
+}
+
+.error-actions {
+  margin-top: 28px;
+}
+
+.error-actions button {
+  cursor: pointer;
+}
+
+.error-elsewhere {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.error-elsewhere a {
+  color: var(--text);
+  text-decoration: underline;
+  text-decoration-color: var(--line-strong);
+  text-underline-offset: 3px;
+  transition: text-decoration-color 140ms ease;
+}
+
+.error-elsewhere a:hover {
+  text-decoration-color: currentColor;
+}
+
+@keyframes error-code-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 0.1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .error-code {
+    animation: none;
+  }
+}
