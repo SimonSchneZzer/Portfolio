@@ -3,7 +3,7 @@ import Link from "next/link";
 import "../projects/[slug]/project-page.css";
 import "./legal-page.css";
 
-// Imprint (§ 25 MedienG, small website) and privacy notice (GDPR Art. 13).
+// Imprint (§ 25 MedienG, small website) and privacy notice (GDPR Art. 13), also for /compass (Curriculum Compass).
 // Keep this in sync with what the site really does: visit counter (components/visit-counter.tsx, GoatCounter on the
 // home server), access logs (Caddy, masked IPs), chat (apps/api, Cloudflare Workers AI) and sessionStorage (Vorleser toast).
 export const metadata: Metadata = {
@@ -91,6 +91,16 @@ export default function LegalPage() {
           <p>
             The site remembers in your browser&apos;s session storage whether you have already closed the notice about
             the Vorleser project. This is not sent anywhere and is deleted when you close the tab.
+          </p>
+
+          <h2>Curriculum Compass</h2>
+          <p>
+            <a href="/compass/">Curriculum Compass</a> is an unofficial overview of the FH Salzburg curricula on
+            this site. The programme, major, electives and expanded courses you choose are saved in your browser&apos;s
+            local storage and never sent to the server. So that it also works offline, the app keeps its files and the
+            curricula in your browser&apos;s cache. You can delete both at any time in your browser settings. The visit
+            statistics described above also count which programme pages are opened, without your selections. The
+            &ldquo;Report it&rdquo; link only opens GitHub when you click it.
           </p>
 
           <h2>Links to other websites</h2>
