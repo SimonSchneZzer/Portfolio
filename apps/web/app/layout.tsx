@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { site } from "@/content/site";
+import { VisitCounter } from "@/components/visit-counter";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -76,6 +77,7 @@ export default function RootLayout({ children }: Readonly<{ children: ReactNode 
       <body>
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }} />
         {children}
+        <VisitCounter />
       </body>
     </html>
   );
