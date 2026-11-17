@@ -100,8 +100,14 @@ export default function LegalPage() {
             this site. The programme, major, electives and expanded courses you choose are saved in your browser&apos;s
             local storage and never sent to the server. So that it also works offline, the app keeps its files and the
             curricula in your browser&apos;s cache. You can delete both at any time in your browser settings. The visit
-            statistics described above also count which programme pages are opened, without your selections. The
-            &ldquo;Report it&rdquo; link only opens GitHub when you click it.
+            statistics described above also count which programme pages are opened, without your selections.
+          </p>
+          <p>
+            If you use &ldquo;Report a problem or idea&rdquo;, your message is sent through the form service Web3Forms,
+            which forwards it to me as an e-mail. It contains what you write, your e-mail address only if you enter one,
+            and – unless you untick it – technical details shown in the form before sending (programme, page address,
+            data date, language, browser and window size). I use it only to answer and to fix the problem, and delete
+            the e-mail when it is done. Legal basis: your request (Art. 6(1)(b) GDPR).
           </p>
 
           <h2>Vorleser</h2>
