@@ -2,6 +2,15 @@
 
 Stand: 15.11.2026 · Google Search Console: Property `https://simon.schnetzer.at` (bestätigt per Meta-Tag)
 
+## Einmalig offen (Stand 17.11.2026)
+
+- [ ] Search Console → „URL prüfen“ → **Indexierung beantragen** für `https://simon.schnetzer.at/compass/` und
+      `https://simon.schnetzer.at/vorleser/` (beide seit 17.11. auf dieser Domain, vorher GitHub Pages).
+- [ ] Search Console → **Sitemaps** → `sitemap.xml` neu einreichen (enthält jetzt auch /compass/ und /vorleser/).
+- [ ] **Bing Webmaster Tools** anlegen und die Property aus der Search Console importieren (2 Minuten). Bing speist
+      auch DuckDuckGo, Ecosia und die Websuche von ChatGPT/Copilot.
+- [ ] Alte github.io-Adressen sind umgeleitet; die GitHub-Repos verlinken seit 17.11. auf die neuen Adressen.
+
 ## Nach jeder inhaltlichen Änderung
 
 - [ ] **Neue Seite** (z. B. neues Projekt unter `/projects/…`): In der Search Console oben bei „URL prüfen“ die neue URL eingeben → „Indexierung beantragen“. Pro Seite nur einmal.
@@ -21,6 +30,8 @@ Stand: 15.11.2026 · Google Search Console: Property `https://simon.schnetzer.at
 
 - [ ] Neue Profile oder Plattformen immer mit `https://simon.schnetzer.at` verlinken. Bisher eingetragen (Nov. 2026): LinkedIn, GitHub (inkl. Profil-README), FH-Portfolio, Vorleser-Downloadseite.
 - [ ] Vorleser bei AlternativeTo, Product Hunt oder in „awesome“-Listen auf GitHub eintragen.
+- [ ] Curriculum Compass dort verlinken, wo FH-Salzburg-Studierende suchen: ÖH Salzburg / Studienvertretungen,
+      Erstsemestrigen-Gruppen, Reddit. Ein Link von einer FH- oder ÖH-Seite wäre der stärkste mögliche.
 - [ ] neke-neke bzw. FH Salzburg um einen Link bitten (Team-Seite, News-Artikel).
 - [ ] Einen Artikel schreiben, z. B. zur Bachelorarbeit (Lazy Loading in Next.js) oder „Wie ich Vorleser gebaut habe“.
 - [ ] Deutsche Version der Seite (`/de` mit hreflang) für Suchen wie „Frontend Entwickler Salzburg“.
