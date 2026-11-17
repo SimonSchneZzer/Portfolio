@@ -74,11 +74,11 @@ export function ProjectLogo({ name }: { name: ProjectLogoName }) {
       );
     case "compass":
       return (
-        <svg viewBox="0 0 48 48" aria-hidden="true">
-          <rect width="48" height="48" rx="12" fill="#5b3fd6" />
-          <circle cx="24" cy="24" r="12.5" fill="none" stroke="#ffffff" strokeOpacity=".3" strokeWidth="1.6" />
-          <path d="M24 12.5l4 11.5-4 11.5-4-11.5z" fill="#ffffff" />
-          <path d="M24 24h4l-4 11.5z" fill="#ffffff" fillOpacity=".5" />
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <rect width="64" height="64" rx="16" fill="#5b3fd6" />
+          <path d="M45 21.1A17 17 0 1 0 45 42.9" fill="none" stroke="#ffffff" strokeWidth="5.5" strokeLinecap="round" />
+          <path d="M52 32L33 27L33 37Z" fill="#ffffff" />
+          <path d="M26 32L33 27L33 37Z" fill="#ffffff" fillOpacity=".55" />
         </svg>
       );
     case "ai-client":
