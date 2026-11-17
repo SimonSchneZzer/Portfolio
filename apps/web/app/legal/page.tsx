@@ -116,7 +116,7 @@ export default function LegalPage() {
             The Vorleser app itself (from version 3.3) reports to the same counter at most once a week that it is in use,
             with the operating system and the app version, and once after installation that it is new. It sends no ID,
             no texts and nothing else; as above, the IP address is not stored. You can turn this off in the app under
-            Settings › App › &ldquo;Anonym mitzählen&rdquo;. The app checks for updates on GitHub.
+            Settings › App › &ldquo;Anonyme Statistik&rdquo;. The app checks for updates on GitHub.
           </p>
           <p>Legal basis: legitimate interest in knowing how many people use Vorleser (Art. 6(1)(f) GDPR).</p>
 
