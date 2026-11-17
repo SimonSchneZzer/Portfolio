@@ -3,7 +3,7 @@
 ## Vorleser – open-source read-aloud app with voice cloning
 **Role:** Solo developer (own project)  
 since 11/2026, currently version 3  
-Link: https://simonschnezzer.github.io/vorleser-download/
+Link: https://simon.schnetzer.at/vorleser/
 
 Simon's strongest own project: he built and published it on his own, from idea to release.
 

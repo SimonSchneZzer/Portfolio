@@ -36,7 +36,7 @@ It intentionally excludes private or out-of-scope material such as politics, rel
 - Schischule Lech responsibilities: group leadership, safety, instruction, motivation, learning progress, coordination with colleagues, communication with parents
 
 ## Selected Projects
-- Vorleser: solo-developed open-source desktop app (macOS and Windows) that reads any text aloud, with optional AI voice cloning, word-by-word follow-along, dictation, and audiobook export; since 11/2026, version 3; Python backend, vanilla JavaScript frontend, CI/CD with GitHub Actions; https://simonschnezzer.github.io/vorleser-download/
+- Vorleser: solo-developed open-source desktop app (macOS and Windows) that reads any text aloud, with optional AI voice cloning, word-by-word follow-along, dictation, and audiobook export; since 11/2026, version 3; Python backend, vanilla JavaScript frontend, CI/CD with GitHub Actions; https://simon.schnetzer.at/vorleser/
 - Progressa: real-time Kanban app with an AI coach, FH Salzburg 2026, team of 5; Simon was project lead / Scrum Master and frontend developer; React and Supabase; the team used Progressa to manage its own development; https://app.progressa.team/
 - LSD (Lazy Student Dashboard): web app for tracking attendance and study progress, FH Salzburg 2025, team of 2; Simon did frontend development and UX design; Next.js and React
 - Seek Discomfort: Fullstack Developer / Designer; high-fidelity prototype combining concept work, UI work, and technical implementation

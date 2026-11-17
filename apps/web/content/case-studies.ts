@@ -35,7 +35,7 @@ export const caseStudies: CaseStudy[] = [
     tagline: "Turns any text into an audiobook – free, without an account.",
     image: { src: "/images/projects/vorleser.jpg", alt: "Download page of the Vorleser app with the app icon and download buttons for macOS and Windows" },
     links: [
-      { label: "Download page", href: "https://simonschnezzer.github.io/vorleser-download/", icon: "download" },
+      { label: "Download page", href: "https://simon.schnetzer.at/vorleser/", icon: "download" },
       { label: "Source code on GitHub", href: "https://github.com/SimonSchneZzer/vorleser", icon: "github" }
     ],
     intro: [

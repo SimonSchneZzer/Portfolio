@@ -83,7 +83,7 @@ export const portfolioContent = {
       role: "Solo developer, own project",
       summary:
         "An open-source desktop app for macOS and Windows that turns any text into an audiobook, with natural voices and optional AI voice cloning. Built and published on my own.",
-      href: "https://simonschnezzer.github.io/vorleser-download/",
+      href: "https://simon.schnetzer.at/vorleser/",
       ctaLabel: "Download page"
     },
     {

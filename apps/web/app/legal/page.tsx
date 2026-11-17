@@ -3,7 +3,8 @@ import Link from "next/link";
 import "../projects/[slug]/project-page.css";
 import "./legal-page.css";
 
-// Imprint (§ 25 MedienG, small website) and privacy notice (GDPR Art. 13), also for /compass (Curriculum Compass).
+// Imprint (§ 25 MedienG, small website) and privacy notice (GDPR Art. 13), also for /compass (Curriculum Compass)
+// and /vorleser (download page + the app's anonymous weekly count, vorleser/zaehler.py).
 // Keep this in sync with what the site really does: visit counter (components/visit-counter.tsx, GoatCounter on the
 // home server), access logs (Caddy, masked IPs), chat (apps/api, Cloudflare Workers AI) and sessionStorage (Vorleser toast).
 export const metadata: Metadata = {
@@ -102,6 +103,22 @@ export default function LegalPage() {
             statistics described above also count which programme pages are opened, without your selections. The
             &ldquo;Report it&rdquo; link only opens GitHub when you click it.
           </p>
+
+          <h2>Vorleser</h2>
+          <p>
+            The <a href="/vorleser/">Vorleser download page</a> is part of this site. The visit statistics described
+            above also count clicks on its download buttons (only which system, Mac or Windows). To show the current
+            version and file sizes, your browser loads a small file from GitHub Pages (GitHub, Inc., USA), which
+            receives your IP address like any web server. The downloads themselves come from GitHub. GitHub is certified
+            under the EU-U.S. Data Privacy Framework.
+          </p>
+          <p>
+            The Vorleser app itself (from version 3.3) reports to the same counter at most once a week that it is in use,
+            with the operating system and the app version, and once after installation that it is new. It sends no ID,
+            no texts and nothing else; as above, the IP address is not stored. You can turn this off in the app under
+            Settings › App › &ldquo;Anonym mitzählen&rdquo;. The app checks for updates on GitHub.
+          </p>
+          <p>Legal basis: legitimate interest in knowing how many people use Vorleser (Art. 6(1)(f) GDPR).</p>
 
           <h2>Links to other websites</h2>
           <p>

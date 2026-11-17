@@ -267,7 +267,7 @@ export function VorleserToast() {
               See the project
             </Link>
             <a
-              href="https://simonschnezzer.github.io/vorleser-download/"
+              href="https://simon.schnetzer.at/vorleser/"
               target="_blank"
               rel="noopener noreferrer"
               className="vorleser-toast-secondary"
