@@ -6,7 +6,7 @@ export interface FocusArea {
   icon: FocusIconName;
 }
 
-export type ProjectLogoName = "vorleser" | "progressa" | "ai-client" | "chatbot";
+export type ProjectLogoName = "vorleser" | "progressa" | "compass" | "ai-client" | "chatbot";
 
 export type LinkIconName = "cv" | "linkedin" | "github" | "email" | "phone";
 
@@ -97,22 +97,22 @@ export const portfolioContent = {
       ctaLabel: "Open app"
     },
     {
+      title: "Curriculum Compass",
+      caseStudy: "curriculum-compass",
+      logo: "compass",
+      role: "Solo developer, own project",
+      summary:
+        "A tailored view of all 39 FH Salzburg curricula: pick your major and electives and see each semester at a glance. Works offline, data checked weekly.",
+      href: "/compass/",
+      ctaLabel: "Open app"
+    },
+    {
       title: "AI client projects at neke‑neke",
       logo: "ai-client",
       role: "UX Design and Frontend Development",
       summary:
         "Interfaces for client systems, from an AI-supported practice management system in healthcare to technical monitoring and chat frontends for AI.",
       ctaLabel: "Confidential"
-    },
-    {
-      title: "Portfolio Chatbot",
-      caseStudy: "portfolio-chatbot",
-      logo: "chatbot",
-      role: "Prompt Engineer / Fullstack Developer",
-      summary:
-        "The chat on this page: Next.js and Fastify, a curated knowledge base with guardrails, and Gemma 4 on Cloudflare with my home server as fallback.",
-      href: "https://github.com/SimonSchneZzer/Portfolio",
-      ctaLabel: "Source code"
     }
   ] satisfies FeaturedProject[],
   links: [

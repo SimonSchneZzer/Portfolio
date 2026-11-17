@@ -42,6 +42,23 @@ Links: https://app.progressa.team/ and https://portfolio.fh-salzburg.ac.at/proje
 - tech: React, Supabase, Figma
 - shows that Simon can build a project management tool and lead the team building it
 
+## Curriculum Compass – the FH Salzburg curricula, tailored to your major
+**Role:** Solo developer (own project)  
+since 11/2026  
+Links: https://simon.schnetzer.at/compass/ and https://github.com/SimonSchneZzer/curriculum-compass
+
+An unofficial overview of the curricula of FH Salzburg that Simon built on his own, from the data to the interface.
+
+- covers 39 degree programmes in all six departments of FH Salzburg
+- students pick their major or specialisation and their electives and see what they take each semester, with ECTS and SWS totals and an estimate of the weekly workload
+- course content and learning outcomes in tooltips, search across all programmes and courses (also by short names like MMA or CIS)
+- choices are saved in the browser, share links carry the picked electives, works offline, interface in English and German
+- data pipeline in Python: reads the official curriculum pages and writes one JSON file per programme; special cases are checked against the programme brochures, and errors on the source pages are shown with a note instead of being silently fixed
+- a weekly check on Simon's home server compares the data, the department pages and the brochures and notifies him about changes; nothing is published without review
+- tech: plain HTML, CSS and JavaScript without a build step, service worker for offline use, Python standard library for the data, self-hosted with Docker and Caddy
+- privacy-friendly: no cookies, no account; visits are counted with a self-hosted, cookie-free counter
+- shows product thinking (turning a long official table into a view for one student), careful work with data, and shipping and running a real service
+
 ## LSD – Lazy Student Dashboard
 **Role:** Frontend Developer and UX Designer  
 FH Salzburg, 2025, team of 2  

@@ -111,6 +111,49 @@ export const caseStudies: CaseStudy[] = [
     schemaType: "WebApplication"
   },
   {
+    slug: "curriculum-compass",
+    title: "Curriculum Compass",
+    logo: "compass",
+    seoTitle: "Curriculum Compass – the FH Salzburg curricula, tailored to your major",
+    description:
+      "Curriculum Compass by Simon Schnetzer: an unofficial overview of all 39 FH Salzburg degree programmes. Pick your major and electives and see what you take each semester, with ECTS, SWS and course content.",
+    role: "Concept, data pipeline, design and development",
+    period: "2026",
+    tagline: "Every FH Salzburg curriculum, tailored to your major – in one calm overview.",
+    image: { src: "/images/projects/compass.jpg", alt: "Curriculum Compass showing the MultiMediaArt master with the Producing specialisation, semester totals and courses" },
+    links: [
+      { label: "Open Curriculum Compass", href: "/compass/", icon: "app" },
+      { label: "Source code on GitHub", href: "https://github.com/SimonSchneZzer/curriculum-compass", icon: "github" }
+    ],
+    intro: [
+      "The official curriculum pages list every course of every major in one long table. Curriculum Compass turns them into a view of your own studies: choose your major or specialisation, pick your electives, and see what you take each semester.",
+      "It covers 39 degree programmes in all six departments of FH Salzburg, in English and German, and works offline. It is unofficial; where it differs from the study regulations, the regulations apply."
+    ],
+    sections: [
+      {
+        heading: "What it does",
+        items: [
+          "Majors, specialisations and electives per programme, with ECTS and SWS totals and an estimate of the weekly workload",
+          "Content and learning outcomes of every course in tooltips, so the page stays calm",
+          "Search across all programmes and courses, also by short names such as MMA or CIS",
+          "Choices are saved in the browser; a share link carries the picked electives",
+          "Works offline as a progressive web app, interface in English and German"
+        ]
+      },
+      {
+        heading: "Data you can trust",
+        items: [
+          "A Python script reads the official curriculum pages and builds one JSON file per programme",
+          "Special cases (bundled electives, choices that span several semesters) are checked against the programme brochures",
+          "Errors on the source pages are shown with a note instead of being silently fixed",
+          "A weekly check on my home server compares the data, the department pages and the brochures and notifies me about changes; nothing is published without review"
+        ]
+      }
+    ],
+    stack: ["HTML", "CSS", "JavaScript", "Python", "Service Worker", "Docker", "Caddy"],
+    schemaType: "WebApplication"
+  },
+  {
     slug: "portfolio-chatbot",
     title: "Portfolio with AI chatbot",
     logo: "chatbot",

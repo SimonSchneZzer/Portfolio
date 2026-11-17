@@ -43,7 +43,7 @@ export function FocusIcon({ name }: { name: FocusIconName }) {
   }
 }
 
-/** Project logos. Vorleser and Progressa follow the real app icons; the other two are drawn for this page. */
+/** Project logos. Vorleser, Progressa and Curriculum Compass follow the real app icons; the others are drawn for this page. */
 export function ProjectLogo({ name }: { name: ProjectLogoName }) {
   switch (name) {
     case "vorleser":
@@ -70,6 +70,15 @@ export function ProjectLogo({ name }: { name: ProjectLogoName }) {
             strokeLinecap="square"
             strokeLinejoin="round"
           />
+        </svg>
+      );
+    case "compass":
+      return (
+        <svg viewBox="0 0 48 48" aria-hidden="true">
+          <rect width="48" height="48" rx="12" fill="#5b3fd6" />
+          <circle cx="24" cy="24" r="12.5" fill="none" stroke="#ffffff" strokeOpacity=".3" strokeWidth="1.6" />
+          <path d="M24 12.5l4 11.5-4 11.5-4-11.5z" fill="#ffffff" />
+          <path d="M24 24h4l-4 11.5z" fill="#ffffff" fillOpacity=".5" />
         </svg>
       );
     case "ai-client":
