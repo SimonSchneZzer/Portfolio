@@ -688,6 +688,10 @@ export function ChatShell({
         </form>
 
         {error ? <p className="error-banner">{error}</p> : null}
+
+        <p className="chat-privacy-note">
+          Answers are AI-generated via Cloudflare. Please don&apos;t share personal data. <a href="/legal#privacy">Privacy</a>
+        </p>
       </div>
 
       <div className="chat-panel-pill-preview" aria-hidden="true">

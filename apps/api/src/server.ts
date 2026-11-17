@@ -78,7 +78,12 @@ function getStreamingCorsHeaders(origin: string | undefined) {
 
 export async function buildServer() {
   const app = Fastify({
-    logger: true,
+    // Request logs without IP addresses (privacy notice on /legal promises this).
+    logger: {
+      serializers: {
+        req: (request) => ({ method: request.method, url: request.url })
+      }
+    },
     // Requests arrive through Caddy, so the client IP is in X-Forwarded-For.
     trustProxy: true
   });

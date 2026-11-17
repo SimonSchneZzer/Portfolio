@@ -24,6 +24,11 @@ services:
       KB_INDEX_PATH: /app/data/kb-index.json
       SYSTEM_PROMPT_PATH: /app/knowledge/system-prompt.md
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"
     networks:
       - ai-net
 
@@ -37,6 +42,11 @@ services:
     depends_on:
       - api
     restart: unless-stopped
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"
     networks:
       - ai-net
 

@@ -1,5 +1,7 @@
 "use client";
 
+import Link from "next/link";
+
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { FocusIcon } from "@/components/brand-icons";
@@ -416,6 +418,9 @@ export function ProfileColumn() {
           </div>
         </section>
 
+        <footer className="site-footer">
+          <Link href="/legal">Imprint &amp; Privacy</Link>
+        </footer>
       </section>
 
       {isPortraitMounted && typeof document !== "undefined"
