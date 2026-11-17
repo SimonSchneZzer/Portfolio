@@ -16,3 +16,10 @@ Whenever a change touches content (a new or changed project, a new page, a new r
 ## Deploy (home server)
 
 `ssh homeserver`, then `cd ~/Portfolio && git pull && cd ops/docker && docker compose -f docker-compose.homeserver.yml up -d --build`. Secrets live only in `ops/docker/homeserver.env` on the server. PDFs are gitignored; the CV is copied to `~/Portfolio/apps/web/public/simon-schnetzer-cv.pdf` with `scp`.
+
+## Same domain, other things (home server)
+
+- `/legal` is the imprint and privacy notice. It must match what the site does: keep it up to date when you add
+  external services, storage or tracking. It also covers `/compass` (Curriculum Compass, separate repo and container).
+- `/c/*` is the GoatCounter visit counter (`~/goatcounter`), `/compass/*` is Curriculum Compass (`~/compass`). Both are
+  routed by the shared Caddy in `~/ai-server/Caddyfile`, not by `ops/docker/Caddyfile`.
