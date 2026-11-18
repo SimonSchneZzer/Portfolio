@@ -6,18 +6,13 @@ Stand: 18.11.2026 · Google Search Console: Property `https://simon.schnetzer.at
 geänderten Seiten per **IndexNow** an Bing (und Yandex, Seznam, Naver) – `homeserver-dashboard/server/indexnow.py`, Schlüssel-
 datei `apps/web/public/<key>.txt` (öffentlich, so gewollt; nicht löschen). Google macht bei IndexNow nicht mit.
 
-## Einmalig offen (Stand 18.11.2026)
+## Einmalig erledigt (18.11.2026)
 
-- [ ] Search Console → „URL prüfen“ → **Indexierung beantragen** für `https://simon.schnetzer.at/` (neue Projekte),
-      `https://simon.schnetzer.at/surebet/` und `https://simon.schnetzer.at/projects/surebet`.
-- [ ] Bing Webmaster Tools → **URL-Übermittlung** für dieselben Adressen (danach übernimmt IndexNow).
-
-- [ ] Search Console → „URL prüfen“ → **Indexierung beantragen** für `https://simon.schnetzer.at/compass/` und
-      `https://simon.schnetzer.at/vorleser/` (beide seit 17.11. auf dieser Domain, vorher GitHub Pages).
-- [ ] Search Console → **Sitemaps** → `sitemap.xml` neu einreichen (enthält jetzt auch /compass/ und /vorleser/).
-- [ ] **Bing Webmaster Tools** anlegen und die Property aus der Search Console importieren (2 Minuten). Bing speist
-      auch DuckDuckGo, Ecosia und die Websuche von ChatGPT/Copilot.
-- [ ] Alte github.io-Adressen sind umgeleitet; die GitHub-Repos verlinken seit 17.11. auf die neuen Adressen.
+- [x] Google Search Console: `sitemap.xml` neu eingereicht, Indexierung beantragt für `/`, `/surebet/`, `/projects/surebet`,
+      `/compass/`, `/vorleser/`.
+- [x] Bing Webmaster Tools angelegt (Property + Sitemap aus der Search Console importiert), dieselben fünf URLs übermittelt.
+      Bing speist auch DuckDuckGo, Ecosia und die Websuche von ChatGPT/Copilot. Weitere Änderungen meldet IndexNow.
+- [x] Alte github.io-Adressen sind umgeleitet; die GitHub-Repos verlinken seit 17.11. auf die neuen Adressen.
 
 ## Nach jeder inhaltlichen Änderung
 
@@ -31,6 +26,8 @@ datei `apps/web/public/<key>.txt` (öffentlich, so gewollt; nicht löschen). Goo
 - [ ] **Wissensbasis** (`knowledge/public`) gleich mitziehen, sonst erzählt der Chat etwas anderes als die Seite.
 
 ## Monatlich (ca. 10 Minuten)
+
+- [ ] Bing Webmaster Tools → **Seiten/Indexierung**: Sind die Seiten aufgenommen? IndexNow-Meldungen angekommen?
 
 - [ ] Search Console → **Leistung**: Für welche Suchbegriffe erscheint die Seite? Wie oft wird geklickt?
 - [ ] Search Console → **Seiten**: Sind alle Seiten indexiert? Fehler?
