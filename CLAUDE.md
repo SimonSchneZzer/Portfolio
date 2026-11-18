@@ -20,6 +20,6 @@ Whenever a change touches content (a new or changed project, a new page, a new r
 ## Same domain, other things (home server)
 
 - `/legal` is the imprint and privacy notice. It must match what the site does: keep it up to date when you add
-  external services, storage or tracking. It also covers `/compass` (Curriculum Compass) and `/vorleser` (Vorleser download page + app counter), separate repos and containers.
+  external services, storage or tracking. It also covers `/compass` (Curriculum Compass), `/vorleser` (Vorleser download page + app counter) and `/surebet` (odds study project, private repo), separate repos and containers.
 - `/c/*` is the GoatCounter visit counter (`~/goatcounter`), `/compass/*` is Curriculum Compass (`~/compass`), `/vorleser/*` the Vorleser download page (`~/vorleser`). All are
   routed by the shared Caddy in `~/ai-server/Caddyfile`, not by `ops/docker/Caddyfile`.

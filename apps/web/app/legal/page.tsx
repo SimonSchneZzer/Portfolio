@@ -4,7 +4,7 @@ import "../projects/[slug]/project-page.css";
 import "./legal-page.css";
 
 // Imprint (§ 25 MedienG, small website) and privacy notice (GDPR Art. 13), also for /compass (Curriculum Compass)
-// and /vorleser (download page + the app's anonymous weekly count, vorleser/zaehler.py).
+// /vorleser (download page + the app's anonymous weekly count, vorleser/zaehler.py) and /surebet (odds study project).
 // Keep this in sync with what the site really does: visit counter (components/visit-counter.tsx, GoatCounter on the
 // home server), access logs (Caddy, masked IPs), chat (apps/api, Cloudflare Workers AI) and sessionStorage (Vorleser toast).
 export const metadata: Metadata = {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 const contactEmail = "simon@schnetzer.at";
-const lastUpdated = "17 November 2026";
+const lastUpdated = "18 November 2026";
 
 export default function LegalPage() {
   return (
@@ -125,6 +125,23 @@ export default function LegalPage() {
             Settings › App › &ldquo;Anonyme Statistik&rdquo;. The app checks for updates on GitHub.
           </p>
           <p>Legal basis: legitimate interest in knowing how many people use Vorleser (Art. 6(1)(f) GDPR).</p>
+
+          <h2>Surebet</h2>
+          <p>
+            <a href="/surebet/">Surebet</a> is a study project that looks for arbitrage opportunities in published
+            betting odds. The odds are fetched by my server from the official interfaces of The Odds API, OddsPapi and
+            API-Sports; your browser does not contact these services. The page only shows values derived from them
+            (best odds per outcome, margins, arbitrage) for bookmakers with an Austrian or EU licence. It does not take
+            bets, has no links to bookmakers and no advertising. The visit statistics described above also count visits
+            to this page.
+          </p>
+          <p>
+            If you use &ldquo;Fehler melden · Idee&rdquo; (report a problem or idea), your message is sent through the
+            form service Web3Forms to me as an e-mail, exactly as described for Curriculum Compass above (technical details shown before
+            sending: page address, data date, browser, language and window size). To prevent accidental repeat
+            messages, your browser&apos;s local storage keeps only the times of the messages you sent in the last hour.
+            Legal basis: your request (Art. 6(1)(b) GDPR).
+          </p>
 
           <h2>Links to other websites</h2>
           <p>
