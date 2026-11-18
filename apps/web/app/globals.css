@@ -652,6 +652,51 @@ h3 {
   gap: 12px;
 }
 
+/* Wide card (both columns): summary left, highlights right */
+.project-card.is-wide {
+  grid-column: 1 / -1;
+}
+
+.project-card.is-wide .project-card-details {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  column-gap: 32px;
+  align-items: end;
+}
+
+/* fallback before the card has measured itself (featured-project-card.tsx sets the exact height) */
+.project-card.is-wide.is-expanded {
+  height: 312px;
+}
+
+.project-highlights {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.45;
+}
+
+.project-highlights li {
+  position: relative;
+  padding-left: 16px;
+}
+
+.project-highlights li::before {
+  content: "";
+  position: absolute;
+  top: 0.62em;
+  left: 2px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.5;
+}
+
 .project-more-link {
   display: inline-block;
   margin-top: 10px;
@@ -1871,6 +1916,13 @@ h3 {
   .link-grid {
     grid-template-columns: 1fr;
   }
+
+  .project-card.is-wide .project-card-details {
+    grid-template-columns: 1fr;
+    row-gap: 14px;
+  }
+
+
 
   .layout-shell,
   .profile-column {

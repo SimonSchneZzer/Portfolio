@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useLayoutEffect, useRef, useState } from "react";
 import { ArrowIcon, ProjectLogo } from "@/components/brand-icons";
 import type { FeaturedProject } from "@/content/portfolio";
 
@@ -17,6 +20,33 @@ export function FeaturedProjectCard({
   isActive,
   onActivate
 }: FeaturedProjectCardProps) {
+  // The wide card measures its content and opens to exactly that height (a fixed px value, so it glides; "auto"
+  // cannot be animated). Re-measured when the card changes width.
+  const cardRef = useRef<HTMLDivElement>(null);
+  const bodyRef = useRef<HTMLDivElement>(null);
+  const detailsRef = useRef<HTMLDivElement>(null);
+  const [wideHeight, setWideHeight] = useState<number | null>(null);
+
+  useLayoutEffect(() => {
+    if (!project.wide || !cardRef.current) {
+      return;
+    }
+
+    const measure = () => {
+      const body = bodyRef.current, details = detailsRef.current;
+      if (!body || !details) {
+        return;
+      }
+      // expanded padding is 22px (6px more than collapsed), then a gap, the details and 22px at the bottom
+      setWideHeight(Math.ceil(body.offsetTop + body.offsetHeight + 6 + 18 + details.offsetHeight + 22));
+    };
+
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(cardRef.current);
+    return () => observer.disconnect();
+  }, [project.wide]);
+
   const logo = (
     <span className="project-logo">
       <ProjectLogo name={project.logo} />
@@ -26,7 +56,9 @@ export function FeaturedProjectCard({
   return (
     // A div instead of a button, because the title and logo are links and links must not sit inside a button.
     <div
-      className={`project-card${isExpanded ? " is-expanded" : ""}${isActive ? " is-active" : ""}${project.href ? " has-link" : ""}`}
+      ref={cardRef}
+      style={project.wide && isExpanded && wideHeight ? { height: wideHeight } : undefined}
+      className={`project-card${isExpanded ? " is-expanded" : ""}${isActive ? " is-active" : ""}${project.href ? " has-link" : ""}${project.wide ? " is-wide" : ""}`}
       tabIndex={0}
       onMouseEnter={onActivate}
       onFocus={onActivate}
@@ -34,7 +66,7 @@ export function FeaturedProjectCard({
       aria-expanded={isExpanded}
     >
       <span className="project-number">0{index + 1}</span>
-      <div className="project-card-body">
+      <div className="project-card-body" ref={bodyRef}>
         {project.href ? (
           <a
             className="project-title-row project-link"
@@ -59,8 +91,15 @@ export function FeaturedProjectCard({
         <p className="project-role">{project.role}</p>
       </div>
 
-      <div className="project-card-details" aria-hidden={!isExpanded}>
+      <div className="project-card-details" ref={detailsRef} aria-hidden={!isExpanded}>
         <p className="project-summary">{project.summary}</p>
+        {project.highlights?.length ? (
+          <ul className="project-highlights">
+            {project.highlights.map((item) => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        ) : null}
         {project.caseStudy ? (
           <Link href={`/projects/${project.caseStudy}`} className="project-more-link" tabIndex={isExpanded ? 0 : -1}>
             Read the case study <ArrowIcon size={13} />

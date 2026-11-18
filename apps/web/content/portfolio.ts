@@ -20,6 +20,9 @@ export interface FeaturedProject {
   /** Slug of the project page under /projects (case study) */
   caseStudy?: string;
   ctaLabel: string;
+  /** Spans both columns of the project grid; shows the highlights next to the summary */
+  wide?: boolean;
+  highlights?: string[];
 }
 
 export interface HeroAction {
@@ -119,9 +122,16 @@ export const portfolioContent = {
     {
       title: "AI client projects at neke‑neke",
       logo: "ai-client",
-      role: "UX Design and Frontend Development",
+      role: "UX Design and Frontend Development · part-time since 02/2026",
       summary:
-        "Interfaces for client systems, from an AI-supported practice management system in healthcare to technical monitoring and chat frontends for AI.",
+        "Interfaces for client systems in sensitive industries – from a practice management system with AI phone assistance in healthcare to monitoring interfaces and AI chat frontends. Client names stay confidential.",
+      highlights: [
+        "React, TypeScript, Tailwind CSS · Python and AI backends",
+        "Wireframes and UI decisions in Figma, fast iterations",
+        "Requirements into features, coordination with a client",
+        "Brought in a new client who is still active"
+      ],
+      wide: true,
       ctaLabel: "Confidential"
     }
   ] satisfies FeaturedProject[],
