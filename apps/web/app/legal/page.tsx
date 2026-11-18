@@ -103,6 +103,13 @@ export default function LegalPage() {
             statistics described above also count which programme pages are opened, without your selections.
           </p>
           <p>
+            If you ask the AI in the search (a question starting with &ldquo;/&rdquo;), your question and the data of the
+            programme you have open are sent from my server to Cloudflare Workers AI (Cloudflare, Inc., USA, certified under
+            the EU-U.S. Data Privacy Framework), which generates the answer. Your browser does not contact Cloudflare. I do
+            not store the questions; the server only notes that a question was answered. Legal basis: your request
+            (Art. 6(1)(b) GDPR).
+          </p>
+          <p>
             If you use &ldquo;Report a problem or idea&rdquo;, your message is sent through the form service Web3Forms,
             which forwards it to me as an e-mail. It contains what you write, your e-mail address only if you enter one,
             and – unless you untick it – technical details shown in the form before sending (programme, page address,
