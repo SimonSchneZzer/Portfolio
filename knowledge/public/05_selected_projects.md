@@ -53,6 +53,7 @@ An unofficial overview of the curricula of FH Salzburg that Simon built on his o
 - students pick their major or specialisation and their electives and see what they take each semester, with ECTS and SWS totals and an estimate of the weekly workload
 - course content and learning outcomes in tooltips, search across all programmes and courses (also by short names like MMA or CIS)
 - choices are saved in the browser, share links carry the picked electives, works offline, interface in English and German
+- absence counter per course: students enter missed lessons and see how many they can still miss under the 75 % or 50 % attendance rule (stays in the browser)
 - data pipeline in Python: reads the official curriculum pages and writes one JSON file per programme; special cases are checked against the programme brochures, and errors on the source pages are shown with a note instead of being silently fixed
 - a weekly check on Simon's home server compares the data, the department pages and the brochures and notifies him about changes; nothing is published without review
 - tech: plain HTML, CSS and JavaScript without a build step, service worker for offline use, Python standard library for the data, self-hosted with Docker and Caddy

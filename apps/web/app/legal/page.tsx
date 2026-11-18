@@ -97,8 +97,8 @@ export default function LegalPage() {
           <h2>Curriculum Compass</h2>
           <p>
             <a href="/compass/">Curriculum Compass</a> is an unofficial overview of the FH Salzburg curricula on
-            this site. The programme, major, electives and expanded courses you choose are saved in your browser&apos;s
-            local storage and never sent to the server. So that it also works offline, the app keeps its files and the
+            this site. The programme, major, electives and expanded courses you choose, and the absences you enter, are saved
+            in your browser&apos;s local storage and never sent to the server (share links do not include absences). So that it also works offline, the app keeps its files and the
             curricula in your browser&apos;s cache. You can delete both at any time in your browser settings. The visit
             statistics described above also count which programme pages are opened, without your selections.
           </p>
