@@ -1,4 +1,5 @@
 import { Fragment, createElement, type ReactNode } from "react";
+import { chatLinkTerms } from "@/content/chat-links";
 
 type MarkdownBlock =
   | {
@@ -160,35 +161,109 @@ function sanitizeHref(href: string) {
   return null;
 }
 
+// Auto-linking (chat answers): bare URLs, simon.schnetzer.at addresses and known terms (projects, CV, technologies).
+// Each term is linked only on its first mention per answer; nothing is linked inside an existing link.
+const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const termHref = new Map(chatLinkTerms.map(({ term, href }) => [term.toLowerCase(), href]));
+const autoLinkPattern = new RegExp(
+  [
+    String.raw`https?:\/\/[^\s<>()]*[^\s<>().,;:!?'"]`,
+    String.raw`(?<![\w@/.])simon\.schnetzer\.at(?:\/[^\s<>()]*[^\s<>().,;:!?'"])?`,
+    `(?<![\\w.-])(?:${[...chatLinkTerms].sort((a, b) => b.term.length - a.term.length).map(({ term }) => escapeRegExp(term)).join("|")})(?![\\w-])`
+  ].join("|"),
+  "g"
+);
+// Set while one answer renders (rendering is synchronous): which terms are already linked, and whether we are inside a link.
+let renderState: { linked: Set<string>; insideLink: number } | null = null;
+
+function renderWords(text: string, keyPrefix: string): ReactNode[] {
+  const nodes: ReactNode[] = [];
+  // Words stay together (no line break inside a word), and every letter gets its own span so newly
+  // revealed letters can float in. Keys are positional, so they stay stable while the text grows.
+  text.split(/(\s+)/).forEach((piece, pieceIndex) => {
+    if (!piece) {
+      return;
+    }
+
+    const key = `${keyPrefix}-text-${pieceIndex}`;
+
+    nodes.push(
+      /^\s+$/.test(piece) ? (
+        <Fragment key={key}>{piece}</Fragment>
+      ) : (
+        <span key={key} className="md-word">
+          {Array.from(piece).map((character, characterIndex) => (
+            <span key={characterIndex} className="md-char">
+              {character}
+            </span>
+          ))}
+        </span>
+      )
+    );
+  });
+  return nodes;
+}
+
+function linkFor(match: string): string | null {
+  if (/^https?:\/\//i.test(match)) {
+    return sanitizeHref(match);
+  }
+  if (/^simon\.schnetzer\.at/i.test(match)) {
+    return sanitizeHref(`https://${match}`);
+  }
+  const key = match.toLowerCase();
+  if (!renderState || renderState.linked.has(key)) {
+    return null;
+  }
+  renderState.linked.add(key);
+  return termHref.get(key) ?? null;
+}
+
+function renderAutoLinked(text: string, keyPrefix: string): ReactNode[] {
+  if (!renderState || renderState.insideLink > 0) {
+    return renderWords(text, keyPrefix);
+  }
+
+  const nodes: ReactNode[] = [];
+  let lastIndex = 0;
+  let index = 0;
+
+  for (const match of text.matchAll(autoLinkPattern)) {
+    const start = match.index ?? 0;
+    const href = linkFor(match[0]);
+
+    if (!href) {
+      continue;
+    }
+
+    if (start > lastIndex) {
+      nodes.push(...renderWords(text.slice(lastIndex, start), `${keyPrefix}-${index}-pre`));
+    }
+
+    const external = !href.startsWith("/") && !href.startsWith("#");
+    nodes.push(
+      <a key={`${keyPrefix}-${index}-auto`} href={href} target="_blank" rel={external ? "noreferrer" : undefined}>
+        {renderWords(match[0], `${keyPrefix}-${index}-label`)}
+      </a>
+    );
+    lastIndex = start + match[0].length;
+    index += 1;
+  }
+
+  if (lastIndex < text.length) {
+    nodes.push(...renderWords(text.slice(lastIndex), `${keyPrefix}-${index}-tail`));
+  }
+
+  return nodes;
+}
+
 function renderPlainText(text: string, keyPrefix: string): ReactNode[] {
   const parts = text.split("\n");
   const nodes: ReactNode[] = [];
 
   parts.forEach((part, index) => {
     if (part) {
-      // Words stay together (no line break inside a word), and every letter gets its own span so newly
-      // revealed letters can float in. Keys are positional, so they stay stable while the text grows.
-      part.split(/(\s+)/).forEach((piece, pieceIndex) => {
-        if (!piece) {
-          return;
-        }
-
-        const key = `${keyPrefix}-text-${index}-${pieceIndex}`;
-
-        nodes.push(
-          /^\s+$/.test(piece) ? (
-            <Fragment key={key}>{piece}</Fragment>
-          ) : (
-            <span key={key} className="md-word">
-              {Array.from(piece).map((character, characterIndex) => (
-                <span key={characterIndex} className="md-char">
-                  {character}
-                </span>
-              ))}
-            </span>
-          )
-        );
-      });
+      nodes.push(...renderAutoLinked(part, `${keyPrefix}-${index}`));
     }
 
     if (index < parts.length - 1) {
@@ -220,7 +295,11 @@ function renderInlineMarkdown(text: string, keyPrefix: string): ReactNode[] {
       );
     } else if (match[2]) {
       const href = sanitizeHref(match[4]);
+      // The model linked it itself: count the label as linked, and never nest links
+      renderState?.linked.add(match[3].replace(/[*_`]/g, "").trim().toLowerCase());
+      if (renderState) renderState.insideLink += 1;
       const labelNodes = renderInlineMarkdown(match[3], `${keyPrefix}-link-label-${tokenIndex}`);
+      if (renderState) renderState.insideLink -= 1;
 
       nodes.push(
         href ? (
@@ -296,6 +375,11 @@ function renderBlock(block: MarkdownBlock, index: number) {
 
 export function MarkdownRenderer({ markdown, className }: { markdown: string; className?: string }) {
   const blocks = parseBlocks(markdown);
+  renderState = { linked: new Set(), insideLink: 0 };
 
-  return <div className={className}>{blocks.map((block, index) => renderBlock(block, index))}</div>;
+  try {
+    return <div className={className}>{blocks.map((block, index) => renderBlock(block, index))}</div>;
+  } finally {
+    renderState = null;
+  }
 }

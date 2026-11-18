@@ -2,19 +2,19 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type PointerEvent as ReactPointerEvent } from "react";
-import { ArrowIcon, ProjectLogo } from "@/components/brand-icons";
+import { ProjectLogo } from "@/components/brand-icons";
 import "./vorleser-toast.css";
 
 const showDelayMs = 1600;
 const visibleMs = 7000;
 const exitMs = 420;
 const swipeDismissPx = 90;
-const storageKey = "vorleser-toast-seen";
+const storageKey = "new-projects-toast-seen";
 
 type Phase = "hidden" | "visible" | "leaving";
 
 /**
- * Introduces the Vorleser project once per browser session.
+ * Introduces the newest projects (Vorleser and Surebet) once per browser session.
  * Stays 7 seconds; hovering, touching or dragging pauses the countdown. Can be swiped away (left, right or up).
  */
 export function VorleserToast() {
@@ -227,7 +227,7 @@ export function VorleserToast() {
     : undefined;
 
   return (
-    <div className="vorleser-toast-region" role="region" aria-label="Project highlight">
+    <div className="vorleser-toast-region" role="region" aria-label="New projects">
       <div
         className={`vorleser-toast surface${phase === "leaving" ? ` is-leaving to-${exitDirection}` : ""}`}
         style={style}
@@ -248,32 +248,42 @@ export function VorleserToast() {
       >
         <div className="vorleser-toast-glow" aria-hidden="true" />
 
-        <div className="vorleser-toast-logo" aria-hidden="true">
-          <ProjectLogo name="vorleser" />
-          <span className="vorleser-toast-bars">
-            <i />
-            <i />
-            <i />
-            <i />
-          </span>
-        </div>
+        <p className="vorleser-toast-kicker np-kicker">New projects</p>
 
-        <div className="vorleser-toast-body">
-          <p className="vorleser-toast-kicker">New project</p>
-          <p className="vorleser-toast-title">Vorleser</p>
-          <p className="vorleser-toast-text">Turns any text into an audiobook – free, open source, even with your own AI voice.</p>
-          <div className="vorleser-toast-actions">
-            <Link href="/projects/vorleser" className="vorleser-toast-primary" onClick={() => dismiss("up")}>
+        {/* Two projects, split by a thin diagonal line: Vorleser left-aligned, Surebet right-aligned */}
+        <div className="np-split">
+          <div className="np-half np-left">
+            <div className="np-head">
+              <div className="vorleser-toast-logo np-logo" aria-hidden="true">
+                <ProjectLogo name="vorleser" />
+                <span className="vorleser-toast-bars">
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                </span>
+              </div>
+              <p className="vorleser-toast-title np-title">Vorleser</p>
+            </div>
+            <p className="vorleser-toast-text np-text">Any text as an audiobook, even in your own AI voice.</p>
+            <Link href="/projects/vorleser" className="vorleser-toast-primary np-cta" onClick={() => dismiss("up")}>
               See the project
             </Link>
-            <a
-              href="https://simon.schnetzer.at/vorleser/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="vorleser-toast-secondary"
-            >
-              Download <ArrowIcon direction="up-right" size={13} />
-            </a>
+          </div>
+
+          <span className="np-divider" aria-hidden="true" />
+
+          <div className="np-half np-right">
+            <div className="np-head">
+              <p className="vorleser-toast-title np-title">Surebet</p>
+              <div className="np-logo np-logo-plain" aria-hidden="true">
+                <ProjectLogo name="surebet" />
+              </div>
+            </div>
+            <p className="vorleser-toast-text np-text">Arbitrage in odds from official APIs, after fees.</p>
+            <Link href="/projects/surebet" className="vorleser-toast-primary np-cta np-cta-gold" onClick={() => dismiss("up")}>
+              See the project
+            </Link>
           </div>
         </div>
 

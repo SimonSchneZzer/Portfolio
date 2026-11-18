@@ -13,7 +13,8 @@ export interface CaseStudy {
   role: string;
   period: string;
   tagline: string;
-  image: { src: string; alt: string };
+  /** src = light mode, darkSrc = dark mode (the site follows the system setting) */
+  image: { src: string; darkSrc?: string; alt: string };
   links: { label: string; href: string; icon: LinkIconKind }[];
   intro: string[];
   sections: { heading: string; items: string[] }[];
@@ -33,7 +34,7 @@ export const caseStudies: CaseStudy[] = [
     role: "Solo developer – idea, design, development and release",
     period: "Since 11/2026 · version 3",
     tagline: "Turns any text into an audiobook – free, without an account.",
-    image: { src: "/images/projects/vorleser.jpg", alt: "Download page of the Vorleser app with the app icon and download buttons for macOS and Windows" },
+    image: { src: "/images/projects/vorleser.jpg", darkSrc: "/images/projects/vorleser-dark.jpg", alt: "Download page of the Vorleser app with the app icon and download buttons for macOS and Windows" },
     links: [
       { label: "Download page", href: "https://simon.schnetzer.at/vorleser/", icon: "download" },
       { label: "Source code on GitHub", href: "https://github.com/SimonSchneZzer/vorleser", icon: "github" }
@@ -79,7 +80,7 @@ export const caseStudies: CaseStudy[] = [
     role: "Project lead / Scrum Master and frontend developer",
     period: "2026 · FH Salzburg · team of 5",
     tagline: "Real-time Kanban boards, planning poker, an AI coach and XP rewards.",
-    image: { src: "/images/projects/progressa.jpg", alt: "Landing page of Progressa with the headline and a preview of the Kanban board" },
+    image: { src: "/images/projects/progressa.jpg", darkSrc: "/images/projects/progressa-dark.jpg", alt: "Landing page of Progressa with the headline and a preview of the Kanban board" },
     links: [
       { label: "Open Progressa", href: "https://app.progressa.team/", icon: "app" },
       { label: "FH Salzburg project page", href: "https://portfolio.fh-salzburg.ac.at/projects/2026-progressa", icon: "school" }
@@ -120,7 +121,7 @@ export const caseStudies: CaseStudy[] = [
     role: "Concept, data pipeline, design and development",
     period: "2026",
     tagline: "Every FH Salzburg curriculum, tailored to your major – in one calm overview.",
-    image: { src: "/images/projects/compass.jpg", alt: "Curriculum Compass showing the MultiMediaArt master with the Producing specialisation, semester totals and courses" },
+    image: { src: "/images/projects/compass.jpg", darkSrc: "/images/projects/compass-dark.jpg", alt: "Curriculum Compass showing the MultiMediaArt master with the Producing specialisation, semester totals and courses" },
     links: [
       { label: "Open Curriculum Compass", href: "/compass/", icon: "app" },
       { label: "Source code on GitHub", href: "https://github.com/SimonSchneZzer/curriculum-compass", icon: "github" }
@@ -163,7 +164,7 @@ export const caseStudies: CaseStudy[] = [
     role: "Concept, research, data pipeline, design and development",
     period: "2026",
     tagline: "Odds from several sources, one honest calculation – and a clear line on what may be shown publicly.",
-    image: { src: "/images/projects/surebet.jpg", alt: "The Surebet page with open arbitrage opportunities, the best odds per outcome and the profit in percent" },
+    image: { src: "/images/projects/surebet.jpg", darkSrc: "/images/projects/surebet-dark.jpg", alt: "The Surebet page with open arbitrage opportunities, the best odds per outcome and the profit in percent" },
     links: [{ label: "Open Surebet", href: "/surebet/", icon: "app" }],
     intro: [
       "When bookmakers disagree enough about a game, you can bet on every outcome and still win whatever happens – a surebet. They are rare and usually last only minutes, so finding them is a data problem.",
@@ -211,7 +212,7 @@ export const caseStudies: CaseStudy[] = [
     role: "Concept, prompt engineering and fullstack development",
     period: "2026",
     tagline: "A portfolio you can talk to – grounded in a curated knowledge base.",
-    image: { src: "/images/projects/chatbot.jpg", alt: "The portfolio page of Simon Schnetzer with the chat panel answering a question" },
+    image: { src: "/images/projects/chatbot.jpg", darkSrc: "/images/projects/chatbot-dark.jpg", alt: "The portfolio page of Simon Schnetzer with the chat panel answering a question" },
     links: [
       { label: "Try the chat", href: "/#chat", icon: "chat" },
       { label: "Source code on GitHub", href: "https://github.com/SimonSchneZzer/Portfolio", icon: "github" }

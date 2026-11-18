@@ -4,6 +4,13 @@ This file is the canonical source for concise, public, professionally relevant f
 
 It intentionally excludes private or out-of-scope material such as politics, relationship details, health information, private beliefs, and direct contact details.
 
+## Links (public, may be shared in answers)
+- Portfolio: https://simon.schnetzer.at
+- CV (PDF, web version without private contact details): https://simon.schnetzer.at/simon-schnetzer-cv.pdf
+- Case studies: https://simon.schnetzer.at/projects/vorleser, https://simon.schnetzer.at/projects/progressa, https://simon.schnetzer.at/projects/curriculum-compass, https://simon.schnetzer.at/projects/surebet, https://simon.schnetzer.at/projects/portfolio-chatbot
+- Apps: Vorleser https://simon.schnetzer.at/vorleser/, Curriculum Compass https://simon.schnetzer.at/compass/, Surebet https://simon.schnetzer.at/surebet/, Progressa https://app.progressa.team/
+- LinkedIn: https://www.linkedin.com/in/simonschnetzerat/ · GitHub: https://github.com/SimonSchneZzer
+
 ## Identity
 - Name: Simon Schnetzer
 - Location: Salzburg, Austria
@@ -38,6 +45,7 @@ It intentionally excludes private or out-of-scope material such as politics, rel
 ## Selected Projects
 - Vorleser: solo-developed open-source desktop app (macOS and Windows) that reads any text aloud, with optional AI voice cloning, word-by-word follow-along, dictation, and audiobook export; since 11/2026, version 3; Python backend, vanilla JavaScript frontend, CI/CD with GitHub Actions; https://simon.schnetzer.at/vorleser/
 - Progressa: real-time Kanban app with an AI coach, FH Salzburg 2026, team of 5; Simon was project lead / Scrum Master and frontend developer; React and Supabase; the team used Progressa to manage its own development; https://app.progressa.team/
+- Curriculum Compass: solo-developed own project since 11/2026; tailored view of all 39 FH Salzburg degree programmes (majors, electives, ECTS, SWS, workload per semester), works offline, English and German; Python data pipeline from the official curriculum pages with a weekly check on his home server; plain HTML/CSS/JavaScript; https://simon.schnetzer.at/compass/ and https://github.com/SimonSchneZzer/curriculum-compass
 - Surebet: solo-developed study project since 11/2026 that finds arbitrage opportunities in odds from several official APIs, matches games across sources and calculates stakes after fees; public page shows only Austrian/EU-licensed bookmakers; Python and SQLite scanner on his home server, plain HTML/CSS/JavaScript interface; source code private; https://simon.schnetzer.at/surebet/
 - LSD (Lazy Student Dashboard): web app for tracking attendance and study progress, FH Salzburg 2025, team of 2; Simon did frontend development and UX design; Next.js and React
 - Seek Discomfort: Fullstack Developer / Designer; high-fidelity prototype combining concept work, UI work, and technical implementation
@@ -67,6 +75,8 @@ It intentionally excludes private or out-of-scope material such as politics, rel
 - Figma
 - Adobe Illustrator
 - Jira and Confluence (used intensively in the past, less recently)
+- Self-hosting on his own home server: Docker, Caddy, nginx, systemd timers, automated deploys, daily checks, backups
+- Playwright (browser automation for interface checks)
 
 ## Leadership and Communication
 - Year spokesperson, FH Salzburg (MultiMediaTechnology)

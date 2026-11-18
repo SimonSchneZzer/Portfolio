@@ -3,7 +3,7 @@
 ## Vorleser – open-source read-aloud app with voice cloning
 **Role:** Solo developer (own project)  
 since 11/2026, currently version 3  
-Link: https://simon.schnetzer.at/vorleser/
+Links: https://simon.schnetzer.at/vorleser/ (download page) and https://simon.schnetzer.at/projects/vorleser (case study)
 
 Simon's strongest own project: he built and published it on his own, from idea to release.
 
@@ -31,7 +31,7 @@ Architecture and tech:
 ## Progressa – real-time Kanban app with an AI coach
 **Role:** Project lead / Scrum Master and Frontend Developer  
 FH Salzburg (MultiMediaTechnology × MultiMediaArt), 2026, team of 5  
-Links: https://app.progressa.team/ and https://portfolio.fh-salzburg.ac.at/projects/2026-progressa
+Links: https://app.progressa.team/, https://simon.schnetzer.at/projects/progressa (case study) and https://portfolio.fh-salzburg.ac.at/projects/2026-progressa
 
 - Kanban boards with drag and drop and real-time updates
 - epics and stories, planning poker for shared effort estimation
@@ -45,7 +45,7 @@ Links: https://app.progressa.team/ and https://portfolio.fh-salzburg.ac.at/proje
 ## Curriculum Compass – the FH Salzburg curricula, tailored to your major
 **Role:** Solo developer (own project)  
 since 11/2026  
-Links: https://simon.schnetzer.at/compass/ and https://github.com/SimonSchneZzer/curriculum-compass
+Links: https://simon.schnetzer.at/compass/, https://simon.schnetzer.at/projects/curriculum-compass (case study) and https://github.com/SimonSchneZzer/curriculum-compass
 
 An unofficial overview of the curricula of FH Salzburg that Simon built on his own, from the data to the interface.
 
@@ -62,7 +62,7 @@ An unofficial overview of the curricula of FH Salzburg that Simon built on his o
 ## Surebet – arbitrage betting scanner on official odds APIs
 **Role:** Solo developer (own project)  
 since 11/2026  
-Link: https://simon.schnetzer.at/surebet/ (source code is private)
+Links: https://simon.schnetzer.at/surebet/ and https://simon.schnetzer.at/projects/surebet (case study); source code is private
 
 A study project Simon built on his own: it finds "surebets" – cases where bookmakers' odds differ so much that betting on every outcome guarantees a small profit.
 
@@ -105,7 +105,8 @@ Because of a confidentiality agreement, these are described without client names
 - reflects Simon's ability to combine structure, design, and technical execution
 
 ## Portfolio Chatbot
-**Role:** Prompt Engineer / Fullstack Developer
+**Role:** Prompt Engineer / Fullstack Developer  
+Links: https://simon.schnetzer.at (try the chat) and https://simon.schnetzer.at/projects/portfolio-chatbot (case study)
 
 This project is the chatbot on Simon's portfolio website, tailored to his own professional profile.
 

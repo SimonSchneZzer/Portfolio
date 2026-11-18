@@ -344,3 +344,7 @@
     animation: none !important;
   }
 }
+
+.project-page-figure picture {
+  display: block;
+}

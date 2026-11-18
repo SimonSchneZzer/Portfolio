@@ -14,10 +14,17 @@
 - C#
 
 ## Basic
-- Python (currently deepening it through work at neke-neke and the Vorleser backend)
+- Python (currently deepening it through work at neke-neke, the Vorleser backend, the Curriculum Compass data pipeline and the Surebet scanner – standard library, SQLite)
 - Speech AI libraries: edge-tts, piper-tts, chatterbox-tts, faster-whisper
 - Desktop packaging: pywebview, PyInstaller
 - Ruby, PHP
+
+## Used in own projects (self-hosting and operations)
+- Docker, Caddy and nginx on his own home server; systemd timers for scheduled jobs
+- automated deploys on push, daily functional checks, nightly backups, push notifications (ntfy) for errors and events
+- browser automation with Playwright to check interfaces and animations
+- integrating third-party REST APIs with small free quotas (rate limiting, spreading requests over time)
+- localisation (English/German) and light/dark themes in plain HTML, CSS and JavaScript
 
 ## Design Tools
 - Figma (solid): wireframes, prototyping, handoff-ready UI layouts

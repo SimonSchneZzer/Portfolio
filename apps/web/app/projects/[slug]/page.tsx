@@ -117,8 +117,11 @@ export default async function ProjectPage({ params }: { params: Params }) {
         </div>
 
         <figure className="project-page-figure">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={study.image.src} alt={study.image.alt} width={1440} height={900} loading="lazy" />
+          <picture>
+            {study.image.darkSrc ? <source srcSet={study.image.darkSrc} media="(prefers-color-scheme: dark)" /> : null}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={study.image.src} alt={study.image.alt} width={1440} height={900} loading="lazy" />
+          </picture>
         </figure>
 
         <div className="project-page-intro">

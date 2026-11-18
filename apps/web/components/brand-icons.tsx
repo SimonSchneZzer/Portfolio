@@ -85,8 +85,8 @@ export function ProjectLogo({ name }: { name: ProjectLogoName }) {
       return (
         <svg viewBox="0 0 64 64" aria-hidden="true">
           <rect width="64" height="64" rx="16" fill="#22262a" />
-          <path d="M14 42l11-11 7 7 17-17" fill="none" stroke="#d2a02a" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M39 21h10v10" fill="none" stroke="#d2a02a" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" />
+          {/* same mark as the Surebet app icon: a rising gold line, no arrow */}
+          <path d="M14 42.5l12-12 8 8 17-17" fill="none" stroke="#d2a02a" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       );
     case "ai-client":

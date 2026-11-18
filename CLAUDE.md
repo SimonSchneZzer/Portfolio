@@ -10,7 +10,11 @@ Whenever a change touches content (a new or changed project, a new page, a new r
 
 - This repo is **public**. Never commit secrets, private contact details (address, phone, date of birth) or confidential client details. neke-neke client work is under NDA: describe it only at the level in `knowledge/public/13_claim_boundaries.md`.
 - PSPO I is **in preparation, not earned**. Never claim the certification.
-- Keep `knowledge/public`, `apps/web/content/*.ts` and the CV consistent. The owner's master CV (outside this repo) is the source of truth.
+- Keep `knowledge/public`, `apps/web/content/*.ts` and the CV consistent. The owner's master CV (outside this repo, German; path in the
+  owner's private `~/Projects/CLAUDE.md`) is the source of truth.
+- **New project:** add it to the master CV (backup first), to `knowledge/public` (05 with app + case-study links, 11 incl. the
+  "Links" list, 03 for new skills) and to the site (card, case study, logo, light + dark image `name.jpg`/`name-dark.jpg`,
+  sitemap, `content/chat-links.ts` for auto-links in the chat). See `~/Projects/CLAUDE.md`.
 - Do not remove the Google verification tag in `apps/web/app/layout.tsx`.
 
 ## Deploy (home server)
