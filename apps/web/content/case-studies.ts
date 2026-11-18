@@ -9,6 +9,8 @@ export interface CaseStudy {
   logo: ProjectLogoName;
   /** Used as <title> and for search results, so it names what the project is */
   seoTitle: string;
+  /** Last real content change (YYYY-MM-DD) – goes into the sitemap as lastmod; update it when the page changes */
+  updated: string;
   description: string;
   role: string;
   period: string;
@@ -28,9 +30,10 @@ export const caseStudies: CaseStudy[] = [
     slug: "vorleser",
     title: "Vorleser",
     logo: "vorleser",
-    seoTitle: "Vorleser – open-source read-aloud app with AI voice cloning",
+    updated: "2026-11-18",
+    seoTitle: "Vorleser – open-source read-aloud app",
     description:
-      "Vorleser is a free, open-source desktop app for macOS and Windows that turns any text into an audiobook, with natural voices, an offline voice and optional local AI voice cloning. Built by Simon Schnetzer.",
+      "Free, open-source desktop app for macOS and Windows that turns any text into an audiobook, with natural voices and optional local AI voice cloning.",
     role: "Solo developer – idea, design, development and release",
     period: "Since 11/2026 · version 3",
     tagline: "Turns any text into an audiobook – free, without an account.",
@@ -74,9 +77,10 @@ export const caseStudies: CaseStudy[] = [
     slug: "progressa",
     title: "Progressa",
     logo: "progressa",
-    seoTitle: "Progressa – real-time Kanban app with an AI coach",
+    updated: "2026-11-18",
+    seoTitle: "Progressa – real-time Kanban with AI coach",
     description:
-      "Progressa is a real-time Kanban app with planning poker, an AI coach and gamification, built by a five-person team at FH Salzburg. Simon Schnetzer led the project as Scrum Master and worked on the frontend.",
+      "Real-time Kanban app with planning poker, an AI coach and XP rewards, built by a five-person FH Salzburg team led by Simon Schnetzer as Scrum Master.",
     role: "Project lead / Scrum Master and frontend developer",
     period: "2026 · FH Salzburg · team of 5",
     tagline: "Real-time Kanban boards, planning poker, an AI coach and XP rewards.",
@@ -115,9 +119,10 @@ export const caseStudies: CaseStudy[] = [
     slug: "curriculum-compass",
     title: "Curriculum Compass",
     logo: "compass",
-    seoTitle: "Curriculum Compass – the FH Salzburg curricula, tailored to your major",
+    updated: "2026-11-18",
+    seoTitle: "Curriculum Compass – FH Salzburg curricula",
     description:
-      "Curriculum Compass by Simon Schnetzer: an unofficial overview of all 39 FH Salzburg degree programmes. Pick your major and electives and see what you take each semester, with ECTS, SWS and course content.",
+      "Unofficial overview of all 39 FH Salzburg degree programmes by Simon Schnetzer: pick your major and electives and see every semester with ECTS and SWS.",
     role: "Concept, data pipeline, design and development",
     period: "2026",
     tagline: "Every FH Salzburg curriculum, tailored to your major – in one calm overview.",
@@ -158,9 +163,10 @@ export const caseStudies: CaseStudy[] = [
     slug: "surebet",
     title: "Surebet",
     logo: "surebet",
-    seoTitle: "Surebet – an arbitrage betting scanner built on official odds APIs",
+    updated: "2026-11-18",
+    seoTitle: "Surebet – arbitrage scanner on odds APIs",
     description:
-      "Surebet by Simon Schnetzer: a study project that pulls odds from several official APIs, matches the same game across sources, finds arbitrage opportunities and calculates stakes after fees and rounding.",
+      "Study project by Simon Schnetzer: odds from several official APIs, matched across sources, arbitrage found automatically and calculated after fees.",
     role: "Concept, research, data pipeline, design and development",
     period: "2026",
     tagline: "Odds from several sources, one honest calculation – and a clear line on what may be shown publicly.",
@@ -206,9 +212,10 @@ export const caseStudies: CaseStudy[] = [
     slug: "portfolio-chatbot",
     title: "Portfolio with AI chatbot",
     logo: "chatbot",
-    seoTitle: "Portfolio with AI chatbot – Next.js, Fastify and Cloudflare Workers AI",
+    updated: "2026-11-18",
+    seoTitle: "Portfolio with an AI chatbot (Next.js)",
     description:
-      "How Simon Schnetzer built his portfolio with an AI chat: Next.js and Fastify, a curated knowledge base with guardrails, Gemma 4 on Cloudflare Workers AI and a self-hosted fallback.",
+      "How Simon Schnetzer built his portfolio with an AI chat: Next.js, Fastify, a curated knowledge base with guardrails and Cloudflare Workers AI.",
     role: "Concept, prompt engineering and fullstack development",
     period: "2026",
     tagline: "A portfolio you can talk to – grounded in a curated knowledge base.",

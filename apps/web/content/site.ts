@@ -4,7 +4,9 @@ export const site = {
   name: "Simon Schnetzer",
   title: "Simon Schnetzer – Frontend Developer in Salzburg",
   description:
-    "Simon Schnetzer is a frontend developer in Salzburg, Austria, building clear interfaces for AI-supported products with React, Next.js, and TypeScript at neke-neke. Portfolio with projects like Vorleser and Progressa, plus a chat to ask about his work.",
+    "Simon Schnetzer, frontend developer in Salzburg: clear interfaces for AI-supported products with React, Next.js and TypeScript. Projects, CV and a chat.",
+  /** Last real change of the home page (YYYY-MM-DD) – sitemap lastmod */
+  updated: "2026-11-18",
   jobTitle: "Frontend Developer",
   employer: { name: "neke-neke GmbH", url: "https://neke-neke.com" },
   locality: "Salzburg",

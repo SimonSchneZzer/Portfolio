@@ -1,8 +1,16 @@
 # SEO-Checkliste
 
-Stand: 15.11.2026 · Google Search Console: Property `https://simon.schnetzer.at` (bestätigt per Meta-Tag)
+Stand: 18.11.2026 · Google Search Console: Property `https://simon.schnetzer.at` (bestätigt per Meta-Tag)
 
-## Einmalig offen (Stand 17.11.2026)
+**Bing & Co. automatisch (seit 18.11.2026):** Nach jedem erfolgreichen Deploy einer öffentlichen Seite meldet der Server die
+geänderten Seiten per **IndexNow** an Bing (und Yandex, Seznam, Naver) – `homeserver-dashboard/server/indexnow.py`, Schlüssel-
+datei `apps/web/public/<key>.txt` (öffentlich, so gewollt; nicht löschen). Google macht bei IndexNow nicht mit.
+
+## Einmalig offen (Stand 18.11.2026)
+
+- [ ] Search Console → „URL prüfen“ → **Indexierung beantragen** für `https://simon.schnetzer.at/` (neue Projekte),
+      `https://simon.schnetzer.at/surebet/` und `https://simon.schnetzer.at/projects/surebet`.
+- [ ] Bing Webmaster Tools → **URL-Übermittlung** für dieselben Adressen (danach übernimmt IndexNow).
 
 - [ ] Search Console → „URL prüfen“ → **Indexierung beantragen** für `https://simon.schnetzer.at/compass/` und
       `https://simon.schnetzer.at/vorleser/` (beide seit 17.11. auf dieser Domain, vorher GitHub Pages).
@@ -14,7 +22,10 @@ Stand: 15.11.2026 · Google Search Console: Property `https://simon.schnetzer.at
 ## Nach jeder inhaltlichen Änderung
 
 - [ ] **Neue Seite** (z. B. neues Projekt unter `/projects/…`): In der Search Console oben bei „URL prüfen“ die neue URL eingeben → „Indexierung beantragen“. Pro Seite nur einmal.
-- [ ] **Neues Projekt:** Eintrag in `apps/web/content/case-studies.ts` anlegen (Titel für Google, Beschreibung, Screenshot). Die Sitemap übernimmt es automatisch.
+- [ ] **Neues Projekt:** Eintrag in `apps/web/content/case-studies.ts` anlegen (Titel für Google ≤ 44 Zeichen – " | Simon Schnetzer"
+      kommt dazu –, Beschreibung ≤ 160 Zeichen, Bild hell + dunkel, `updated`). Die Sitemap übernimmt es automatisch.
+- [ ] **Seite inhaltlich geändert:** `updated` (Fallstudie) bzw. `site.updated` (Startseite) auf das heutige Datum setzen –
+      das ist das „lastmod“ in der Sitemap.
 - [ ] **Geänderte Startseite** (Titel, Rolle, Arbeitgeber): `apps/web/content/site.ts` anpassen (Titel, Beschreibung, `jobTitle`, `employer`), damit Google und Link-Vorschauen stimmen.
 - [ ] **Neuer CV:** mit `OneDrive/Business/CV/Generator/build_cv.py` erzeugen, die Web-Version per `scp` auf den Server kopieren (PDFs sind nicht im öffentlichen Repo).
 - [ ] **Wissensbasis** (`knowledge/public`) gleich mitziehen, sonst erzählt der Chat etwas anderes als die Seite.
