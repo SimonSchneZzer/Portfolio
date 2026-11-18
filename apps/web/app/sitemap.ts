@@ -9,6 +9,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // The apps on the same domain (served by their own containers, not by Next.js)
     { url: `${site.url}/compass/`, lastModified: new Date(), changeFrequency: "weekly", priority: 0.9 },
     { url: `${site.url}/vorleser/`, lastModified: new Date(), changeFrequency: "monthly", priority: 0.9 },
+    { url: `${site.url}/surebet/`, lastModified: new Date(), changeFrequency: "daily", priority: 0.7 },
     ...caseStudies.map((study) => ({
       url: `${site.url}/projects/${study.slug}`,
       lastModified: new Date(),

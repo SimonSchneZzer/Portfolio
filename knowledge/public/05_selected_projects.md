@@ -59,6 +59,25 @@ An unofficial overview of the curricula of FH Salzburg that Simon built on his o
 - privacy-friendly: no cookies, no account; visits are counted with a self-hosted, cookie-free counter
 - shows product thinking (turning a long official table into a view for one student), careful work with data, and shipping and running a real service
 
+## Surebet – arbitrage betting scanner on official odds APIs
+**Role:** Solo developer (own project)  
+since 11/2026  
+Link: https://simon.schnetzer.at/surebet/ (source code is private)
+
+A study project Simon built on his own: it finds "surebets" – cases where bookmakers' odds differ so much that betting on every outcome guarantees a small profit.
+
+- a scanner on Simon's home server runs every 10 minutes and pulls odds from several official APIs (The Odds API, OddsPapi, the API-Sports family for football, basketball, hockey, handball, volleyball, baseball, rugby)
+- matches the same game across sources with fuzzy team-name matching; it prefers not merging over merging wrongly, because a wrong match looks like a fake surebet
+- checks 1X2, winner and over/under markets; a calculator splits the stake so every outcome pays the same, including exchange commission and rounding
+- free API quotas are small, so each source has a token bucket that spreads requests evenly over the month or day
+- one scan produces two views: the full view on his home network with push notifications (ntfy) for every new find, and a public page that shows only bookmakers with an Austrian or EU licence and no internal details
+- before publishing, Simon asked the data providers in writing whether derived values may be shown publicly (both confirmed) and checked the licence status of about 390 bookmaker names; no links to bookmakers, no ads, no betting brokerage
+- daily automated checks, push alerts for failing sources or crashed scans, a security review (escaping, response size limits, strict security headers)
+- interface in English and German, light and dark mode following the system settings
+- tech: Python standard library and SQLite for the scanner, plain HTML, CSS and JavaScript for the interface, nginx, Docker, Caddy, systemd timers
+- shows working with messy real-world data, careful product and legal judgement, and running a service end to end
+- it is a study project, not betting advice and not a commercial service
+
 ## LSD – Lazy Student Dashboard
 **Role:** Frontend Developer and UX Designer  
 FH Salzburg, 2025, team of 2  

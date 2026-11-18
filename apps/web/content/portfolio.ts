@@ -6,7 +6,7 @@ export interface FocusArea {
   icon: FocusIconName;
 }
 
-export type ProjectLogoName = "vorleser" | "progressa" | "compass" | "ai-client" | "chatbot";
+export type ProjectLogoName = "vorleser" | "progressa" | "compass" | "surebet" | "ai-client" | "chatbot";
 
 export type LinkIconName = "cv" | "linkedin" | "github" | "email" | "phone";
 
@@ -104,6 +104,16 @@ export const portfolioContent = {
       summary:
         "A tailored view of all 39 FH Salzburg curricula: pick your major and electives and see each semester at a glance. Works offline, data checked weekly.",
       href: "/compass/",
+      ctaLabel: "Open app"
+    },
+    {
+      title: "Surebet",
+      caseStudy: "surebet",
+      logo: "surebet",
+      role: "Solo developer, own project",
+      summary:
+        "A scanner that pulls betting odds from several official APIs, matches the same game across sources and finds arbitrage, with a calculator that shows the guaranteed profit after fees and rounding.",
+      href: "/surebet/",
       ctaLabel: "Open app"
     },
     {

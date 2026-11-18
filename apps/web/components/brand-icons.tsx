@@ -81,6 +81,14 @@ export function ProjectLogo({ name }: { name: ProjectLogoName }) {
           <path d="M26 32L33 27L33 37Z" fill="#ffffff" fillOpacity=".55" />
         </svg>
       );
+    case "surebet":
+      return (
+        <svg viewBox="0 0 64 64" aria-hidden="true">
+          <rect width="64" height="64" rx="16" fill="#22262a" />
+          <path d="M14 42l11-11 7 7 17-17" fill="none" stroke="#d2a02a" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M39 21h10v10" fill="none" stroke="#d2a02a" strokeWidth="5.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      );
     case "ai-client":
       return (
         <svg viewBox="0 0 48 48" aria-hidden="true">

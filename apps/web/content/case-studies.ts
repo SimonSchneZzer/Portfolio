@@ -154,6 +154,54 @@ export const caseStudies: CaseStudy[] = [
     schemaType: "WebApplication"
   },
   {
+    slug: "surebet",
+    title: "Surebet",
+    logo: "surebet",
+    seoTitle: "Surebet – an arbitrage betting scanner built on official odds APIs",
+    description:
+      "Surebet by Simon Schnetzer: a study project that pulls odds from several official APIs, matches the same game across sources, finds arbitrage opportunities and calculates stakes after fees and rounding.",
+    role: "Concept, research, data pipeline, design and development",
+    period: "2026",
+    tagline: "Odds from several sources, one honest calculation – and a clear line on what may be shown publicly.",
+    image: { src: "/images/projects/surebet.jpg", alt: "The Surebet page with open arbitrage opportunities, the best odds per outcome and the profit in percent" },
+    links: [{ label: "Open Surebet", href: "/surebet/", icon: "app" }],
+    intro: [
+      "When bookmakers disagree enough about a game, you can bet on every outcome and still win whatever happens – a surebet. They are rare and usually last only minutes, so finding them is a data problem.",
+      "Surebet runs on my home server every ten minutes. It pulls odds from several official APIs, puts the same game from different sources together and checks every market. The public page shows only bookmakers with an Austrian or EU licence; at home I see everything and get a push message for every new find."
+    ],
+    sections: [
+      {
+        heading: "What it does",
+        items: [
+          "Collects odds from The Odds API, OddsPapi and the API-Sports family (football, basketball, hockey, handball, volleyball, baseball, rugby)",
+          "Matches the same game across sources with fuzzy team-name matching – it would rather not merge than merge wrongly, because a wrong match looks like a fake surebet",
+          "Finds arbitrage in 1X2, winner and over/under markets and explains every margin step by step",
+          "A calculator splits a stake so every outcome pays the same, including exchange commission and rounding to round amounts",
+          "Live interface without reloading, in English and German, light and dark mode following the system"
+        ]
+      },
+      {
+        heading: "Engineering under tight limits",
+        items: [
+          "Free API tiers are small (some 250 requests a month), so each source gets a token bucket that spreads its quota evenly over the month or day",
+          "One scan computes two views: everything for my home network, and a filtered public file with only licensed bookmakers and no internal details",
+          "Daily checks on the server test the page, the scanner and that the public file never contains a blocked bookmaker",
+          "Push notifications for new surebets, failing sources, crashed scans and new bookmakers that still need a licence check"
+        ]
+      },
+      {
+        heading: "Done carefully",
+        items: [
+          "Before publishing, I asked the data providers in writing whether derived values may be shown publicly – both confirmed",
+          "I checked the licence status of about 390 bookmaker names from the APIs; only those with an Austrian or EU licence appear publicly",
+          "No links to bookmakers, no ads, no betting brokerage; a security review covered escaping, response size limits and strict security headers"
+        ]
+      }
+    ],
+    stack: ["Python", "SQLite", "HTML", "CSS", "JavaScript", "nginx", "Docker", "Caddy", "systemd"],
+    schemaType: "WebApplication"
+  },
+  {
     slug: "portfolio-chatbot",
     title: "Portfolio with AI chatbot",
     logo: "chatbot",
