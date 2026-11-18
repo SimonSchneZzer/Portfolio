@@ -138,8 +138,8 @@ export async function buildServer() {
         req: (request) => ({ method: request.method, url: request.url })
       }
     },
-    // Requests arrive through exactly one proxy (Caddy), so only its X-Forwarded-For entry is trusted.
-    trustProxy: 1
+    // Requests arrive through Caddy on the Docker network; only that hop's X-Forwarded-For entry is trusted.
+    trustProxy: "172.16.0.0/12"
   });
 
   const knowledgeBase = await loadKnowledgeBase(config.kbIndexPath);
