@@ -143,7 +143,7 @@ export const caseStudies: CaseStudy[] = [
           "Content and learning outcomes of every course in tooltips, so the page stays calm",
           "Search across all programmes and courses, also by short names such as MMA or CIS",
           "Choices are saved in the browser; a share link carries the picked electives",
-          "An absence counter per course shows how many lessons you can still miss under the 75 % or 50 % attendance rule",
+          "An absence counter per course: count missed sessions and see at a glance whether you are fine (up to 25 %), need a compensation task (up to 50 %) or have failed",
           "Works offline as a progressive web app, interface in English and German"
         ]
       },
