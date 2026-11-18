@@ -1,14 +1,16 @@
 /**
  * Terms the chat links automatically (first mention per answer), whatever the model writes.
- * Projects and the CV point to pages on this site, technologies to their official sites.
+ * Projects point to the project itself (app or download page), the case study only if there is none;
+ * the CV to the PDF, technologies to their official sites.
  * Keep project entries in sync with case-studies.ts; add new technologies when they show up in the knowledge base.
  */
 export const chatLinkTerms: { term: string; href: string }[] = [
-  // Projects and CV (this site)
-  { term: "Vorleser", href: "/projects/vorleser" },
-  { term: "Progressa", href: "/projects/progressa" },
-  { term: "Curriculum Compass", href: "/projects/curriculum-compass" },
-  { term: "Surebet", href: "/projects/surebet" },
+  // Projects: straight to the project itself if it has a page or app; the case study (/projects/<slug>) only as fallback
+  { term: "Vorleser", href: "/vorleser/" },
+  { term: "Progressa", href: "https://app.progressa.team/" },
+  { term: "Curriculum Compass", href: "/compass/" },
+  { term: "Surebet", href: "/surebet/" },
+  // CV (this site)
   { term: "CV", href: "/simon-schnetzer-cv.pdf" },
   { term: "Lebenslauf", href: "/simon-schnetzer-cv.pdf" },
   { term: "résumé", href: "/simon-schnetzer-cv.pdf" },

@@ -1304,6 +1304,16 @@ h3 {
   text-underline-offset: 0.14em;
 }
 
+/* Letters are inline-blocks (for the float-in), and an underline does not carry into inline-blocks –
+   so links underline their words and letters themselves. */
+.assistant-markdown a .md-word,
+.assistant-markdown a .md-char {
+  text-decoration: inherit;
+  text-decoration-line: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.14em;
+}
+
 .assistant-markdown strong {
   font-weight: 600;
 }
@@ -1336,7 +1346,8 @@ h3 {
 }
 
 /* words stay unbroken; each newly revealed letter drifts up softly and comes into focus */
-.md-word {
+.md-word,
+.md-keep {
   display: inline-block;
 }
 

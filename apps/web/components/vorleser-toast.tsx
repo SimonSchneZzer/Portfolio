@@ -247,6 +247,8 @@ export function VorleserToast() {
         onPointerCancel={handlePointerUp}
       >
         <div className="vorleser-toast-glow" aria-hidden="true" />
+        {/* the same light, mirrored diagonally to the bottom left, in Surebet gold */}
+        <div className="vorleser-toast-glow np-glow-gold" aria-hidden="true" />
 
         <p className="vorleser-toast-kicker np-kicker">New projects</p>
 
@@ -276,8 +278,21 @@ export function VorleserToast() {
           <div className="np-half np-right">
             <div className="np-head">
               <p className="vorleser-toast-title np-title">Surebet</p>
+              {/* Surebet mark, animated: the gold line draws upwards, then clears upwards, and starts again */}
               <div className="np-logo np-logo-plain" aria-hidden="true">
-                <ProjectLogo name="surebet" />
+                <svg viewBox="0 0 64 64">
+                  <rect width="64" height="64" rx="16" fill="#22262a" />
+                  <path
+                    className="np-sb-line"
+                    d="M14 42.5l12-12 8 8 17-17"
+                    pathLength={1}
+                    fill="none"
+                    stroke="#d2a02a"
+                    strokeWidth="5.5"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
               </div>
             </div>
             <p className="vorleser-toast-text np-text">Arbitrage in odds from official APIs, after fees.</p>

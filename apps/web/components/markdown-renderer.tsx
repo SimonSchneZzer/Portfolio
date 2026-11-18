@@ -241,12 +241,18 @@ function renderAutoLinked(text: string, keyPrefix: string): ReactNode[] {
     }
 
     const external = !href.startsWith("/") && !href.startsWith("#");
+    const end = start + match[0].length;
+    const punct = text.slice(end).match(/^[.,;:!?)\]]+/)?.[0] ?? "";
     nodes.push(
-      <a key={`${keyPrefix}-${index}-auto`} href={href} target="_blank" rel={external ? "noreferrer" : undefined}>
-        {renderWords(match[0], `${keyPrefix}-${index}-label`)}
-      </a>
+      keepWithPunct(
+        <a key={`${keyPrefix}-${index}-auto`} href={href} target="_blank" rel={external ? "noreferrer" : undefined}>
+          {renderWords(match[0], `${keyPrefix}-${index}-label`)}
+        </a>,
+        punct,
+        `${keyPrefix}-${index}`
+      )
     );
-    lastIndex = start + match[0].length;
+    lastIndex = end + punct.length;
     index += 1;
   }
 
@@ -255,6 +261,19 @@ function renderAutoLinked(text: string, keyPrefix: string): ReactNode[] {
   }
 
   return nodes;
+}
+
+/** A link and the punctuation right after it stay on one line (otherwise "Next.js" and "." can wrap apart). */
+function keepWithPunct(link: ReactNode, punct: string, key: string): ReactNode {
+  if (!punct) {
+    return link;
+  }
+  return (
+    <span key={`${key}-keep`} className="md-keep">
+      {link}
+      {renderWords(punct, `${key}-punct`)}
+    </span>
+  );
 }
 
 function renderPlainText(text: string, keyPrefix: string): ReactNode[] {
@@ -301,16 +320,22 @@ function renderInlineMarkdown(text: string, keyPrefix: string): ReactNode[] {
       const labelNodes = renderInlineMarkdown(match[3], `${keyPrefix}-link-label-${tokenIndex}`);
       if (renderState) renderState.insideLink -= 1;
 
+      const punct = href ? (text.slice(tokenPattern.lastIndex).match(/^[.,;:!?)\]]+/)?.[0] ?? "") : "";
+      tokenPattern.lastIndex += punct.length;
       nodes.push(
         href ? (
-          <a
-            key={`${keyPrefix}-link-${tokenIndex}`}
-            href={href}
-            target={href.startsWith("#") ? undefined : "_blank"}
-            rel={href.startsWith("#") ? undefined : "noreferrer"}
-          >
-            {labelNodes}
-          </a>
+          keepWithPunct(
+            <a
+              key={`${keyPrefix}-link-${tokenIndex}`}
+              href={href}
+              target={href.startsWith("#") ? undefined : "_blank"}
+              rel={href.startsWith("#") ? undefined : "noreferrer"}
+            >
+              {labelNodes}
+            </a>,
+            punct,
+            `${keyPrefix}-link-${tokenIndex}`
+          )
         ) : (
           <Fragment key={`${keyPrefix}-link-fallback-${tokenIndex}`}>{labelNodes}</Fragment>
         )

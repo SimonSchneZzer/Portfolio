@@ -464,6 +464,45 @@
   color: #1d1606;
 }
 
+/* second glow: mirrored diagonally to the bottom left, Surebet gold */
+.np-glow-gold {
+  inset: auto auto -40% -20%;
+  background: radial-gradient(circle, rgba(210, 160, 42, 0.32), transparent 65%);
+  animation-name: np-glow-gold;
+}
+
+@keyframes np-glow-gold {
+  from {
+    transform: translate(0, 0);
+  }
+
+  to {
+    transform: translate(60px, -30px);
+  }
+}
+
+/* Surebet logo: the line draws from bottom left to top right, then clears in the same direction, and loops */
+.np-sb-line {
+  stroke-dasharray: 1 1;
+  stroke-dashoffset: 1;
+  animation: np-sb-draw 3.2s cubic-bezier(0.65, 0, 0.35, 1) 500ms infinite;
+}
+
+@keyframes np-sb-draw {
+  0% {
+    stroke-dashoffset: 1;
+  }
+
+  42%,
+  58% {
+    stroke-dashoffset: 0;
+  }
+
+  100% {
+    stroke-dashoffset: -1;
+  }
+}
+
 /* thin diagonal line between the halves, from bottom left to top right */
 .np-divider {
   position: absolute;
@@ -518,5 +557,10 @@
 
   .vorleser-toast-bars i {
     transform: scaleY(var(--high));
+  }
+
+  .np-sb-line {
+    animation: none !important;
+    stroke-dashoffset: 0;
   }
 }
