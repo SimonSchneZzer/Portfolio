@@ -60,6 +60,60 @@ function isRateLimited(ip: string) {
   return false;
 }
 
+/** Global limits for everyone together (the per-IP limit alone does not stop many addresses at once). */
+const load = { active: 0, ollama: 0, day: "", answers: 0, warned: false };
+
+function today() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+/** Counts one answer for today; false once the daily limit is reached. */
+function takeDailyAnswer() {
+  if (load.day !== today()) {
+    load.day = today();
+    load.answers = 0;
+    load.warned = false;
+  }
+
+  if (load.answers >= config.dailyAnswerLimit) {
+    return false;
+  }
+
+  load.answers += 1;
+  return true;
+}
+
+/** One ntfy message per day when the limit is hit (schema: Projekt · Stichwort – Detail, see ~/Projects/CLAUDE.md). */
+function warnDailyLimit() {
+  if (load.warned || !config.ntfyTopic) {
+    return;
+  }
+
+  load.warned = true;
+  fetch("https://ntfy.sh/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      topic: config.ntfyTopic,
+      title: "Portfolio · Warnung – Chat-Tageslimit erreicht",
+      message: `Der Chat hat heute ${config.dailyAnswerLimit} Antworten gegeben und antwortet bis Mitternacht (UTC) nur noch mit einem Hinweis. Ungewöhnlich viel – eventuell Missbrauch.`,
+      tags: ["briefcase", "warning"],
+      priority: 4,
+      click: "http://homeserver/dashboard/#/portfolio"
+    })
+  }).catch(() => undefined);
+}
+
+const busyReply = {
+  de: "Gerade stellen sehr viele Leute gleichzeitig Fragen. Bitte versuch es in ein paar Minuten noch einmal.",
+  en: "A lot of people are asking at the same time right now. Please try again in a few minutes."
+};
+
+const dailyLimitReply = {
+  de: "Der Chat hat für heute sein Limit erreicht. Bitte versuch es morgen wieder oder kontaktiere mich direkt.",
+  en: "The chat has reached its limit for today. Please try again tomorrow or contact me directly."
+};
+
 const rateLimitReply = {
   de: "Du hast in kurzer Zeit sehr viele Fragen gestellt. Bitte versuch es in einer Stunde wieder oder kontaktiere mich direkt.",
   en: "You have asked a lot of questions in a short time. Please try again in an hour or contact me directly."
@@ -84,8 +138,8 @@ export async function buildServer() {
         req: (request) => ({ method: request.method, url: request.url })
       }
     },
-    // Requests arrive through Caddy, so the client IP is in X-Forwarded-For.
-    trustProxy: true
+    // Requests arrive through exactly one proxy (Caddy), so only its X-Forwarded-For entry is trusted.
+    trustProxy: 1
   });
 
   const knowledgeBase = await loadKnowledgeBase(config.kbIndexPath);
@@ -102,15 +156,8 @@ export async function buildServer() {
     }
   });
 
-  app.get("/api/health", async () => ({
-    ok: true,
-    provider: config.llmProvider,
-    model: config.llmProvider === "cloudflare" ? config.cloudflareModel : config.ollamaModel,
-    fallbackModel: config.llmProvider === "cloudflare" ? config.ollamaModel : null,
-    ollamaBaseUrl: config.ollamaBaseUrl,
-    kbGeneratedAt: knowledgeBase.generatedAt,
-    kbChunks: knowledgeBase.totalChunks
-  }));
+  // Public: no internal addresses or model names.
+  app.get("/api/health", async () => ({ ok: true }));
 
   app.get("/api/chat", async (_request, reply) => {
     return reply
@@ -141,13 +188,19 @@ export async function buildServer() {
       });
     }
 
+    const language = detectLanguage(latestUserMessage.content);
     const rateLimited = isRateLimited(request.ip);
+    const busy = !rateLimited && load.active >= config.maxConcurrentAnswers;
     const scopeAssessment = rateLimited
-      ? {
-          blocked: true,
-          reply: rateLimitReply[detectLanguage(latestUserMessage.content)]
-        }
-      : assessConversationScope(conversation, { strict: config.llmProvider !== "cloudflare" });
+      ? { blocked: true, reply: rateLimitReply[language] }
+      : busy
+        ? { blocked: true, reply: busyReply[language] }
+        : assessConversationScope(conversation, { strict: config.llmProvider !== "cloudflare" });
+    // Only answers that really go to a model count against the daily limit.
+    if (!scopeAssessment.blocked && !takeDailyAnswer()) {
+      warnDailyLimit();
+      Object.assign(scopeAssessment, { blocked: true, reply: dailyLimitReply[language] });
+    }
     const retrieval = scopeAssessment.blocked
       ? {
           chunks: [],
@@ -164,13 +217,28 @@ export async function buildServer() {
     });
 
     const writeEvent = (payload: unknown) => {
-      reply.raw.write(`${JSON.stringify(payload)}\n`);
+      if (!reply.raw.destroyed) {
+        reply.raw.write(`${JSON.stringify(payload)}\n`);
+      }
     };
+    // Visitor closed the chat or the connection broke: stop the model instead of letting it run on.
+    const visitorGone = new AbortController();
+    let finished = false;
+    reply.raw.on("close", () => {
+      if (!finished) {
+        visitorGone.abort();
+      }
+    });
 
     writeEvent({
       type: "sources",
       sources: retrieval.sources
     });
+
+    const counted = !scopeAssessment.blocked;
+    if (counted) {
+      load.active += 1;
+    }
 
     try {
       if (scopeAssessment.blocked) {
@@ -198,6 +266,7 @@ export async function buildServer() {
               messages: cloudMessages,
               maxTokens: config.cloudflareMaxOutputTokens,
               timeoutMs: config.cloudflareRequestTimeoutMs,
+              signal: visitorGone.signal,
               onToken: (token) => {
                 streamedTokens += 1;
                 writeToken(token);
@@ -220,14 +289,26 @@ export async function buildServer() {
           }
         }
 
-        if (!answeredByCloud) {
-          await streamOllamaChat({
-            baseUrl: config.ollamaBaseUrl,
-            model: config.ollamaModel,
-            messages: buildOllamaMessages(systemPrompt, conversation, retrieval.chunks),
-            timeoutMs: config.ollamaRequestTimeoutMs,
-            onToken: writeToken
-          });
+        if (!answeredByCloud && !visitorGone.signal.aborted) {
+          if (load.ollama >= config.maxConcurrentOllama) {
+            // The home server answers only a few at a time; everyone else gets a short note instead of a queue.
+            streamText(busyReply[language], writeEvent);
+          } else {
+            load.ollama += 1;
+            try {
+              await streamOllamaChat({
+                baseUrl: config.ollamaBaseUrl,
+                model: config.ollamaModel,
+                messages: buildOllamaMessages(systemPrompt, conversation, retrieval.chunks),
+                timeoutMs: config.ollamaRequestTimeoutMs,
+                maxTokens: config.ollamaMaxOutputTokens,
+                signal: visitorGone.signal,
+                onToken: writeToken
+              });
+            } finally {
+              load.ollama -= 1;
+            }
+          }
         }
       }
 
@@ -235,6 +316,10 @@ export async function buildServer() {
         type: "done"
       });
     } catch (error) {
+      if (visitorGone.signal.aborted) {
+        request.log.info("visitor closed the chat, answer aborted");
+        return;
+      }
       request.log.error(error);
 
       writeEvent({
@@ -242,7 +327,13 @@ export async function buildServer() {
         message: "The chatbot could not complete the response."
       });
     } finally {
-      reply.raw.end();
+      finished = true;
+      if (counted) {
+        load.active -= 1;
+      }
+      if (!reply.raw.destroyed) {
+        reply.raw.end();
+      }
     }
   });
 

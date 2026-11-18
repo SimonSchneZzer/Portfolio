@@ -33,7 +33,15 @@ export const config = {
   rateLimitPerHour: readNumber(process.env.RATE_LIMIT_PER_HOUR, 30),
   ollamaBaseUrl: process.env.OLLAMA_BASE_URL ?? "http://192.168.8.50:11434",
   ollamaModel: process.env.OLLAMA_MODEL ?? "qwen2.5:3b",
-  ollamaRequestTimeoutMs: readNumber(process.env.OLLAMA_REQUEST_TIMEOUT_MS, 120000),
+  ollamaRequestTimeoutMs: readNumber(process.env.OLLAMA_REQUEST_TIMEOUT_MS, 45000),
+  // Caps the fallback answer so a burst of requests cannot keep the home server busy for minutes.
+  ollamaMaxOutputTokens: readNumber(process.env.OLLAMA_MAX_OUTPUT_TOKENS, 500),
+  // Abuse protection on top of the per-IP limit: concurrent answers and answers per day for everyone together.
+  maxConcurrentAnswers: readNumber(process.env.MAX_CONCURRENT_ANSWERS, 10),
+  maxConcurrentOllama: readNumber(process.env.MAX_CONCURRENT_OLLAMA, 2),
+  dailyAnswerLimit: readNumber(process.env.DAILY_ANSWER_LIMIT, 400),
+  // Optional: ntfy topic for a warning when the daily limit is reached (set only on the server).
+  ntfyTopic: process.env.NTFY_TOPIC ?? "",
   allowedOrigins: (process.env.ALLOWED_ORIGINS ?? "http://localhost:3000,http://127.0.0.1:3000")
     .split(",")
     .map((origin) => origin.trim())

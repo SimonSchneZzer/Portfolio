@@ -8,12 +8,16 @@ interface StreamOptions {
   model: string;
   messages: OllamaMessage[];
   timeoutMs: number;
+  maxTokens: number;
+  /** Aborted when the visitor closes the chat, so the model stops working right away. */
+  signal?: AbortSignal;
   onToken: (token: string) => void;
 }
 
-export async function streamOllamaChat({ baseUrl, model, messages, timeoutMs, onToken }: StreamOptions) {
+export async function streamOllamaChat({ baseUrl, model, messages, timeoutMs, maxTokens, signal, onToken }: StreamOptions) {
   const abortController = new AbortController();
   const timeout = setTimeout(() => abortController.abort(), timeoutMs);
+  signal?.addEventListener("abort", () => abortController.abort(), { once: true });
 
   try {
     const response = await fetch(`${baseUrl.replace(/\/$/, "")}/api/chat`, {
@@ -25,7 +29,8 @@ export async function streamOllamaChat({ baseUrl, model, messages, timeoutMs, on
       body: JSON.stringify({
         model,
         stream: true,
-        messages
+        messages,
+        options: { num_predict: maxTokens }
       })
     });
 

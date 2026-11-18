@@ -10,6 +10,8 @@ interface StreamOptions {
   messages: ChatCompletionMessage[];
   maxTokens: number;
   timeoutMs: number;
+  /** Aborted when the visitor closes the chat. */
+  signal?: AbortSignal;
   onToken: (token: string) => void;
 }
 
@@ -35,10 +37,12 @@ export async function streamCloudflareChat({
   messages,
   maxTokens,
   timeoutMs,
+  signal,
   onToken
 }: StreamOptions): Promise<CloudflareUsage> {
   const abortController = new AbortController();
   const timeout = setTimeout(() => abortController.abort(), timeoutMs);
+  signal?.addEventListener("abort", () => abortController.abort(), { once: true });
   let usage: CloudflareUsage = {};
 
   try {
